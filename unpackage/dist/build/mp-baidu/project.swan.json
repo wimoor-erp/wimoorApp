@@ -1,0 +1,33 @@
+{
+    "appid": "23572918",
+    "compilation-args": {
+        "common": {
+            "enhance": true
+        }
+    },
+    "host": "baiduboxapp",
+    "preview": {
+        "packageId": 1566094
+    },
+    "project-create-info": {
+        "date": "2022/5/27",
+        "dev-tool-version": "3.55.0"
+    },
+    "projectname": "program",
+    "publish": {
+        "tips": [
+            "小程序包内容将被百度解析和收录，用于内容的风险控制。",
+            "您已开通分享web化，请确保分享web化体验无问题后，再进行发布。"
+        ],
+        "version": "1.0.0"
+    },
+    "setting": {
+        "urlCheck": true
+    },
+    "swan": {
+        "baiduboxapp": {
+            "swanJsVersion": "3.440.14",
+            "extensionJsVersion": "1.21.2"
+        }
+    }
+}

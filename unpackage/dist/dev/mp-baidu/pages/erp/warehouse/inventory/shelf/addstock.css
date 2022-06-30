@@ -1,0 +1,11 @@
+
+.hide{
+		display: none;
+}
+.text-bord{
+		font-weight: bolder;
+}
+.activetab{
+		border-bottom: 2px solid #ffa400;
+}
+

@@ -1,0 +1,31 @@
+{
+  "appid": "23572918",
+  "compilation-args": {
+    "common": {
+      "babelSetting": {
+        "ignore": []
+      },
+      "enhance": true,
+      "ignorePrefixCss": false
+    },
+    "selected": -3
+  },
+  "host": "baiduboxapp",
+  "projectname": "wimoorApp",
+  "setting": {
+    "urlCheck": false
+  },
+  "condition": {
+    "miniprogram": {
+      "current": 0,
+      "list": [
+        {
+          "name": "",
+          "path": "",
+          "query": "",
+          "id": 0
+        }
+      ]
+    }
+  }
+}

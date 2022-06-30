@@ -1,0 +1,212 @@
+{
+	"leftWindow": {
+		"path": "windows/left-window.vue",
+		"style": {
+			"width": "350px"
+		}
+	},
+	"topWindow": {
+		"path": "windows/top-window.vue",
+		"style": {
+			"height": "60px"
+		}
+	},
+	"pages": [
+		// pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/tabBar/erp/erp",
+			"style": {
+				"navigationBarTitleText": "首页",
+				"app-plus": {
+					"bounce": "vertical",
+					"titleNView": {
+						"buttons": [{
+							"text": "\ue534",
+							"fontSrc": "/static/uni.ttf",
+							"fontSize": "22px",
+							"color": "#FFFFFF"
+						}]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/tabBar/menu/menu",
+			"style": {
+				"navigationBarTitleText": "工作台",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [{
+							"text": "\ue534",
+							"fontSrc": "/static/uni.ttf",
+							"fontSize": "22px",
+							"color": "#FFFFFF"
+						}]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/tabBar/about/about",
+			"style": {
+				"navigationBarTitleText": "我的",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [{
+							"text": "\ue534",
+							"fontSrc": "/static/uni.ttf",
+							"fontSize": "22px",
+							"color": "#FFFFFF"
+						}]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/tabBar/charts/charts",
+			"style": {
+				"navigationBarTitleText": "统计",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [{
+							"text": "\ue534",
+							"fontSrc": "/static/uni.ttf",
+							"fontSize": "22px",
+							"color": "#FFFFFF"
+						}]
+					}
+				}
+			}
+		}
+		 
+	],
+	"subPackages": [
+		{
+			"root": "pages/erp",
+			"pages": [{
+				"path": "ship/ship",
+				"style": {
+					"navigationBarTitleText": "发货页面"
+				}
+			},
+			{
+				"path": "ship/quota/index",
+				"style": {
+					"navigationBarTitleText": "配货单"
+				}
+			},
+			{
+				"path": "purchase/purchase",
+				"style": {
+					"navigationBarTitleText": "采购页面"
+				}
+			},
+			{
+				"path": "material/material",
+				"style": {
+					"navigationBarTitleText": "产品页面"
+
+				}
+			},
+			{
+				"path": "purchase/receive",
+				"style": {
+					"navigationBarTitleText": "货物退收"
+				}
+			},
+			{
+				"path": "warehouse/inventory/shelf/addstock",
+				"style": {
+					"navigationBarTitleText": "产品上下架"
+				}
+			},
+			{
+				"path": "warehouse/inventory/shelf/outstock",
+				"style": {
+					"navigationBarTitleText": "产品下架"
+				}
+			},
+			{
+				"path": "warehouse/inventory/addshelf",
+				"style": {
+					"navigationBarTitleText": "产品上下架选择"
+				}
+			}
+			]
+
+		},
+		{
+			"root": "pages/sys",
+			"pages":[
+				{
+					"path": "validate/index",
+					"style": {
+						"navigationBarTitleText": "身份校验"
+				
+					}
+				}
+			]
+		}
+		
+		 
+	],
+	"globalStyle": {
+		"pageOrientation": "portrait",
+		"navigationBarTitleText": "Hello uniapp",
+		"navigationBarTextStyle": "white",
+		"navigationBarBackgroundColor": "#FF6700",//全局背景颜色
+		"backgroundColor": "#F8F8F8",
+		"backgroundColorTop": "#F4F5F6",
+		"backgroundColorBottom": "#F4F5F6",
+		"mp-360": {
+			"navigationStyle": "custom"
+		},
+		"h5": {
+			"maxWidth": 1190,
+			"navigationBarTextStyle": "black",
+			"navigationBarBackgroundColor": "#F1F1F1"
+		}
+
+	},
+	"tabBar": {
+		"color": "#7A7E83",
+		"selectedColor": "#FF6700",
+		"borderStyle": "black",
+		"backgroundColor": "#F8F8F8",
+		"borderStyle":"white",
+		"list": [{
+				"pagePath": "pages/tabBar/erp/erp",
+				"iconPath": "static/home.png",
+				"selectedIconPath": "static/home-active.png",
+				"text": "首页"
+			},
+			// {
+			// 	"pagePath": "pages/tabBar/menu/menu",
+			// 	"iconPath": "static/works.png",
+			// 	"selectedIconPath": "static/works-active.png",
+			// 	"text": "工作台"
+			// }, {
+			// 	"pagePath": "pages/tabBar/charts/charts",
+			// 	"iconPath": "static/count.png",
+			// 	"selectedIconPath": "static/count-active.png",
+			// 	"text": "统计"
+			// },
+			{
+				"pagePath": "pages/tabBar/about/about",
+				"iconPath": "static/myuser.png",
+				"selectedIconPath": "static/myuser-active.png",
+				"text": "我的"
+			}
+		]
+	},
+	"condition" : { //模式配置，仅开发期间生效
+		"current": 0, //当前激活的模式(list 的索引项)
+		"list": [
+			{
+				"name": "", //模式名称
+				"path": "", //启动页面，必选
+				"query": "" //启动参数，在页面的onLoad函数里面得到
+			}
+		]
+	}
+}

@@ -1,0 +1,119 @@
+
+.uni-datetime-picker {
+
+		/* width: 100%; */
+}
+.uni-datetime-picker-view {
+		height: 130px;
+		width: 270px;
+
+		cursor: pointer;
+}
+.uni-datetime-picker-item {
+		height: 50px;
+		line-height: 50px;
+		text-align: center;
+		font-size: 14px;
+}
+.uni-datetime-picker-btn {
+		margin-top: 60px;
+
+		display: flex;
+		cursor: pointer;
+
+		flex-direction: row;
+		justify-content: space-between;
+}
+.uni-datetime-picker-btn-text {
+		font-size: 14px;
+		color: #007AFF;
+}
+.uni-datetime-picker-btn-group {
+
+		display: flex;
+
+		flex-direction: row;
+}
+.uni-datetime-picker-cancel {
+		margin-right: 30px;
+}
+.uni-datetime-picker-mask {
+		position: fixed;
+		bottom: 0px;
+		top: 0px;
+		left: 0px;
+		right: 0px;
+		background-color: rgba(0, 0, 0, 0.4);
+		transition-duration: 0.3s;
+		z-index: 998;
+}
+.uni-datetime-picker-popup {
+		border-radius: 8px;
+		padding: 30px;
+		width: 270px;
+
+
+
+
+
+
+		background-color: #fff;
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		transition-duration: 0.3s;
+		z-index: 999;
+}
+.fix-nvue-height {
+}
+.uni-datetime-picker-time {
+		color: grey;
+}
+.uni-datetime-picker-column {
+		height: 50px;
+}
+.uni-datetime-picker-timebox {
+
+		border: 1px solid #E5E5E5;
+		border-radius: 5px;
+		padding: 7px 10px;
+
+		box-sizing: border-box;
+		cursor: pointer;
+}
+.uni-datetime-picker-timebox-pointer {
+
+		cursor: pointer;
+}
+.uni-datetime-picker-disabled {
+		opacity: 0.4;
+}
+.uni-datetime-picker-text {
+		font-size: 14px;
+}
+.uni-datetime-picker-sign {
+		position: absolute;
+		top: 53px;
+		/* 减掉 10px 的元素高度，兼容nvue */
+		color: #999;
+}
+.sign-left {
+		left: 86px;
+}
+.sign-right {
+		right: 86px;
+}
+.sign-center {
+		left: 135px;
+}
+.uni-datetime-picker__container-box {
+		position: relative;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-top: 40px;
+}
+.time-hide-second {
+		width: 180px;
+}

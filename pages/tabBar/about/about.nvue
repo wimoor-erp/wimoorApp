@@ -1,0 +1,129 @@
+<template>
+	<view class="uni-container">
+		<text style="margin-bottom: 5px;font-size: 18px;">账号绑定列表
+			<text style="font-size: 12px;margin-left: 10px;">当前登录账号:</text>
+			<text style="font-size: 12px;" v-if="curuser.account">{{curuser.account}}</text>
+		</text>
+		<uni-table border stripe emptyText="暂无更多数据" >
+			<!-- 表头行 -->
+			<uni-tr>
+				<uni-th align="center">账号</uni-th>
+				<uni-th align="center">操作</uni-th>
+			</uni-tr>
+			<!-- 表格数据行 -->
+			<uni-tr v-if="tableData.length>0" v-for="(item, index) in tableData" :key="index">
+					<uni-td align="center" ><text >{{ item.account }}</text></uni-td>
+					<uni-td align="center" >
+						<button style="margin-top: 5px;margin-right: 5px;" size="mini" @click="unbindAccount(item.account)" type="default">解绑</button>
+						<block v-if="curuser.account!=item.account" >
+							<button size="mini" type="primary" @click="changeAccount(item.account)" >登录</button>
+						</block>
+					</uni-td>
+			</uni-tr>
+		</uni-table>
+		<button size="mini" type="primary" style="width: 120px;margin-top: 10px;" @click="goValidatePage()">登录其它账号</button>
+	 
+	</view>
+	 
+ 
+</template>
+
+<script>
+	import loginApi from '@/api/sys/login.js'
+	export default {
+			data() {
+				return {
+					placeholderStyle: "color:#757575;font-size:14px",
+					styles: {
+							color: '#000',
+							borderColor: '#747474'
+					},
+					type:'center',
+					tableData: [],
+					curuser:{account:''}
+				}
+			},
+			onShow() {
+				this.getOpenUserlist();
+			},
+			methods: {
+				getOpenUserlist(){
+					var self=this;
+					loginApi.getOpenUserlist({'openid':uni.getStorageSync("openid")}).then(data => { 
+						  self.tableData=data; 
+						  self.curuser=uni.getStorageSync("currentuser");
+					});
+				},
+				unbindAccount(account){
+					let self=this;
+					uni.showModal({
+						title:'提示',
+						content:'解绑后需重新绑定,确认解除吗？',
+						success:function(ress){
+							if(ress.confirm){
+								 loginApi.unbindWechat({'ftype':'app',
+								'account':account,'openid':uni.getStorageSync("openid")}).then(data => { 
+									// 获得数据
+									if(data.isOk==true){
+										uni.showToast({
+											title:data.msg,
+											icon:'none',
+											duration:2000
+										})
+										if(self.curuser.account==account){
+											//解绑当前登录的账号
+											self.tableData=[];
+											self.getOpenUserlist();
+											uni.removeStorageSync("currentuser")
+											uni.removeStorageSync("JSessionId");
+											uni.navigateTo({
+												url: '/pages/sys/validate/index'
+											})
+										}else{
+											self.tableData=[];
+											self.getOpenUserlist();
+										}
+									}else{
+									  uni.showToast({
+									    title: data.msg,
+									    icon: 'none',
+									    duration: 2000//持续的时间
+									  })
+									}
+									
+								});
+							}
+						}
+					})
+				},
+				changeAccount(account){
+					let self=this;
+					var jsid= uni.getStorageSync("JSessionId");
+					var openid= uni.getStorageSync("openid");
+					loginApi.changeLoginWechatApp({'openid':openid,'account':account,'jsessionid':jsid}).then(data => { 
+							if(data){
+								uni.showToast({
+									icon:'none',
+									duration:2000,
+									title:'切换账号成功！'
+								})
+								uni.setStorageSync("currentuser",data.currentuser);
+								self.curuser=data.currentuser;
+								self.getOpenUserlist();
+							}
+					})
+				},
+				goValidatePage(){
+					var datas="app";
+					uni.navigateTo({
+						url: '/pages/sys/validate/index?ftype='+datas
+					})
+				}
+			}
+		
+	}
+</script>
+
+<style>
+ 
+</style>

@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "table-checkbox": "./table-checkbox"
+  }
+}

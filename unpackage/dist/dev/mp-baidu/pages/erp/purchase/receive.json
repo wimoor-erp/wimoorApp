@@ -1,0 +1,7 @@
+{
+  "component": true,
+  "navigationBarTitleText": "货物退收",
+  "usingComponents": {
+    "uni-easyinput": "../../../uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput"
+  }
+}
