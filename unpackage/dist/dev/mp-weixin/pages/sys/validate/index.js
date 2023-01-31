@@ -1,7 +1,8 @@
 "use strict";
-var common_vendor = require("../../../common/vendor.js");
-var api_sys_login = require("../../../api/sys/login.js");
-require("../../../common/request.js");
+const common_vendor = require("../../../common/vendor.js");
+const api_sys_login = require("../../../api/sys/login.js");
+const store_index = require("../../../store/index.js");
+require("../../../utils/request.js");
 const _sfc_main = {
   data() {
     return {
@@ -21,15 +22,28 @@ const _sfc_main = {
   methods: {
     userValid() {
       let self = this;
-      var data = { openid: common_vendor.index.getStorageSync("openid"), email: self.username, password: self.password };
-      data.jsessionid = common_vendor.index.getStorageSync("JSessionId");
+      var openid = this.$store.state.openid;
+      var sessionid = this.$store.state.sessionid;
+      var data = {
+        "openid": openid,
+        "email": self.username,
+        "password": self.password
+      };
+      data.jsessionid = sessionid;
+      data.appType = api_sys_login.loginApi.getAppType();
       api_sys_login.loginApi.verifyWechatApp(data).then((data2) => {
-        if (data2) {
+        if (data2.code == "A0210") {
+          common_vendor.index.showToast({
+            icon: "none",
+            title: data2.msg,
+            duration: 2e3
+          });
+        } else if (data2) {
           let jsid = data2.jsessionid;
-          common_vendor.index.setStorageSync("JSessionId", jsid);
-          common_vendor.index.setStorageSync("currentuser", data2.currentuser);
+          store_index.store.commit("setSessionid", jsid);
+          store_index.store.commit("setCurrentUser", data2.currentuser);
           common_vendor.index.switchTab({
-            url: "/pages/tabBar/erp/erp"
+            url: "/pages/tabBar/main/index"
           });
         } else {
           common_vendor.index.showToast({
@@ -51,5 +65,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     e: common_vendor.o((...args) => $options.userValid && $options.userValid(...args))
   };
 }
-var MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "C:/Users/admin/Documents/HBuilderProjects/wimoorApp/pages/sys/validate/index.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "C:/Users/admin/Documents/HBuilderProjects/wimoorApp/pages/sys/validate/index.vue"]]);
 wx.createPage(MiniProgramPage);

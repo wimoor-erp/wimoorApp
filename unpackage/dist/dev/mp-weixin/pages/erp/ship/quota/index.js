@@ -1,12 +1,19 @@
 "use strict";
-var common_util = require("../../../../common/util.js");
-var api_erp_ship_quotaApi = require("../../../../api/erp/ship/quotaApi.js");
-var common_vendor = require("../../../../common/vendor.js");
-require("../../../../common/request.js");
+const utils_util = require("../../../../utils/util.js");
+const api_erp_ship_quotaApi = require("../../../../api/erp/ship/quotaApi.js");
+const common_vendor = require("../../../../common/vendor.js");
+require("../../../../utils/request.js");
+require("../../../../store/index.js");
 const ShelfProduct = () => "./components/shelfproduct.js";
+const UniCollapseItem = () => "../../../../uni_modules/uni-collapse/components/uni-collapse-item/uni-collapse-item.js";
+const UniCollapse = () => "../../../../uni_modules/uni-collapse/components/uni-collapse/uni-collapse.js";
+const UniSteps = () => "../../../../uni_modules/uni-steps/components/uni-steps/uni-steps.js";
 const _sfc_main = {
   components: {
-    ShelfProduct
+    ShelfProduct,
+    UniCollapseItem,
+    UniCollapse,
+    UniSteps
   },
   data() {
     return {
@@ -41,6 +48,13 @@ const _sfc_main = {
     this.getquotaData();
   },
   methods: {
+    changeItemShow(item) {
+      if (item.asshow) {
+        item.asshow = false;
+      } else {
+        item.asshow = true;
+      }
+    },
     getquotaData: function() {
       this.productListData = [];
       api_erp_ship_quotaApi.quotaApi.getQuotainfo(this.shipmentid).then((data) => {
@@ -48,11 +62,15 @@ const _sfc_main = {
           this.quotaoderData = data;
           this.shipmentid = data.shipmentid;
           this.createdate = "\u521B\u5EFA\u4E8E" + data.createdate;
-          this.auditime = common_util.util.dateFormat(data.auditime) + "\u5BA1\u6838";
+          this.auditime = utils_util.util.dateFormat(data.auditime) + "\u5BA1\u6838";
           this.warehouseList[0].title = data.warehouse;
           this.warehouseList[1].title = data.groupname + "-" + data.country + "(" + data.center + ")";
           this.productListData = data.itemList;
-          console.log(data.itemList);
+          if (this.productListData) {
+            this.productListData.forEach((item) => {
+              item.asshow = false;
+            });
+          }
         }
       });
     }
@@ -64,17 +82,13 @@ if (!Array) {
   const _easycom_uni_card2 = common_vendor.resolveComponent("uni-card");
   const _easycom_uni_icons2 = common_vendor.resolveComponent("uni-icons");
   const _component_ShelfProduct = common_vendor.resolveComponent("ShelfProduct");
-  const _easycom_uni_collapse_item2 = common_vendor.resolveComponent("uni-collapse-item");
-  const _easycom_uni_collapse2 = common_vendor.resolveComponent("uni-collapse");
-  (_easycom_uni_steps2 + _component_uni_section + _easycom_uni_card2 + _easycom_uni_icons2 + _component_ShelfProduct + _easycom_uni_collapse_item2 + _easycom_uni_collapse2)();
+  (_easycom_uni_steps2 + _component_uni_section + _easycom_uni_card2 + _easycom_uni_icons2 + _component_ShelfProduct)();
 }
 const _easycom_uni_steps = () => "../../../../uni_modules/uni-steps/components/uni-steps/uni-steps.js";
 const _easycom_uni_card = () => "../../../../uni_modules/uni-card/components/uni-card/uni-card.js";
 const _easycom_uni_icons = () => "../../../../uni_modules/uni-icons/components/uni-icons/uni-icons.js";
-const _easycom_uni_collapse_item = () => "../../../../uni_modules/uni-collapse/components/uni-collapse-item/uni-collapse-item.js";
-const _easycom_uni_collapse = () => "../../../../uni_modules/uni-collapse/components/uni-collapse/uni-collapse.js";
 if (!Math) {
-  (_easycom_uni_steps + _easycom_uni_card + _easycom_uni_icons + _easycom_uni_collapse_item + _easycom_uni_collapse)();
+  (_easycom_uni_steps + _easycom_uni_card + _easycom_uni_icons)();
 }
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return {
@@ -106,43 +120,50 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     i: common_vendor.p({
       margin: "8px"
     }),
-    j: common_vendor.f($data.productListData, (item, k0, i0) => {
+    j: common_vendor.f($data.productListData, (item, index, i0) => {
       return common_vendor.e({
-        a: "1be8c59e-7-" + i0 + "," + ("1be8c59e-6-" + i0),
-        b: common_vendor.p({
+        a: item.id,
+        b: "1be8c59e-7-" + i0 + "," + ("1be8c59e-6-" + i0),
+        c: common_vendor.p({
+          id: item.id,
           item,
+          warehouseid: $data.quotaoderData.warehouseid,
+          itemid: item.id,
           isAssemblyItem: false
         }),
-        c: item.issfg == 1 && item.assemblyList.length > 0
-      }, item.issfg == 1 && item.assemblyList.length > 0 ? {
-        d: common_vendor.f(item.assemblyList, (subproData, k1, i1) => {
+        d: item.issfg == 1 && item.assemblyList.length > 0
+      }, item.issfg == 1 && item.assemblyList.length > 0 ? common_vendor.e({
+        e: item.asshow
+      }, item.asshow ? {} : {}, {
+        f: common_vendor.o(($event) => $options.changeItemShow(item)),
+        g: common_vendor.f(item.assemblyList, (subproData, subindex, i1) => {
           return {
-            a: "1be8c59e-10-" + i0 + "-" + i1 + "," + ("1be8c59e-9-" + i0),
-            b: common_vendor.p({
+            a: subproData.id,
+            b: "1be8c59e-8-" + i0 + "-" + i1 + "," + ("1be8c59e-6-" + i0),
+            c: common_vendor.p({
+              id: subproData.id,
               item: subproData,
+              itemid: item.id,
+              warehouseid: $data.quotaoderData.warehouseid,
               isAssemblyItem: true
-            })
+            }),
+            d: subindex
           };
         }),
-        e: common_vendor.o($options.getquotaData),
-        f: _ctx.index,
-        g: "1be8c59e-9-" + i0 + "," + ("1be8c59e-8-" + i0),
-        h: common_vendor.p({
-          title: "\u5B50\u4EA7\u54C1",
-          border: "false"
-        })
-      } : {}, {
-        i: "1be8c59e-8-" + i0 + "," + ("1be8c59e-6-" + i0),
-        j: "1be8c59e-6-" + i0
+        h: common_vendor.o($options.getquotaData),
+        i: index,
+        j: item.asshow
+      }) : {}, {
+        k: index,
+        l: "1be8c59e-6-" + i0
       });
     }),
     k: common_vendor.o($options.getquotaData),
-    l: _ctx.index,
-    m: common_vendor.p({
+    l: common_vendor.p({
       margin: "8px",
       padding: "0px 8px"
     })
   };
 }
-var MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "C:/Users/admin/Documents/HBuilderProjects/wimoorApp/pages/erp/ship/quota/index.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "C:/Users/admin/Documents/HBuilderProjects/wimoorApp/pages/erp/ship/quota/index.vue"]]);
 wx.createPage(MiniProgramPage);

@@ -1,5 +1,5 @@
 "use strict";
-var common_vendor = require("../../../../common/vendor.js");
+const common_vendor = require("../../../../common/vendor.js");
 const _sfc_main = {
   props: {
     weeks: {
@@ -58,5 +58,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     o: common_vendor.o(($event) => $options.handleMousemove($props.weeks))
   });
 }
-var Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "C:/Users/admin/Documents/HBuilderProjects/wimoorApp/uni_modules/uni-datetime-picker/components/uni-datetime-picker/calendar-item.vue"]]);
+const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "C:/Users/admin/Documents/HBuilderProjects/wimoorApp/uni_modules/uni-datetime-picker/components/uni-datetime-picker/calendar-item.vue"]]);
 wx.createComponent(Component);

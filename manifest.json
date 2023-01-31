@@ -1,6 +1,6 @@
 {
     "name" : "wimoorApp",
-    "appid" : "",
+    "appid" : "__UNI__A500536",
     "description" : "应用描述",
     "versionName" : "2.0.14",
     "versionCode" : "100",
@@ -93,7 +93,7 @@
         "versionCode" : 100
     },
     "mp-weixin" : {
-        "appid" : "wx8f2e1db827838f13",
+        "appid" : "",
         "setting" : {
             "urlCheck" : false
         },
@@ -109,7 +109,7 @@
     },
     "mp-baidu" : {
         "usingComponents" : true,
-        "appid" : "23572918",
+        "appid" : "",
         "setting" : {
             "urlCheck" : false
         }
@@ -121,7 +121,7 @@
         "usingComponents" : true
     },
     "h5" : {
-        "template" : "template.h5.html",
+        "template" : "index.html",
         "router" : {
             "mode" : "history",
             "base" : ""
@@ -135,7 +135,13 @@
         },
         "async" : {
             "timeout" : 20000
+        },
+        "devServer" : {
+            "https" : false
         }
     },
-    "vueVersion" : "3"
+    "vueVersion" : "3",
+    "mp-lark" : {
+        "appid" : ""
+    }
 }

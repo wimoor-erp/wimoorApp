@@ -1,7 +1,8 @@
 "use strict";
-var common_vendor = require("../../../common/vendor.js");
-var api_erp_purchase_purchase = require("../../../api/erp/purchase/purchase.js");
-require("../../../common/request.js");
+const common_vendor = require("../../../common/vendor.js");
+const api_erp_purchase_purchase = require("../../../api/erp/purchase/purchase.js");
+require("../../../utils/request.js");
+require("../../../store/index.js");
 const _sfc_main = {
   data() {
     return {
@@ -94,6 +95,7 @@ const _sfc_main = {
       common_vendor.index.scanCode({
         success: function(res) {
           if (res.result) {
+            self.listData = [];
             self.offset = 1;
             self.index = 2;
             self.ftype = "logistics";
@@ -159,17 +161,9 @@ const _sfc_main = {
         url: "../material/material?materialid=" + mid
       });
     },
-    goDetail: function(e) {
-      let detail = {
-        entryid: e.id,
-        alibaba_auth: e.alibaba_auth,
-        alibaba_orderid: e.alibaba_orderid,
-        sku: e.sku,
-        warehouseid: e.warehouseid,
-        warehousename: e.warehousename
-      };
+    goDetail: function(row) {
       common_vendor.index.navigateTo({
-        url: "./receive?detailDate=" + encodeURIComponent(JSON.stringify(detail))
+        url: "./receive?detailData=" + encodeURIComponent(JSON.stringify(row))
       });
     },
     aderror(e) {
@@ -243,5 +237,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   };
 }
-var MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "C:/Users/admin/Documents/HBuilderProjects/wimoorApp/pages/erp/purchase/purchase.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "C:/Users/admin/Documents/HBuilderProjects/wimoorApp/pages/erp/purchase/purchase.vue"]]);
 wx.createPage(MiniProgramPage);

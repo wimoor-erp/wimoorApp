@@ -1,6 +1,14 @@
 {
   "navigationBarTitleText": "货物退收",
   "usingComponents": {
-    "uni-easyinput": "../../../uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput"
+    "warehouse-pick": "./components/warehousepick",
+    "uni-card": "../../../uni_modules/uni-card/components/uni-card/uni-card",
+    "uni-easyinput": "../../../uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput",
+    "uni-popup-dialog": "../../../uni_modules/uni-popup/components/uni-popup-dialog/uni-popup-dialog",
+    "uni-popup": "../../../uni_modules/uni-popup/components/uni-popup/uni-popup",
+    "uni-th": "../../../uni_modules/uni-table/components/uni-th/uni-th",
+    "uni-tr": "../../../uni_modules/uni-table/components/uni-tr/uni-tr",
+    "uni-td": "../../../uni_modules/uni-table/components/uni-td/uni-td",
+    "uni-table": "../../../uni_modules/uni-table/components/uni-table/uni-table"
   }
 }

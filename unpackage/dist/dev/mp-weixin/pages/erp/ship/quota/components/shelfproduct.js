@@ -1,9 +1,11 @@
 "use strict";
-var common_vendor = require("../../../../../common/vendor.js");
-var api_erp_ship_quotaApi = require("../../../../../api/erp/ship/quotaApi.js");
-require("../../../../../common/request.js");
+const common_vendor = require("../../../../../common/vendor.js");
+const api_erp_ship_quotaApi = require("../../../../../api/erp/ship/quotaApi.js");
+require("../../../../../utils/request.js");
+require("../../../../../store/index.js");
 const _sfc_main = {
-  props: ["item", "isAssemblyItem"],
+  props: ["item", "itemid", "isAssemblyItem", "warehouseid"],
+  components: {},
   data() {
     return {
       current: -1,
@@ -22,7 +24,8 @@ const _sfc_main = {
         desc: "\u76EE\u7684\u4ED3\u5E93"
       }],
       productListData: [],
-      quotaoderData: {}
+      quotaoderData: {},
+      sumin: 0
     };
   },
   onLoad(query) {
@@ -44,10 +47,12 @@ const _sfc_main = {
       }
       return this.current == index;
     },
-    goMaterialInfoPage(mid) {
-      common_vendor.index.navigateTo({
-        url: "../../material/material?materialid=" + mid
-      });
+    goMaterialInfoPage(item) {
+      if (this.$props.isAssemblyItem == true) {
+        common_vendor.index.navigateTo({ url: "../../material/material?materialid=" + item.mainmid });
+      } else {
+        common_vendor.index.navigateTo({ url: "../../material/material?materialid=" + item.materialid });
+      }
     },
     needshow(list) {
       if (list && list.length > 0) {
@@ -59,23 +64,57 @@ const _sfc_main = {
       }
       return false;
     },
-    getoffShelfNum(val, arr) {
+    getoffShelfNum(val, arr, type) {
       let num = 0;
+      let value = val;
+      if (this.$props.item.shelfInvRecordList) {
+        var sum = 0;
+        this.$props.item.shelfInvRecordList.forEach((item) => {
+          if (item.opt == 0) {
+            sum = sum + parseInt(item.quantity);
+          } else {
+            sum = sum - +parseInt(item.quantity);
+          }
+        });
+        this.sumin = sum;
+        if (sum) {
+          value = value - sum;
+        }
+      }
       arr.forEach((item, index) => {
         if (this.current == index) {
-          if (val <= parseInt(item.quantity)) {
-            num = val;
-            return;
+          if (value <= parseInt(item.quantity)) {
+            num = value;
           } else {
             num = parseInt(item.quantity);
           }
         }
       });
-      if (this.offShelfNum == -1) {
+      if (this.offShelfNum == -1 || type == "change") {
         this.offShelfNum = num;
       }
-      console.log("getoffShelfNum", this.offShelfNum, num);
       return num;
+    },
+    goHuoJia(materialid) {
+      var detail = { "materialid": materialid, "warehouseid": "" };
+      detail.warehouseid = this.$props.warehouseid;
+      detail.formid = this.$props.itemid;
+      detail.formtype = "outstockform";
+      detail.opttype = "outstockform";
+      let node = this.$props.item;
+      var amount = 0;
+      if (this.$props.isAssemblyItem == true) {
+        amount = this.getoffShelfNum(node.subamount, this.$props.item.shelfInvList, "change");
+      } else {
+        amount = this.getoffShelfNum(node.quantity, this.$props.item.shelfInvList, "change");
+      }
+      if (amount < 0) {
+        detail.amount = amount * -1;
+      }
+      var detailUrl = encodeURIComponent(JSON.stringify(detail));
+      common_vendor.index.navigateTo({
+        "url": "/pages/erp/warehouse/shelf/index?detailData=" + detailUrl
+      });
     },
     getshelfid(val, a) {
       return val;
@@ -99,6 +138,8 @@ const _sfc_main = {
       let node = shelfList[this.current];
       obj.materialid = node.materialid;
       obj.shelfid = node.shelfid;
+      obj.formid = this.$props.itemid;
+      obj.formtype = "outstockform";
       obj.quantity = this.offShelfNum;
       obj.opt = 0;
       arr.push(obj);
@@ -111,13 +152,25 @@ const _sfc_main = {
         });
         let node2 = shelfList[that.current];
         node2.quantity = node2.quantity - that.offShelfNum;
+        var record = { opttime: "", shelfname: "", quantity: "" };
+        record.opttime = new Date().format("yyyy-MM-dd hh:mm:ss");
+        record.shelfname = node2.shelfname;
+        record.quantity = that.offShelfNum;
+        record.opt = 0;
+        if (that.$props.item.shelfInvRecordList) {
+          that.$props.item.shelfInvRecordList.push(record);
+        } else {
+          that.$props.item.shelfInvRecordList = [record];
+        }
       });
     },
-    offshelfValChange(val) {
-      this.offShelfNum = val;
+    offshelfValChange(e) {
+      this.offShelfNum = e.detail.value;
     },
     radioChange(val) {
       this.current = val.detail.value;
+      let node = this.$props.item.shelfInvList[this.current];
+      this.getoffShelfNum(node.quantity, this.$props.item.shelfInvList, "change");
     }
   }
 };
@@ -126,62 +179,72 @@ if (!Array) {
   const _easycom_uni_tr2 = common_vendor.resolveComponent("uni-tr");
   const _easycom_uni_td2 = common_vendor.resolveComponent("uni-td");
   const _easycom_uni_table2 = common_vendor.resolveComponent("uni-table");
-  const _easycom_uni_number_box2 = common_vendor.resolveComponent("uni-number-box");
-  (_easycom_uni_th2 + _easycom_uni_tr2 + _easycom_uni_td2 + _easycom_uni_table2 + _easycom_uni_number_box2)();
+  (_easycom_uni_th2 + _easycom_uni_tr2 + _easycom_uni_td2 + _easycom_uni_table2)();
 }
 const _easycom_uni_th = () => "../../../../../uni_modules/uni-table/components/uni-th/uni-th.js";
 const _easycom_uni_tr = () => "../../../../../uni_modules/uni-table/components/uni-tr/uni-tr.js";
 const _easycom_uni_td = () => "../../../../../uni_modules/uni-table/components/uni-td/uni-td.js";
 const _easycom_uni_table = () => "../../../../../uni_modules/uni-table/components/uni-table/uni-table.js";
-const _easycom_uni_number_box = () => "../../../../../uni_modules/uni-number-box/components/uni-number-box/uni-number-box.js";
 if (!Math) {
-  (_easycom_uni_th + _easycom_uni_tr + _easycom_uni_td + _easycom_uni_table + _easycom_uni_number_box)();
+  (_easycom_uni_th + _easycom_uni_tr + _easycom_uni_td + _easycom_uni_table)();
 }
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return common_vendor.e({
-    a: common_vendor.o(($event) => $options.goMaterialInfoPage($props.item.materialid)),
-    b: $props.item.image,
-    c: $props.isAssemblyItem == false
-  }, $props.isAssemblyItem == false ? {
-    d: common_vendor.t($props.item.name)
+    a: $props.item.image
+  }, $props.item.image ? {
+    b: common_vendor.o(($event) => $options.goMaterialInfoPage($props.item)),
+    c: $props.item.image
   } : {
-    e: common_vendor.t($props.item.mname)
+    d: common_vendor.o(($event) => $options.goMaterialInfoPage($props.item))
   }, {
-    f: common_vendor.t($props.item.sku),
-    g: $props.isAssemblyItem == false
+    e: $props.isAssemblyItem == false
   }, $props.isAssemblyItem == false ? {
-    h: common_vendor.t($props.item.sellersku)
-  } : {}, {
-    i: $props.isAssemblyItem == false
+    f: common_vendor.t($props.item.name)
+  } : {
+    g: common_vendor.t($props.item.mname)
+  }, {
+    h: $props.isAssemblyItem == false
   }, $props.isAssemblyItem == false ? {
-    j: common_vendor.t($props.item.fnsku)
+    i: common_vendor.t($props.item.sku),
+    j: common_vendor.o(($event) => $options.goHuoJia($props.item.materialid))
+  } : {
+    k: common_vendor.t($props.item.sku),
+    l: common_vendor.o(($event) => $options.goHuoJia($props.item.submid))
+  }, {
+    m: $props.isAssemblyItem == false
+  }, $props.isAssemblyItem == false ? {
+    n: common_vendor.t($props.item.sellersku)
   } : {}, {
-    k: common_vendor.t($props.item.boxnum),
-    l: $props.item.boxlength
+    o: $props.isAssemblyItem == false
+  }, $props.isAssemblyItem == false ? {
+    p: common_vendor.t($props.item.fnsku)
+  } : {}, {
+    q: common_vendor.t($props.item.boxnum),
+    r: $props.item.boxlength
   }, $props.item.boxlength ? {
-    m: common_vendor.t($props.item.boxlength),
-    n: common_vendor.t($props.item.boxwidth),
-    o: common_vendor.t($props.item.boxheight)
+    s: common_vendor.t($props.item.boxlength),
+    t: common_vendor.t($props.item.boxwidth),
+    v: common_vendor.t($props.item.boxheight)
   } : {}, {
-    p: $props.item.boxweight
+    w: $props.item.boxweight
   }, $props.item.boxweight ? {
-    q: common_vendor.t($props.item.boxweight)
+    x: common_vendor.t($props.item.boxweight)
   } : {}, {
-    r: $options.needshow($props.item.shelfInvList)
+    y: $options.needshow($props.item.shelfInvList)
   }, $options.needshow($props.item.shelfInvList) ? {
-    s: common_vendor.p({
+    z: common_vendor.p({
       align: "left",
       width: "10"
     }),
-    t: common_vendor.p({
+    A: common_vendor.p({
       align: "left",
       width: "190"
     }),
-    v: common_vendor.p({
+    B: common_vendor.p({
       align: "left",
       width: "50"
     }),
-    w: common_vendor.f($props.item.shelfInvList, (shelfInvList, index, i0) => {
+    C: common_vendor.f($props.item.shelfInvList, (shelfInvList, index, i0) => {
       return {
         a: index,
         b: $options.getChecked(index, $props.item.shelfInvList),
@@ -194,31 +257,71 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         i: "6f0f3faa-5-" + i0 + ",6f0f3faa-0"
       };
     }),
-    x: common_vendor.p({
+    D: common_vendor.p({
       border: true,
       emptyText: "\u6682\u65E0\u6570\u636E"
     }),
-    y: common_vendor.o((...args) => $options.radioChange && $options.radioChange(...args))
+    E: common_vendor.o((...args) => $options.radioChange && $options.radioChange(...args))
   } : {}, {
-    z: common_vendor.t($props.item.quantity),
-    A: $props.isAssemblyItem == false
-  }, $props.isAssemblyItem == false ? {} : {}, {
-    B: $props.isAssemblyItem == false
+    F: $props.isAssemblyItem == false
   }, $props.isAssemblyItem == false ? {
-    C: common_vendor.t($props.item.invquantity)
+    G: common_vendor.t($props.item.quantity)
+  } : {}, {
+    H: $props.isAssemblyItem == false
+  }, $props.isAssemblyItem == false ? {} : {}, {
+    I: $props.isAssemblyItem == true
+  }, $props.isAssemblyItem == true ? {
+    J: common_vendor.t($props.item.subamount)
+  } : {}, {
+    K: $props.isAssemblyItem == true
+  }, $props.isAssemblyItem == true ? {} : {}, {
+    L: $props.isAssemblyItem == false
+  }, $props.isAssemblyItem == false ? {
+    M: common_vendor.t($props.item.invquantity)
   } : {
-    D: common_vendor.t($props.item.fulfillable)
+    N: common_vendor.t($props.item.fulfillable)
   }, {
-    E: $options.needshow($props.item.shelfInvList)
-  }, $options.needshow($props.item.shelfInvList) ? {
-    F: common_vendor.o($options.offshelfValChange),
-    G: common_vendor.p({
-      min: 0,
-      max: $options.maxShelfNum($props.item.shelfInvList),
-      value: $options.getoffShelfNum($props.item.quantity, $props.item.shelfInvList)
+    O: $options.needshow($props.item.shelfInvList)
+  }, $options.needshow($props.item.shelfInvList) ? common_vendor.e({
+    P: $props.isAssemblyItem == false
+  }, $props.isAssemblyItem == false ? {
+    Q: common_vendor.o((...args) => $options.offshelfValChange && $options.offshelfValChange(...args)),
+    R: $options.getoffShelfNum($props.item.quantity, $props.item.shelfInvList)
+  } : {
+    S: common_vendor.o((...args) => $options.offshelfValChange && $options.offshelfValChange(...args)),
+    T: $options.getoffShelfNum($props.item.subamount, $props.item.shelfInvList)
+  }, {
+    U: common_vendor.o(() => $options.subShelfNum($props.item.shelfInvList))
+  }) : {}, {
+    V: $props.item.shelfInvRecordList
+  }, $props.item.shelfInvRecordList ? {
+    W: common_vendor.t($data.sumin),
+    X: common_vendor.p({
+      align: "left",
+      width: "150"
     }),
-    H: common_vendor.o(() => $options.subShelfNum($props.item.shelfInvList))
+    Y: common_vendor.p({
+      align: "left",
+      width: "100"
+    }),
+    Z: common_vendor.f($props.item.shelfInvRecordList, (recItem, index, i0) => {
+      return common_vendor.e({
+        a: common_vendor.t(recItem.shelfname),
+        b: common_vendor.t(recItem.opttime),
+        c: "6f0f3faa-14-" + i0 + "," + ("6f0f3faa-13-" + i0),
+        d: recItem.opt == 0
+      }, recItem.opt == 0 ? {} : {}, {
+        e: common_vendor.t(recItem.quantity),
+        f: "6f0f3faa-15-" + i0 + "," + ("6f0f3faa-13-" + i0),
+        g: index,
+        h: "6f0f3faa-13-" + i0 + ",6f0f3faa-9"
+      });
+    }),
+    aa: common_vendor.p({
+      border: true,
+      emptyText: "\u6682\u65E0\u64CD\u4F5C\u8BB0\u5F55"
+    })
   } : {});
 }
-var Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "C:/Users/admin/Documents/HBuilderProjects/wimoorApp/pages/erp/ship/quota/components/shelfproduct.vue"]]);
+const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "C:/Users/admin/Documents/HBuilderProjects/wimoorApp/pages/erp/ship/quota/components/shelfproduct.vue"]]);
 wx.createComponent(Component);

@@ -1,4 +1,4 @@
-import request from '@/common/request.js'
+import request from "@/utils/request";
 const getQuotainfo=(shipmentid)=>{
 	return request({url:'/erp/api/v1/shipForm/quotainfo/'+shipmentid,method:"GET"});
 }

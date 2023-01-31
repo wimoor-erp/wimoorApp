@@ -1,6 +1,6 @@
 {
   "pages": [
-    "pages/tabBar/erp/erp",
+    "pages/tabBar/main/index",
     "pages/tabBar/menu/menu",
     "pages/tabBar/about/about",
     "pages/tabBar/charts/charts"
@@ -9,14 +9,23 @@
     {
       "root": "pages/erp",
       "pages": [
-        "ship/ship",
+        "ship/base/list",
         "ship/quota/index",
         "purchase/purchase",
         "material/material",
         "purchase/receive",
         "warehouse/inventory/shelf/addstock",
         "warehouse/inventory/shelf/outstock",
-        "warehouse/inventory/addshelf"
+        "warehouse/inventory/shelf/result",
+        "warehouse/inventory/shelf/index",
+        "warehouse/shelf/index",
+        "warehouse/inventory/shelf/skulist"
+      ]
+    },
+    {
+      "root": "pages/amazon",
+      "pages": [
+        "order/today/list"
       ]
     },
     {
@@ -42,7 +51,7 @@
     "backgroundColor": "#F8F8F8",
     "list": [
       {
-        "pagePath": "pages/tabBar/erp/erp",
+        "pagePath": "pages/tabBar/main/index",
         "iconPath": "static/home.png",
         "selectedIconPath": "static/home-active.png",
         "text": "首页"

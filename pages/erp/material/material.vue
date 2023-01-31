@@ -1,41 +1,193 @@
 <template>
 	<view class="uni-container">
-		<view>
-			<image :src="material.image" ></image>
-		</view>
-		<view><text class="light-font">产品SKU:</text>{{material.sku}}
-			<uni-icons  :color="material.color"  type="smallcircle-filled" style="padding-left: 12px;" size="14"></uni-icons>
-		</view>
-		<view><text class="light-font">产品名称:</text>{{material.name}}</view>
-		<view><text class="light-font">品牌:</text>{{material.brand}}</view>
-		<view><text class="light-font">规格:</text>{{material.specification}}</view>
-		<view><text class="light-font">分类:</text>{{material.category}}</view>
-		<view><text class="light-font">备注:</text>{{material.remark}}</view>
-		<view><text class="light-font">产品负责人:</text>{{material.ownername}}</view>
-		<view><text class="light-font">生效日期:</text>{{dateFuc(material.effectivedate)}}</view>
-		<view><text class="light-font">净产品尺寸:</text>长:{{valueFormatter(itemDim.length)}}cm 宽:{{valueFormatter(itemDim.width)}}cm 高:{{valueFormatter(itemDim.height)}}cm 重:{{valueFormatter(itemDim.weight)}}kg</view>
-		<view><text class="light-font">带包装尺寸:</text>长:{{valueFormatter(pkgDim.length)}}cm 宽:{{valueFormatter(pkgDim.width)}}cm 高:{{valueFormatter(pkgDim.height)}}cm 重:{{valueFormatter(pkgDim.weight)}}kg</view>
-		<view><text class="light-font">单箱数量:</text>{{material.boxnum}}</view>
-		<view><text class="light-font">箱规:</text>长:{{valueFormatter(pkgDim.length)}}cm 宽:{{valueFormatter(pkgDim.width)}}cm 高:{{valueFormatter(pkgDim.height)}}cm 重:{{valueFormatter(pkgDim.weight)}}kg</view>
-		<view><text class="light-font">退税率:</text>{{material.vatrate}}</view>
-		<view><text class="light-font">修改人:</text>{{material.operator}}</view>
-		<view><text class="light-font">修改日期:</text>{{dateFuc(material.opttime)}}</view>
-		<view><text class="light-font">创建人:</text>{{material.creator}}</view>
-		<view><text class="light-font">创建日期:</text>{{dateFuc(material.createdate)}}</view>
-		<view><text>组装类别:</text>
-			<block v-if="material.issfg=='0'">
-				<text class="text-green">单独成品</text>
-			</block>
-			<block v-if="material.issfg=='1'">
-				<text class="text-orange">组装成品</text>
-			</block>
-			<block v-if="material.issfg=='2'">
-				<text class="text-red">待组装半成品</text>
-			</block>
-		</view>
+		<uni-card isFull >
+			<view class="uni-flex uni-row">
+			          <view class="flex-item ">
+									<image  class="mlogo" :src="material.image"></image>
+					  </view>
+			          <view class="flex-item  " style="flex: 1;">
+									<view class="uni-flex uni-column">
+									                <view class="flex-item flex-item-V productname">
+														 <text  >{{material.name}}</text>
+													</view>
+									                <view class="flex-item flex-item-V">
+														 <text class='light-font'>{{material.sku}}</text> 
+													</view>
+									               
+										</view>
+									</view>
+								</view>
+							 
+					<view class="flex-item flex-item-V flex-between-row bordtop">
+									<view v-if="material.brand">
+									 <view class="text-center">{{material.brand}}</view>
+									 <view class="light-font text-center">品牌</view>
+									</view>
+									 <view v-if="material.category">
+									  <view class="text-center">{{material.category}}</view>
+									  <view class="light-font text-center">分类</view>
+									 </view>
+									 <view >
+									  <view class="text-center">
+										  <block v-if="material.issfg=='0'">
+											<text class="tag tag-green text-center">单独成品</text>
+										  </block>
+										  <block v-if="material.issfg=='1'">
+											<text class="tag tag-orange text-center">组装成品</text>
+										  </block>
+										  <block v-if="material.issfg=='2'">
+											<text class="tag tag-red text-center">待组装半成品</text>
+										  </block>
+									  </view>
+									  <view class="light-font text-center">组装类型</view>
+									 </view>
+					</view>
+							 
+			   	<view class="flex-item flex-item-V flex-between-row bordtop">
+			   		<view :class="tabs.baseinfo.activeclass" @click="changeType('baseinfo')">基础信息</view>			 
+					<view :class="tabs.purchaseinfo.activeclass" @click="changeType('purchaseinfo')">采购信息</view>	
+					<view :class="tabs.custominfo.activeclass"  @click="changeType('custominfo')">海关信息</view>	
+			   	</view>			
+		 </uni-card>
+		 <block v-if="tabs.baseinfo.isactive">
+			<view style="margin-top:10px;"></view>
+			<uni-card isFull title="规格尺寸重量" >
+				<uni-table border>
+					<uni-tr>
+						<uni-td>
+						</uni-td>
+						<uni-td>长(cm)
+						</uni-td>
+						<uni-td>宽(cm)
+						</uni-td>
+						<uni-td>高(cm)
+						</uni-td>
+						<uni-td>重(kg)
+						</uni-td>
+					</uni-tr>
+					<uni-tr>
+						<uni-td>
+							净产品
+						</uni-td>
+						<uni-td>
+						{{valueFormatter(itemDim.length)}}
+						</uni-td>
+						<uni-td>
+						{{valueFormatter(itemDim.width)}}
+						</uni-td>
+						<uni-td>
+						{{valueFormatter(itemDim.height)}}
+						</uni-td>
+						<uni-td>
+						{{valueFormatter(itemDim.weight)}}
+						</uni-td>
+					</uni-tr>
+					<uni-tr>
+						<uni-td>
+							带包装
+						</uni-td>
+						<uni-td>
+						{{valueFormatter(pkgDim.length)}}
+						</uni-td>
+						<uni-td>
+						{{valueFormatter(pkgDim.width)}}
+						</uni-td>
+						<uni-td>
+						{{valueFormatter(pkgDim.height)}}
+						</uni-td>
+						<uni-td>
+						{{valueFormatter(pkgDim.weight)}}
+						</uni-td>
+					</uni-tr>
+					<uni-tr>
+						<uni-td>
+							箱规
+						</uni-td>
+						<uni-td>
+						{{valueFormatter(boxDim.length)}}
+						</uni-td>
+						<uni-td>
+						{{valueFormatter(boxDim.width)}}
+						</uni-td>
+						<uni-td>
+						{{valueFormatter(boxDim.height)}}
+						</uni-td>
+						<uni-td>
+						{{valueFormatter(boxDim.weight)}}
+						</uni-td>
+					</uni-tr>
+				</uni-table>
+			 </uni-card>
+			 	<view style="margin-top:10px;"></view>
+			<uni-card isFull title="其他信息" >
+				<view class="flex-item flex-item-V flex-between-row ">
+					 <view class="light-font">型号</view>			 
+					 <view>{{material.specification}}</view>
+				</view>		
+				<view class="flex-item flex-item-V flex-between-row ">
+					 <view class="light-font">单箱数量</view>			 
+					 <view>{{material.boxnum}}</view>
+				</view>
+				<view class="flex-item flex-item-V flex-between-row ">
+					 <view class="light-font">产品负责人</view>			 
+					 <view>{{material.ownername}}</view>
+				</view>	
+				<view class="flex-item flex-item-V flex-between-row ">
+					 <view class="light-font">生效日期</view>			 
+					 <view>{{dateFuc(material.effectivedate)}}</view>
+				</view>
+				<view class="flex-item flex-item-V flex-between-row ">
+					 <view class="light-font">退税率</view>			 
+					 <view>{{material.vatrate}}</view>
+				</view>	
+				<view class="flex-item flex-item-V flex-between-row ">
+					 <view class="light-font">修改人</view>			 
+					 <view>{{material.operator}}</view>
+				</view>	
+				<view class="flex-item flex-item-V flex-between-row ">
+					 <view class="light-font">修改日期</view>			 
+					 <view>{{dateFuc(material.opttime)}}</view>
+				</view>	
+				<view class="flex-item flex-item-V flex-between-row ">
+					 <view class="light-font">创建人</view>			 
+					 <view>{{material.creator}}</view>
+				</view>	
+				<view class="flex-item flex-item-V flex-between-row ">
+					 <view class="light-font">创建日期</view>			 
+					 <view>{{dateFuc(material.createdate)}}</view>
+				</view>	
+			</uni-card>
+				<view style="margin-top:10px;"></view>
+			<uni-card isFull title="备注" >{{material.remark}}</uni-card>
+			<view style="margin-top:10px;"></view>
+			<uni-card isFull title="全部名称" >{{material.name}}</uni-card>
+			<view style="margin-top:10px;"></view>
+			<uni-card isFull title="耗材信息" >
+					<uni-table border stripe emptyText="暂无更多数据">
+						<uni-tr>
+							<uni-th>图片</uni-th>
+							<uni-th>产品名称</uni-th>
+						</uni-tr>
+						<uni-tr v-for="(item, index) in consumableList" :key="index">
+								<uni-td>
+									 <image class="img" :src="item.image"></image>
+								</uni-td>		
+								<uni-td> 
+									<view>
+										SKU:{{ item.sku }} 耗材单位量:{{ item.amount}}
+									</view>
+									<view style="font-size: 12px;">
+										{{ item.name }}
+									</view>
+								</uni-td>
+						</uni-tr>
+					</uni-table>
+					 </uni-card>
+		 
+		 
 		<block v-if="material.issfg=='1'">
-			<view>
-				<text class="light-font">子SKU列表:</text>
+			    <view style="margin-top:10px;"></view>
+				<uni-card isFull title="子SKU列表" >
 				<view>
 					<uni-table border stripe emptyText="暂无更多数据">
 						<uni-tr>
@@ -55,10 +207,13 @@
 						</uni-tr>
 					</uni-table>
 				</view>
-			</view>
+			 </uni-card>
 		</block>
-		
-		<view style="font-size: 18px;border-top:1px solid #dedede;margin-top: 10px;">采购信息</view>
+		</block>
+	<block v-if="tabs.purchaseinfo.isactive">
+     <view style="margin-top:10px;"></view>
+	 <uni-card isFull title="采购信息" >
+	 
 		<view><text class="light-font">供应商:</text>{{material.supplier}}</view>
 		<view><text class="light-font">供货周期(天):</text>{{material.delivery_cycle}}</view>
 		<view><text class="light-font">其他采购成本:</text>{{material.other_cost}}</view>
@@ -86,39 +241,25 @@
 				</uni-table>
 			</view>
 		</view>
-		
-		<view style="font-size: 18px;border-top:1px solid #dedede;margin-top: 10px;">耗材信息</view>
-		<uni-table border stripe emptyText="暂无更多数据">
-			<uni-tr>
-				<uni-th>图片</uni-th>
-				<uni-th>产品名称</uni-th>
-			</uni-tr>
-			<uni-tr v-for="(item, index) in consumableList" :key="index">
-					<uni-td>
-						 <image class="img" :src="item.image"></image>
-					</uni-td>		
-					<uni-td> 
-						<view>
-							SKU:{{ item.sku }} 耗材单位量:{{ item.amount}}
-						</view>
-						<view style="font-size: 12px;">
-							{{ item.name }}
-						</view>
-					</uni-td>
-			</uni-tr>
-		</uni-table>
-		<view style="font-size: 18px;border-top:1px solid #dedede;margin-top: 10px;">海关信息</view>
-		<view><text class="light-font">产品英文名:</text>{{customs.nameEn}}</view>
-		<view><text class="light-font">产品中文名:</text>{{customs.nameCn}}</view>
-		<view><text class="light-font">申报单价:</text>{{customs.unitprice}}</view>
-		<view><text class="light-font">产品材质:</text>{{customs.material}}</view>
-		<view><text class="light-font">产品型号:</text>{{customs.model}}</view>
-		<view><text class="light-font">海关编码:</text>{{customs.customsCode}}</view>
-		<view><text class="light-font">产品用途:</text>{{customs.materialUse}}</view>
-		<view><text class="light-font">产品品牌:</text>{{customs.brand}}</view>
-		<view><text class="light-font">附加费用:</text>{{customs.addfee}}</view>
-		<view><text class="light-font">是否带电/磁:</text>{{booleanFuc(customs.iselectricity)}}</view>
-		<view><text class="light-font">是否危险品:</text>{{booleanFuc(customs.isdanger)}}</view>
+		 </uni-card>
+	</block>
+	 
+		 <block v-if="tabs.custominfo.isactive">
+		 <view style="margin-top:10px;"></view>
+		 <uni-card isFull title="海关信息" >
+			<view><text class="light-font">产品英文名:</text>{{customs.nameEn}}</view>
+			<view><text class="light-font">产品中文名:</text>{{customs.nameCn}}</view>
+			<view><text class="light-font">申报单价:</text>{{customs.unitprice}}</view>
+			<view><text class="light-font">产品材质:</text>{{customs.material}}</view>
+			<view><text class="light-font">产品型号:</text>{{customs.model}}</view>
+			<view><text class="light-font">海关编码:</text>{{customs.customsCode}}</view>
+			<view><text class="light-font">产品用途:</text>{{customs.materialUse}}</view>
+			<view><text class="light-font">产品品牌:</text>{{customs.brand}}</view>
+			<view><text class="light-font">附加费用:</text>{{customs.addfee}}</view>
+			<view><text class="light-font">是否带电/磁:</text>{{booleanFuc(customs.iselectricity)}}</view>
+			<view><text class="light-font">是否危险品:</text>{{booleanFuc(customs.isdanger)}}</view>
+		 </uni-card>
+		</block>
 	</view>
 </template>
 
@@ -133,6 +274,10 @@
 					pkgDim:{},
 					boxDim:{},
 					customs:{},
+					tabs:{baseinfo:{isactive:true,activeclass:"active"},
+						  purchaseinfo:{isactive:false,activeclass:""},
+						  custominfo:{isactive:false,activeclass:""}
+						 },
 					stepWisePrice:[],
 					consumableList:[],
 					assemblyList:[],
@@ -156,6 +301,26 @@
 						return '是'
 					}else{
 						return '否'
+					}
+				},
+				changeType(type){
+					this.tabs.baseinfo.isactive=false;
+					this.tabs.baseinfo.activeclass="";
+					this.tabs.purchaseinfo.isactive=false;
+					this.tabs.purchaseinfo.activeclass="";
+					this.tabs.custominfo.isactive=false;
+					this.tabs.custominfo.activeclass="";
+				    if(type=="baseinfo"){
+						this.tabs.baseinfo.isactive=true;
+						this.tabs.baseinfo.activeclass="active";
+					}
+					if(type=="purchaseinfo"){
+						this.tabs.purchaseinfo.isactive=true;
+						this.tabs.purchaseinfo.activeclass="active";
+					}
+					if(type=="custominfo"){
+						this.tabs.custominfo.isactive=true;
+						this.tabs.custominfo.activeclass="active";
 					}
 				},
 				valueFormatter(value){
@@ -202,7 +367,6 @@
 							if(data){
 								var datas=data;
 								if(datas.material && datas.material!=null){
-									console.log(datas.material);
 									self.material=datas.material;
 								}
 								if(datas.itemDim && datas.itemDim!=null){
@@ -242,5 +406,50 @@
 	.img{
 		width: 100rpx;
 		height: 120rpx;
+	}
+	.mlogo{
+		height:64px;
+		width:64px;
+		margin-right:10px;
+	}
+	.bordtop{
+		border-top: solid #dedede 1px;
+		padding-top:10px;
+		margin-top:10px;
+	}
+	.productname{
+		    overflow: hidden;
+		    display: -webkit-box;
+		    -webkit-box-orient: vertical;
+		    -webkit-line-clamp: 2;
+	}
+	.flex-between-row{
+		justify-content: space-between;
+		flex-direction: row;
+		display: flex;
+	}
+	.active{
+		border-bottom:solid #f3a73f 2px;
+	}
+	.tag{
+		padding:2px;
+		color: #fff;
+		font-size:10px;
+		border-radius: 16px;
+	}
+	.tag-red{
+		border:solid #ff557f 4px;
+		background-color: #ff557f;
+	}
+	.tag-orange{
+		border:solid #f3a73f 4px;
+		background-color: #f3a73f;
+	}
+	.tag-green{
+		border:solid #18bc37 4px; 
+		background-color: #18bc37;
+	}
+	.text-center{
+		    text-align: center;
 	}
 </style>

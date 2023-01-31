@@ -4,6 +4,7 @@
 }
 .content{
 	border-top: 1px solid #ebeef5;
+	background-color: #fff;
 }
 .uni-data-checklist .checklist-group .checklist-box {
 		margin-right: 0px !important;
@@ -93,4 +94,8 @@
 }
 .mar-right {
 		margin-right: 8px;
+}
+.wcollapse{
+		border-top:solid #dedede 1px ;
+		padding:5px;
 }

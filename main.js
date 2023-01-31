@@ -1,6 +1,6 @@
 import App from './App'
 import store from './store'
-import request from './common/request.js'
+import request from './utils/request.js'
 // #ifndef VUE3
 import Vue from 'vue'
 Vue.config.productionTip = false

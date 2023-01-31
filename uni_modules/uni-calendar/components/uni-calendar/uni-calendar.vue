@@ -217,7 +217,6 @@
 			clean() {},
 			bindDateChange(e) {
 				const value = e.detail.value + '-1'
-				console.log(this.cale.getDate(value));
 				this.init(value)
 			},
 			/**
@@ -324,7 +323,6 @@
 			 * 回到今天
 			 */
 			backtoday() {
-				console.log(this.cale.getDate(new Date()).fullDate);
 				let date = this.cale.getDate(new Date()).fullDate
 				// this.cale.setDate(date)
 				this.init(date)

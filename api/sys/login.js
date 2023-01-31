@@ -1,4 +1,4 @@
-import request from '@/common/request.js'
+import request from "@/utils/request";
 const loginWechat=(data)=>{
 	return request({url:'/auth/loginWechat',method:"GET","data":data});
 }
@@ -14,5 +14,14 @@ const verifyWechatApp=(data)=>{
 const changeLoginWechatApp=(data)=>{
 	return request({url:'/auth/changeLoginWechatApp',method:"GET","data":data});
 }
- 
-export default {loginWechat,getOpenUserlist,unbindWechat,verifyWechatApp,changeLoginWechatApp};
+const getAppType=()=>{
+	var appType="app";//app默认是微信
+	//#ifdef  MP-WEIXIN 
+	appType="app";
+	//#endif
+	//#ifdef  MP-LARK
+	appType="feiapp";
+	//#endif
+	return appType;
+}
+export default {loginWechat,getOpenUserlist,unbindWechat,verifyWechatApp,changeLoginWechatApp,getAppType};

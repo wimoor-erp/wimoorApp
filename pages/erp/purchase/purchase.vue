@@ -4,10 +4,10 @@
 			<view style="margin-bottom: 10rpx;">
 			</view>
 			<view >
-				<view style="width:20%;float: left; ">
-					<picker style="border-bottom:#CCCCCC solid 1px;padding:0px" @change="onchange" mode=selector :value="index"   :range="items" >
-						<view class="uni-input">{{items[index]}}</view>
-					</picker>
+				<view style="width:20%;float: left;">
+					 <picker  @change="onchange" mode=selector :value="index"   :range="items" >
+						<view class="uni-input mydropdown" >{{items[index]}}</view> 
+					</picker>   
 				</view>
 				<view style="width:60%;float: left;padding-top: 3rpx;padding-left: 10rpx;">
 					<uni-easyinput v-model="search" :styles="styles" :placeholderStyle="placeholderStyle" suffixIcon="loop" @iconClick="refreshtab" placeholder="请输入内容自动查询" @input="input"></uni-easyinput>
@@ -16,7 +16,6 @@
 					<uni-icons @click="scanHandler" color="#FFA400"  type="scan" style="padding-left: 12px;" size="28"></uni-icons>
 				</view>
              </view>
-
 		</view>
 		<view class="uni-list" >
 			<block v-for="(value, index) in listData" :key="index">
@@ -160,6 +159,7 @@
 				uni.scanCode({
 					success: function (res) {
 						if(res.result){
+							self.listData=[];
 							self.offset=1;
 							self.index=2;
 							self.ftype='logistics';
@@ -231,19 +231,10 @@
 					url:'../material/material?materialid='+mid
 				})
 			},
-			goDetail: function(e) {
-		 
-				let detail = {
-					entryid: e.id,
-					alibaba_auth: e.alibaba_auth,
-					alibaba_orderid: e.alibaba_orderid,
-					sku: e.sku,
-					warehouseid: e.warehouseid,
-					warehousename:e.warehousename
-				};
+			goDetail: function(row) {
 				uni.navigateTo({
 					//跳转至 货物退收页面
-					url:'./receive?detailDate='+ encodeURIComponent(JSON.stringify(detail)),
+					url:'./receive?detailData='+ encodeURIComponent(JSON.stringify(row)),
 				});
 			},
 	 
@@ -304,5 +295,13 @@
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
+	}
+	.mydropdown{
+		margin-top:1px;
+		border:#CCCCCC solid 1px;
+		padding-top:5px;
+		padding-bottom:4px;
+		border-radius:4px;
+		background:#f5f5f5;
 	}
 </style>

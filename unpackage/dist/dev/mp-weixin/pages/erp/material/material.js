@@ -1,7 +1,8 @@
 "use strict";
-var api_erp_material_material = require("../../../api/erp/material/material.js");
-var common_vendor = require("../../../common/vendor.js");
-require("../../../common/request.js");
+const api_erp_material_material = require("../../../api/erp/material/material.js");
+const common_vendor = require("../../../common/vendor.js");
+require("../../../utils/request.js");
+require("../../../store/index.js");
 const _sfc_main = {
   data() {
     return {
@@ -11,6 +12,11 @@ const _sfc_main = {
       pkgDim: {},
       boxDim: {},
       customs: {},
+      tabs: {
+        baseinfo: { isactive: true, activeclass: "active" },
+        purchaseinfo: { isactive: false, activeclass: "" },
+        custominfo: { isactive: false, activeclass: "" }
+      },
       stepWisePrice: [],
       consumableList: [],
       assemblyList: [],
@@ -32,6 +38,26 @@ const _sfc_main = {
         return "\u662F";
       } else {
         return "\u5426";
+      }
+    },
+    changeType(type) {
+      this.tabs.baseinfo.isactive = false;
+      this.tabs.baseinfo.activeclass = "";
+      this.tabs.purchaseinfo.isactive = false;
+      this.tabs.purchaseinfo.activeclass = "";
+      this.tabs.custominfo.isactive = false;
+      this.tabs.custominfo.activeclass = "";
+      if (type == "baseinfo") {
+        this.tabs.baseinfo.isactive = true;
+        this.tabs.baseinfo.activeclass = "active";
+      }
+      if (type == "purchaseinfo") {
+        this.tabs.purchaseinfo.isactive = true;
+        this.tabs.purchaseinfo.activeclass = "active";
+      }
+      if (type == "custominfo") {
+        this.tabs.custominfo.isactive = true;
+        this.tabs.custominfo.activeclass = "active";
       }
     },
     valueFormatter(value) {
@@ -78,7 +104,6 @@ const _sfc_main = {
           if (data) {
             var datas = data;
             if (datas.material && datas.material != null) {
-              console.log(datas.material);
               self.material = datas.material;
             }
             if (datas.itemDim && datas.itemDim != null) {
@@ -112,132 +137,185 @@ const _sfc_main = {
   }
 };
 if (!Array) {
-  const _easycom_uni_icons2 = common_vendor.resolveComponent("uni-icons");
-  const _easycom_uni_th2 = common_vendor.resolveComponent("uni-th");
-  const _easycom_uni_tr2 = common_vendor.resolveComponent("uni-tr");
+  const _easycom_uni_card2 = common_vendor.resolveComponent("uni-card");
   const _easycom_uni_td2 = common_vendor.resolveComponent("uni-td");
+  const _easycom_uni_tr2 = common_vendor.resolveComponent("uni-tr");
   const _easycom_uni_table2 = common_vendor.resolveComponent("uni-table");
-  (_easycom_uni_icons2 + _easycom_uni_th2 + _easycom_uni_tr2 + _easycom_uni_td2 + _easycom_uni_table2)();
+  const _easycom_uni_th2 = common_vendor.resolveComponent("uni-th");
+  (_easycom_uni_card2 + _easycom_uni_td2 + _easycom_uni_tr2 + _easycom_uni_table2 + _easycom_uni_th2)();
 }
-const _easycom_uni_icons = () => "../../../uni_modules/uni-icons/components/uni-icons/uni-icons.js";
-const _easycom_uni_th = () => "../../../uni_modules/uni-table/components/uni-th/uni-th.js";
-const _easycom_uni_tr = () => "../../../uni_modules/uni-table/components/uni-tr/uni-tr.js";
+const _easycom_uni_card = () => "../../../uni_modules/uni-card/components/uni-card/uni-card.js";
 const _easycom_uni_td = () => "../../../uni_modules/uni-table/components/uni-td/uni-td.js";
+const _easycom_uni_tr = () => "../../../uni_modules/uni-table/components/uni-tr/uni-tr.js";
 const _easycom_uni_table = () => "../../../uni_modules/uni-table/components/uni-table/uni-table.js";
+const _easycom_uni_th = () => "../../../uni_modules/uni-table/components/uni-th/uni-th.js";
 if (!Math) {
-  (_easycom_uni_icons + _easycom_uni_th + _easycom_uni_tr + _easycom_uni_td + _easycom_uni_table)();
+  (_easycom_uni_card + _easycom_uni_td + _easycom_uni_tr + _easycom_uni_table + _easycom_uni_th)();
 }
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return common_vendor.e({
     a: $data.material.image,
-    b: common_vendor.t($data.material.sku),
-    c: common_vendor.p({
-      color: $data.material.color,
-      type: "smallcircle-filled",
-      size: "14"
-    }),
-    d: common_vendor.t($data.material.name),
-    e: common_vendor.t($data.material.brand),
-    f: common_vendor.t($data.material.specification),
-    g: common_vendor.t($data.material.category),
-    h: common_vendor.t($data.material.remark),
-    i: common_vendor.t($data.material.ownername),
-    j: common_vendor.t($options.dateFuc($data.material.effectivedate)),
-    k: common_vendor.t($options.valueFormatter($data.itemDim.length)),
-    l: common_vendor.t($options.valueFormatter($data.itemDim.width)),
-    m: common_vendor.t($options.valueFormatter($data.itemDim.height)),
-    n: common_vendor.t($options.valueFormatter($data.itemDim.weight)),
-    o: common_vendor.t($options.valueFormatter($data.pkgDim.length)),
-    p: common_vendor.t($options.valueFormatter($data.pkgDim.width)),
-    q: common_vendor.t($options.valueFormatter($data.pkgDim.height)),
-    r: common_vendor.t($options.valueFormatter($data.pkgDim.weight)),
-    s: common_vendor.t($data.material.boxnum),
-    t: common_vendor.t($options.valueFormatter($data.pkgDim.length)),
-    v: common_vendor.t($options.valueFormatter($data.pkgDim.width)),
-    w: common_vendor.t($options.valueFormatter($data.pkgDim.height)),
-    x: common_vendor.t($options.valueFormatter($data.pkgDim.weight)),
-    y: common_vendor.t($data.material.vatrate),
-    z: common_vendor.t($data.material.operator),
-    A: common_vendor.t($options.dateFuc($data.material.opttime)),
-    B: common_vendor.t($data.material.creator),
-    C: common_vendor.t($options.dateFuc($data.material.createdate)),
-    D: $data.material.issfg == "0"
+    b: common_vendor.t($data.material.name),
+    c: common_vendor.t($data.material.sku),
+    d: $data.material.brand
+  }, $data.material.brand ? {
+    e: common_vendor.t($data.material.brand)
+  } : {}, {
+    f: $data.material.category
+  }, $data.material.category ? {
+    g: common_vendor.t($data.material.category)
+  } : {}, {
+    h: $data.material.issfg == "0"
   }, $data.material.issfg == "0" ? {} : {}, {
-    E: $data.material.issfg == "1"
+    i: $data.material.issfg == "1"
   }, $data.material.issfg == "1" ? {} : {}, {
-    F: $data.material.issfg == "2"
+    j: $data.material.issfg == "2"
   }, $data.material.issfg == "2" ? {} : {}, {
-    G: $data.material.issfg == "1"
-  }, $data.material.issfg == "1" ? {
-    H: common_vendor.f($data.assemblyList, (item, index, i0) => {
+    k: common_vendor.n($data.tabs.baseinfo.activeclass),
+    l: common_vendor.o(($event) => $options.changeType("baseinfo")),
+    m: common_vendor.n($data.tabs.purchaseinfo.activeclass),
+    n: common_vendor.o(($event) => $options.changeType("purchaseinfo")),
+    o: common_vendor.n($data.tabs.custominfo.activeclass),
+    p: common_vendor.o(($event) => $options.changeType("custominfo")),
+    q: common_vendor.p({
+      isFull: true
+    }),
+    r: $data.tabs.baseinfo.isactive
+  }, $data.tabs.baseinfo.isactive ? common_vendor.e({
+    s: common_vendor.t($options.valueFormatter($data.itemDim.length)),
+    t: common_vendor.t($options.valueFormatter($data.itemDim.width)),
+    v: common_vendor.t($options.valueFormatter($data.itemDim.height)),
+    w: common_vendor.t($options.valueFormatter($data.itemDim.weight)),
+    x: common_vendor.t($options.valueFormatter($data.pkgDim.length)),
+    y: common_vendor.t($options.valueFormatter($data.pkgDim.width)),
+    z: common_vendor.t($options.valueFormatter($data.pkgDim.height)),
+    A: common_vendor.t($options.valueFormatter($data.pkgDim.weight)),
+    B: common_vendor.t($options.valueFormatter($data.boxDim.length)),
+    C: common_vendor.t($options.valueFormatter($data.boxDim.width)),
+    D: common_vendor.t($options.valueFormatter($data.boxDim.height)),
+    E: common_vendor.t($options.valueFormatter($data.boxDim.weight)),
+    F: common_vendor.p({
+      border: true
+    }),
+    G: common_vendor.p({
+      isFull: true,
+      title: "\u89C4\u683C\u5C3A\u5BF8\u91CD\u91CF"
+    }),
+    H: common_vendor.t($data.material.specification),
+    I: common_vendor.t($data.material.boxnum),
+    J: common_vendor.t($data.material.ownername),
+    K: common_vendor.t($options.dateFuc($data.material.effectivedate)),
+    L: common_vendor.t($data.material.vatrate),
+    M: common_vendor.t($data.material.operator),
+    N: common_vendor.t($options.dateFuc($data.material.opttime)),
+    O: common_vendor.t($data.material.creator),
+    P: common_vendor.t($options.dateFuc($data.material.createdate)),
+    Q: common_vendor.p({
+      isFull: true,
+      title: "\u5176\u4ED6\u4FE1\u606F"
+    }),
+    R: common_vendor.t($data.material.remark),
+    S: common_vendor.p({
+      isFull: true,
+      title: "\u5907\u6CE8"
+    }),
+    T: common_vendor.t($data.material.name),
+    U: common_vendor.p({
+      isFull: true,
+      title: "\u5168\u90E8\u540D\u79F0"
+    }),
+    V: common_vendor.f($data.consumableList, (item, index, i0) => {
       return {
         a: item.image,
-        b: "57c41409-6-" + i0 + "," + ("57c41409-5-" + i0),
+        b: "57c41409-36-" + i0 + "," + ("57c41409-35-" + i0),
+        c: common_vendor.t(item.sku),
+        d: common_vendor.t(item.amount),
+        e: common_vendor.t(item.name),
+        f: "57c41409-37-" + i0 + "," + ("57c41409-35-" + i0),
+        g: index,
+        h: "57c41409-35-" + i0 + ",57c41409-31"
+      };
+    }),
+    W: common_vendor.p({
+      border: true,
+      stripe: true,
+      emptyText: "\u6682\u65E0\u66F4\u591A\u6570\u636E"
+    }),
+    X: common_vendor.p({
+      isFull: true,
+      title: "\u8017\u6750\u4FE1\u606F"
+    }),
+    Y: $data.material.issfg == "1"
+  }, $data.material.issfg == "1" ? {
+    Z: common_vendor.f($data.assemblyList, (item, index, i0) => {
+      return {
+        a: item.image,
+        b: "57c41409-44-" + i0 + "," + ("57c41409-43-" + i0),
         c: common_vendor.t(item.sku),
         d: common_vendor.t(item.subnumber),
         e: common_vendor.t(item.fulfillable),
         f: common_vendor.t(item.subprice),
-        g: "57c41409-7-" + i0 + "," + ("57c41409-5-" + i0),
+        g: "57c41409-45-" + i0 + "," + ("57c41409-43-" + i0),
         h: index,
-        i: "57c41409-5-" + i0 + ",57c41409-1"
+        i: "57c41409-43-" + i0 + ",57c41409-39"
       };
     }),
-    I: common_vendor.p({
+    aa: common_vendor.p({
       border: true,
       stripe: true,
       emptyText: "\u6682\u65E0\u66F4\u591A\u6570\u636E"
+    }),
+    ab: common_vendor.p({
+      isFull: true,
+      title: "\u5B50SKU\u5217\u8868"
     })
-  } : {}, {
-    J: common_vendor.t($data.material.supplier),
-    K: common_vendor.t($data.material.delivery_cycle),
-    L: common_vendor.t($data.material.other_cost),
-    M: common_vendor.t($data.material.badrate),
-    N: common_vendor.t($data.material.productCode),
-    O: common_vendor.t($data.material.purchaseUrl),
-    P: common_vendor.f($data.stepWisePrice, (item, index, i0) => {
+  } : {}) : {}, {
+    ac: $data.tabs.purchaseinfo.isactive
+  }, $data.tabs.purchaseinfo.isactive ? {
+    ad: common_vendor.t($data.material.supplier),
+    ae: common_vendor.t($data.material.delivery_cycle),
+    af: common_vendor.t($data.material.other_cost),
+    ag: common_vendor.t($data.material.badrate),
+    ah: common_vendor.t($data.material.productCode),
+    ai: common_vendor.t($data.material.purchaseUrl),
+    aj: common_vendor.f($data.stepWisePrice, (item, index, i0) => {
       return {
         a: common_vendor.t(item.price),
-        b: "57c41409-13-" + i0 + "," + ("57c41409-12-" + i0),
+        b: "57c41409-52-" + i0 + "," + ("57c41409-51-" + i0),
         c: common_vendor.t(item.amount),
-        d: "57c41409-14-" + i0 + "," + ("57c41409-12-" + i0),
+        d: "57c41409-53-" + i0 + "," + ("57c41409-51-" + i0),
         e: index,
-        f: "57c41409-12-" + i0 + ",57c41409-8"
+        f: "57c41409-51-" + i0 + ",57c41409-47"
       };
     }),
-    Q: common_vendor.p({
+    ak: common_vendor.p({
       border: true,
       stripe: true,
       emptyText: "\u6682\u65E0\u66F4\u591A\u6570\u636E"
     }),
-    R: common_vendor.f($data.consumableList, (item, index, i0) => {
-      return {
-        a: item.image,
-        b: "57c41409-20-" + i0 + "," + ("57c41409-19-" + i0),
-        c: common_vendor.t(item.sku),
-        d: common_vendor.t(item.amount),
-        e: common_vendor.t(item.name),
-        f: "57c41409-21-" + i0 + "," + ("57c41409-19-" + i0),
-        g: index,
-        h: "57c41409-19-" + i0 + ",57c41409-15"
-      };
-    }),
-    S: common_vendor.p({
-      border: true,
-      stripe: true,
-      emptyText: "\u6682\u65E0\u66F4\u591A\u6570\u636E"
-    }),
-    T: common_vendor.t($data.customs.nameEn),
-    U: common_vendor.t($data.customs.nameCn),
-    V: common_vendor.t($data.customs.unitprice),
-    W: common_vendor.t($data.customs.material),
-    X: common_vendor.t($data.customs.model),
-    Y: common_vendor.t($data.customs.customsCode),
-    Z: common_vendor.t($data.customs.materialUse),
-    aa: common_vendor.t($data.customs.brand),
-    ab: common_vendor.t($data.customs.addfee),
-    ac: common_vendor.t($options.booleanFuc($data.customs.iselectricity)),
-    ad: common_vendor.t($options.booleanFuc($data.customs.isdanger))
-  });
+    al: common_vendor.p({
+      isFull: true,
+      title: "\u91C7\u8D2D\u4FE1\u606F"
+    })
+  } : {}, {
+    am: $data.tabs.custominfo.isactive
+  }, $data.tabs.custominfo.isactive ? {
+    an: common_vendor.t($data.customs.nameEn),
+    ao: common_vendor.t($data.customs.nameCn),
+    ap: common_vendor.t($data.customs.unitprice),
+    aq: common_vendor.t($data.customs.material),
+    ar: common_vendor.t($data.customs.model),
+    as: common_vendor.t($data.customs.customsCode),
+    at: common_vendor.t($data.customs.materialUse),
+    av: common_vendor.t($data.customs.brand),
+    aw: common_vendor.t($data.customs.addfee),
+    ax: common_vendor.t($options.booleanFuc($data.customs.iselectricity)),
+    ay: common_vendor.t($options.booleanFuc($data.customs.isdanger)),
+    az: common_vendor.p({
+      isFull: true,
+      title: "\u6D77\u5173\u4FE1\u606F"
+    })
+  } : {});
 }
-var MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "C:/Users/admin/Documents/HBuilderProjects/wimoorApp/pages/erp/material/material.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "C:/Users/admin/Documents/HBuilderProjects/wimoorApp/pages/erp/material/material.vue"]]);
 wx.createPage(MiniProgramPage);

@@ -1,5 +1,5 @@
 "use strict";
-var common_vendor = require("../../../../common/vendor.js");
+const common_vendor = require("../../../../common/vendor.js");
 const _sfc_main = {
   name: "uniTd",
   options: {
@@ -53,5 +53,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     c: $props.align
   };
 }
-var Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "C:/Users/admin/Documents/HBuilderProjects/wimoorApp/uni_modules/uni-table/components/uni-td/uni-td.vue"]]);
+const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "C:/Users/admin/Documents/HBuilderProjects/wimoorApp/uni_modules/uni-table/components/uni-td/uni-td.vue"]]);
 wx.createComponent(Component);

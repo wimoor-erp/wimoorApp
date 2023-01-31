@@ -6,12 +6,14 @@
     },
     "setting": {
         "urlCheck": false,
-        "coverView": true,
         "es6": true,
-        "postcss": true,
+        "postcss": false,
+        "minified": false,
+        "newFeature": true,
+        "bigPackageSizeSupport": true,
+        "coverView": true,
         "lazyloadPlaceholderEnable": false,
         "preloadBackgroundData": false,
-        "minified": true,
         "autoAudits": false,
         "uglifyFileName": false,
         "uploadWithSourceMap": true,
@@ -31,8 +33,7 @@
             "outputPath": ""
         },
         "disableUseStrict": false,
-        "useCompilerPlugins": false,
-        "minifyWXML": true
+        "useCompilerPlugins": false
     },
     "compileType": "miniprogram",
     "libVersion": "2.24.2",

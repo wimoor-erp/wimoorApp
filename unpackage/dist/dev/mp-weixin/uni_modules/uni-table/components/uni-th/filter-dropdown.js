@@ -1,5 +1,5 @@
 "use strict";
-var common_vendor = require("../../../../common/vendor.js");
+const common_vendor = require("../../../../common/vendor.js");
 const checkBox = () => "../uni-tr/table-checkbox.js";
 const resource = {
   "reset": "\u91CD\u7F6E",
@@ -260,7 +260,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         c: common_vendor.t(item[$props.map.text]),
         d: common_vendor.s(item.styleIconText),
         e: index,
-        f: common_vendor.o(($event) => $options.onItemClick($event, index))
+        f: common_vendor.o(($event) => $options.onItemClick($event, index), index)
       };
     })
   } : {}, {
@@ -317,5 +317,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   }) : {});
 }
-var Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "C:/Users/admin/Documents/HBuilderProjects/wimoorApp/uni_modules/uni-table/components/uni-th/filter-dropdown.vue"]]);
+const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "C:/Users/admin/Documents/HBuilderProjects/wimoorApp/uni_modules/uni-table/components/uni-th/filter-dropdown.vue"]]);
 wx.createComponent(Component);

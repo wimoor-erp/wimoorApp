@@ -1,19 +1,24 @@
 "use strict";
-var common_request = require("../../common/request.js");
+const utils_request = require("../../utils/request.js");
 const loginWechat = (data) => {
-  return common_request.request({ url: "/auth/loginWechat", method: "GET", "data": data });
+  return utils_request.base({ url: "/auth/loginWechat", method: "GET", "data": data });
 };
 const getOpenUserlist = (data) => {
-  return common_request.request({ url: "/auth/getOpenUserlist", method: "GET", "data": data });
+  return utils_request.base({ url: "/auth/getOpenUserlist", method: "GET", "data": data });
 };
 const unbindWechat = (data) => {
-  return common_request.request({ url: "/admin/api/v1/users/unbindWechat", method: "GET", "data": data });
+  return utils_request.base({ url: "/admin/api/v1/users/unbindWechat", method: "GET", "data": data });
 };
 const verifyWechatApp = (data) => {
-  return common_request.request({ url: "/auth/verifyWechatApp", method: "GET", "data": data });
+  return utils_request.base({ url: "/auth/verifyWechatApp", method: "GET", "data": data });
 };
 const changeLoginWechatApp = (data) => {
-  return common_request.request({ url: "/auth/changeLoginWechatApp", method: "GET", "data": data });
+  return utils_request.base({ url: "/auth/changeLoginWechatApp", method: "GET", "data": data });
 };
-var loginApi = { loginWechat, getOpenUserlist, unbindWechat, verifyWechatApp, changeLoginWechatApp };
+const getAppType = () => {
+  var appType = "app";
+  appType = "app";
+  return appType;
+};
+const loginApi = { loginWechat, getOpenUserlist, unbindWechat, verifyWechatApp, changeLoginWechatApp, getAppType };
 exports.loginApi = loginApi;

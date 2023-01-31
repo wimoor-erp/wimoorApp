@@ -92,13 +92,13 @@
 
 	"uni-app": {
 		"scripts": {
-			"mp-dingtalk": {
-				"title": "钉钉小程序",
+			"mp-feishu": {
+				"title": "飞书小程序",
 				"env": {
-					"UNI_PLATFORM": "mp-alipay"
+					"UNI_PLATFORM": "mp-toutiao"
 				},
 				"define": {
-					"MP-DINGTALK": true
+					"MP-FEISHU": true
 				}
 			}
 		}

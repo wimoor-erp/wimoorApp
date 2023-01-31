@@ -1,27 +1,22 @@
-// #ifndef VUE3
-import Vue from 'vue'
-import Vuex from 'vuex'
-Vue.use(Vuex)
-const store = new Vuex.Store({
-// #endif
-
-// #ifdef VUE3
 import { createStore } from 'vuex'
 const store = createStore({
-// #endif
 	state: {
 		hasLogin: false,
 		isUniverifyLogin: false,
 		loginProvider: "",
 		openid: null,
+		phonenumber:null,
 		testvuex: false,
 		colorIndex: 0,
+		sessionid:null,
 		colorList: ['#FF0000', '#00FF00', '#0000FF'],
 		noMatchLeftWindow: true,
 		active: 'componentPage',
 		leftWinActive: '/pages/component/view/view',
 		activeOpen: '',
 		menu: [],
+		currentUser:null,
+		userlist:[],
 		univerifyErrorMsg: ''
 	},
 	mutations: {
@@ -35,6 +30,15 @@ const store = createStore({
 		},
 		setOpenid(state, openid) {
 			state.openid = openid
+		},
+		setSessionid(state,sessionid){
+			state.sessionid=sessionid;
+		},
+		setCurrentUser(state,user){
+			state.currentUser=user;
+		},
+		setUserList(state,list){
+			state.userlist=list;
 		},
 		setTestTrue(state) {
 			state.testvuex = true
@@ -75,54 +79,17 @@ const store = createStore({
 	},
 	actions: {
 		// lazy loading openid
-		getUserOpenId: async function({
-			commit,
-			state
-		}) {
-			return await new Promise((resolve, reject) => {
-				if (state.openid) {
-					resolve(state.openid)
-				} else {
-					uni.login({
-						success: (data) => {
-							commit('login')
-							setTimeout(function() { //模拟异步请求服务器获取 openid
-								const openid = '123456789'
-								console.log('uni.request mock openid[' + openid + ']');
-								commit('setOpenid', openid)
-								resolve(openid)
-							}, 1000)
-						},
-						fail: (err) => {
-							console.log('uni.login 接口调用失败，将无法正常使用开放接口等服务', err)
-							reject(err)
-						}
-					})
-				}
-			})
+		getOpenId:function(state) {
+			return state.openid;
 		},
-		getPhoneNumber: function({
-			commit
-		}, univerifyInfo) {
-			return new Promise((resolve, reject) => {
-				uni.request({
-					url: 'https://97fca9f2-41f6-449f-a35e-3f135d4c3875.bspapp.com/http/univerify-login',
-					method: 'POST',
-					data: univerifyInfo,
-					success: (res) => {
-						const data = res.data
-						if (data.success) {
-							resolve(data.phoneNumber)
-						} else {
-							reject(res)
-						}
-
-					},
-					fail: (err) => {
-						reject(res)
-					}
-				})
-			})
+		setOpenid:function(context,payload){
+			context.commit("setOpenid",payload.openid);
+		},
+		setSessionid:function(context,sessionid){
+			context.commit("setSessionid",sessionid);
+		},
+		getPhoneNumber: function(state ) {
+			 return state.phonenumber;
 		}
 	}
 })

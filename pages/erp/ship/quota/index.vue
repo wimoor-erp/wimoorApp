@@ -25,27 +25,47 @@
 			<uni-icons type="compose" size="16"></uni-icons><text>备注</text>
 			<view class="uni-h6">{{quotaoderData.remark}}</view>
 		</uni-card>
-		<uni-card v-for="item in productListData" :key="index" margin="8px" padding="0px 8px">
-			<ShelfProduct :item="item" :isAssemblyItem="false" @afterSave="getquotaData"></ShelfProduct>
+		<uni-card v-for="(item,index) in productListData" :key="index" margin="8px" padding="0px 8px">
+			<ShelfProduct 
+			:id="item.id" 
+			:item="item" 
+			:warehouseid="quotaoderData.warehouseid" 
+			:itemid="item.id" 
+			:isAssemblyItem="false" 
+			@afterSave="getquotaData"></ShelfProduct>
 			<!-- 子产品内容 -->
-		<uni-collapse >	
-			<uni-collapse-item title="子产品" v-if="item.issfg == 1&&item.assemblyList.length>0" border="false">
-				<view class="content" v-for="subproData in item.assemblyList" :key="index">
-					 <ShelfProduct :item="subproData" :isAssemblyItem="true"  @afterSave="getquotaData"></ShelfProduct>
+		<view v-if="item.issfg == 1&&item.assemblyList.length>0">	
+		    <view class="wcollapse" @click="changeItemShow(item)">子产品 
+			 <text v-if="item.asshow" class="light-font" style="float:right">▲</text> 
+			 <text v-else class="light-font" style="float:right">▼</text>
+			 </view>
+			<view :index="index" title="子产品"  v-show="item.asshow" border="false">
+				<view class="content" v-for="(subproData,subindex) in item.assemblyList" :key="subindex">
+					 <ShelfProduct 
+					 :id="subproData.id" 
+					 :item="subproData" 
+					 :itemid="item.id" 
+					 :warehouseid="quotaoderData.warehouseid" 
+					 :isAssemblyItem="true" 
+					 @afterSave="getquotaData">
+					 </ShelfProduct>
 				</view>
-			</uni-collapse-item>
-	      </uni-collapse>		
+			</view>
+	      </view>		
 		</uni-card>
 	</view>
 </template>
 
 <script>
-	import util from "@/common/util.js"
+	import util from "@/utils/util.js"
 	import quotaApi from '@/api/erp/ship/quotaApi.js'
-	import ShelfProduct from '@/pages/erp/ship/quota/components/shelfproduct.vue'
+	import ShelfProduct from './components/shelfproduct.vue'
+	import UniCollapseItem from '@/uni_modules/uni-collapse/components/uni-collapse-item/uni-collapse-item.vue'
+	import UniCollapse from '@/uni_modules/uni-collapse/components/uni-collapse/uni-collapse.vue'
+	import UniSteps from '@/uni_modules/uni-steps/components/uni-steps/uni-steps.vue'
 	export default {
 		components:{
-			  ShelfProduct
+			  ShelfProduct,UniCollapseItem,UniCollapse,UniSteps
 		  },
 		data() {
 			return {
@@ -82,6 +102,13 @@
 			/* this.getShipFromListData(); */
 		},
 		methods: {
+			changeItemShow(item){
+				if(item.asshow){
+					item.asshow=false;
+				}else{
+					item.asshow=true;
+				}
+			},
 			getquotaData: function() {  
 				this.productListData=[];
 				quotaApi.getQuotainfo(this.shipmentid).then(data => {
@@ -94,7 +121,12 @@
 						this.warehouseList[1].title = data.groupname + "-" + data.country + "(" + data.center + ")"
 						//产品列表
 						this.productListData = data.itemList
-						console.log(data.itemList);
+						if(this.productListData){
+							this.productListData.forEach(item=>{
+								item.asshow=false;
+							})
+						}
+						
 					}
 				})
 
@@ -109,6 +141,7 @@
 	}
 .content{
 	border-top: 1px solid #ebeef5;
+	background-color: #fff;
 }
 	.uni-data-checklist .checklist-group .checklist-box {
 		margin-right: 0px !important;
@@ -219,5 +252,9 @@
 
 	.mar-right {
 		margin-right: 8px;
+	}
+	.wcollapse{
+		border-top:solid #dedede 1px ;
+		padding:5px;
 	}
 </style>

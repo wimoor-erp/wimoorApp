@@ -1,9 +1,9 @@
 "use strict";
-var common_request = require("../../../common/request.js");
+const utils_request = require("../../../utils/request.js");
 function getMaterialInfo(data) {
-  return common_request.request({ url: "/erp/api/v1/material/getMaterialInfo", method: "GET", "data": data });
+  return utils_request.base({ url: "/erp/api/v1/material/getMaterialInfo", method: "GET", "data": data });
 }
-var materialApi = {
+const materialApi = {
   getMaterialInfo
 };
 exports.materialApi = materialApi;

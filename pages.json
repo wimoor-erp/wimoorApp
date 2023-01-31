@@ -1,23 +1,11 @@
 {
-	"leftWindow": {
-		"path": "windows/left-window.vue",
-		"style": {
-			"width": "350px"
-		}
-	},
-	"topWindow": {
-		"path": "windows/top-window.vue",
-		"style": {
-			"height": "60px"
-		}
-	},
 	"pages": [
 		// pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
-			"path": "pages/tabBar/erp/erp",
+			"path": "pages/tabBar/main/index", 
 			"style": {
 				"navigationBarTitleText": "首页",
-				"app-plus": {
+				"app-plus": { 
 					"bounce": "vertical",
 					"titleNView": {
 						"buttons": [{
@@ -30,7 +18,7 @@
 				}
 			}
 		},
-		{
+		{ 
 			"path": "pages/tabBar/menu/menu",
 			"style": {
 				"navigationBarTitleText": "工作台",
@@ -43,7 +31,7 @@
 							"color": "#FFFFFF"
 						}]
 					}
-				}
+				} 
 			}
 		},
 		{
@@ -84,7 +72,7 @@
 		{
 			"root": "pages/erp",
 			"pages": [{
-				"path": "ship/ship",
+				"path": "ship/base/list",
 				"style": {
 					"navigationBarTitleText": "发货页面"
 				}
@@ -117,7 +105,7 @@
 			{
 				"path": "warehouse/inventory/shelf/addstock",
 				"style": {
-					"navigationBarTitleText": "产品上下架"
+					"navigationBarTitleText": "产品上架"
 				}
 			},
 			{
@@ -127,14 +115,42 @@
 				}
 			},
 			{
-				"path": "warehouse/inventory/addshelf",
+				"path": "warehouse/inventory/shelf/result",
+				"style": {
+					"navigationBarTitleText": "处理结果"
+				}
+			},
+			{
+				"path": "warehouse/inventory/shelf/index",
 				"style": {
 					"navigationBarTitleText": "产品上下架选择"
+				}
+			},
+			{
+				"path": "warehouse/shelf/index",
+				"style": {
+					"navigationBarTitleText": "上架"
+				}
+			},
+			{
+				"path": "warehouse/inventory/shelf/skulist",
+				"style": {
+					"navigationBarTitleText": "下架"
 				}
 			}
 			]
 
 		},
+	    {
+				"root": "pages/amazon",
+				"pages": [ {
+					"path": "order/today/list",
+					"style": {
+						"navigationBarTitleText": "今日销量"
+					}
+				}
+				]
+		 },
 		{
 			"root": "pages/sys",
 			"pages":[
@@ -147,8 +163,6 @@
 				}
 			]
 		}
-		
-		 
 	],
 	"globalStyle": {
 		"pageOrientation": "portrait",
@@ -175,7 +189,7 @@
 		"backgroundColor": "#F8F8F8",
 		"borderStyle":"white",
 		"list": [{
-				"pagePath": "pages/tabBar/erp/erp",
+				"pagePath": "pages/tabBar/main/index",
 				"iconPath": "static/home.png",
 				"selectedIconPath": "static/home-active.png",
 				"text": "首页"

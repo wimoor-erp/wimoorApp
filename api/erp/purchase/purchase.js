@@ -1,4 +1,4 @@
-import request from '@/common/request.js'
+import request from "@/utils/request";
  
 function list(data){
 	return request({url:"/erp/api/v1/purchase_form/list",method:"GET","data":data})
@@ -12,7 +12,11 @@ return request({url:"/erp/api/v1/purchase_form/catchLogisticsInfo",method:"GET",
 function rec(data){
 return request({url:"/erp/api/v1/purchase_form/rec",method:"GET","data":data})
 }
+function clearRec(data){
+return request({url:"/erp/api/v1/purchase_form/clearRec",method:"GET","data":data})
+}
+
  
 export default {
-       list,getRecdetail,catchLogisticsInfo,rec
+       list,getRecdetail,catchLogisticsInfo,rec,clearRec
 	};

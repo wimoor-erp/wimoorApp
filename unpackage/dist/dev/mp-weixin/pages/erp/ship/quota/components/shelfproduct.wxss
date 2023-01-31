@@ -1,0 +1,5 @@
+
+.myNumInput{
+	 	border: 1px solid #eee;border-radius: 4px;width: 60px;
+	 	padding-left:3px;
+}

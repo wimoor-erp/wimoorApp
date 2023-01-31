@@ -10,6 +10,10 @@
      	{
      		"launchtype" : "local"
      	},
+     	"mp-feishu" : 
+     	{
+     		"launchtype" : "local"
+     	},
      	"mp-weixin" : 
      	{
      		"launchtype" : "local"

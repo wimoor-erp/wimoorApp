@@ -41,9 +41,9 @@
 	 * @event {Function} change  选中发生变化触发
 	 */
 
-	export default {
+	export default { 
 		name: "uni-stat-select",
-		mixins: [uniCloud.mixinDatacom || {}],
+		mixins: [{}],
 		data() {
 			return {
 				showSelector: false,

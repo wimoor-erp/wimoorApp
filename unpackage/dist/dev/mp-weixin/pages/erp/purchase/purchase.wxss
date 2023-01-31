@@ -42,3 +42,11 @@
 		flex-direction: row;
 		justify-content: space-between;
 }
+.mydropdown{
+		margin-top:1px;
+		border:#CCCCCC solid 1px;
+		padding-top:5px;
+		padding-bottom:4px;
+		border-radius:4px;
+		background:#f5f5f5;
+}

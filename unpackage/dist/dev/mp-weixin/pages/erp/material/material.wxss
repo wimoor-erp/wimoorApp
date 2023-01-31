@@ -3,3 +3,48 @@
 		width: 100rpx;
 		height: 120rpx;
 }
+.mlogo{
+		height:64px;
+		width:64px;
+		margin-right:10px;
+}
+.bordtop{
+		border-top: solid #dedede 1px;
+		padding-top:10px;
+		margin-top:10px;
+}
+.productname{
+		    overflow: hidden;
+		    display: -webkit-box;
+		    -webkit-box-orient: vertical;
+		    -webkit-line-clamp: 2;
+}
+.flex-between-row{
+		justify-content: space-between;
+		flex-direction: row;
+		display: flex;
+}
+.active{
+		border-bottom:solid #f3a73f 2px;
+}
+.tag{
+		padding:2px;
+		color: #fff;
+		font-size:10px;
+		border-radius: 16px;
+}
+.tag-red{
+		border:solid #ff557f 4px;
+		background-color: #ff557f;
+}
+.tag-orange{
+		border:solid #f3a73f 4px;
+		background-color: #f3a73f;
+}
+.tag-green{
+		border:solid #18bc37 4px; 
+		background-color: #18bc37;
+}
+.text-center{
+		    text-align: center;
+}

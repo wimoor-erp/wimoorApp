@@ -17,6 +17,7 @@
 
 <script>
   import loginApi from '@/api/sys/login.js'
+  import store from '@/store/index.js';//需要引入store
 	export default {
 		data() { 
 			return {
@@ -38,16 +39,30 @@
 		methods:{
 			userValid(){
 				let self=this;
-				var data={openid: uni.getStorageSync('openid'),email:self.username,password:self.password};
-				data.jsessionid=uni.getStorageSync('JSessionId');
+				var openid=this.$store.state.openid;//uni.getStorage('openid');
+				var sessionid=this.$store.state.sessionid;//uni.getStorage('JSessionId');
+				var data={'openid': openid,
+				          'email':self.username,
+						  'password':self.password};
+				data.jsessionid=sessionid;
+				data.appType=loginApi.getAppType();
 				loginApi.verifyWechatApp(data).then(data => {
-								 if(data){
+					             if(data.code=="A0210"){
+									 uni.showToast({
+												icon:'none',
+												title:data.msg,
+												duration: 2000
+									 })
+								 }
+								 else if(data){
 										 let jsid=data.jsessionid;
-										 uni.setStorageSync("JSessionId", jsid);
+										 store.commit('setSessionid',jsid);
+										 //uni.setStorage("JSessionId", jsid);
 										 //跳转至 成功页面
-										uni.setStorageSync("currentuser",data.currentuser);
+										 	 store.commit('setCurrentUser',data.currentuser);
+										 //uni.setStorage("currentuser",data.currentuser);
 										uni.switchTab({
-											url:'/pages/tabBar/erp/erp'
+											url:'/pages/tabBar/main/index'
 										})
 								 }else{
 										 uni.showToast({

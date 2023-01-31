@@ -1,5 +1,7 @@
 "use strict";
-var common_vendor = require("../../../../../common/vendor.js");
+const common_vendor = require("../../../../../common/vendor.js");
+require("../../../../../utils/request.js");
+require("../../../../../store/index.js");
 const ShelfHead = () => "./components/shelfHead.js";
 const InvList = () => "./components/invList.js";
 const _sfc_main = {
@@ -10,39 +12,67 @@ const _sfc_main = {
   data() {
     return {
       search: "",
+      addressnum: "",
+      shelftreepath: "",
       placeholderStyle: "color:#dedede;font-size:14px",
       styles: {
         color: "#000",
         borderColor: "#eee"
       },
       shelfid: "",
-      warehouseid: "",
+      addressid: "",
+      materialid: "",
+      amount: "",
       isall: true
     };
   },
   onLoad(event) {
     if (event) {
-      const payload = event.detailDate || event.payload;
+      const payload = event.detailData || event.payload;
       try {
         let data = JSON.parse(decodeURIComponent(payload));
+        this.addressnum = data.addressnum;
+        this.shelftreepath = data.shelftreepath;
+        this.materialid = data.materialid;
         this.shelfid = data.shelfid;
-        this.$refs.myhead.getInfo(this.shelfid);
+        this.amount = data.amount;
+        this.$refs.myhead.getInfo(this.addressnum, this.shelftreepath);
       } catch (error) {
+        let data = payload;
+        this.addressnum = data.addressnum;
+        this.shelftreepath = data.shelftreepath;
+        this.materialid = data.materialid;
+        this.shelfid = data.shelfid;
+        this.amount = data.amount;
+        this.$refs.myhead.getInfo(this.addressnum, this.shelftreepath);
       }
     }
   },
   methods: {
     infoLoad(head) {
-      this.warehouseid = head.warehouseid;
+      this.addressid = head.addressid;
+      this.shelfid = head.id;
       this.refreshTable();
     },
     refreshTable() {
       this.$nextTick(() => {
-        this.$refs.invlist.refreshList(this.warehouseid, this.shelfid, this.search);
+        this.$refs.invlist.refreshList(this.addressid, this.shelfid, this.search, this.materialid, this.amount);
       });
     },
-    afterSubmit() {
-      this.$refs.myhead.getInfo(this.shelfid);
+    afterSubmit(formid) {
+      let detail = {
+        addressnum: this.addressnum,
+        shelftreepath: this.shelftreepath,
+        ftype: "sub",
+        materialid: this.materialid,
+        shelfid: this.shelfid,
+        amount: this.amount,
+        "formid": formid,
+        "formtype": this.opttype
+      };
+      common_vendor.index.navigateTo({
+        url: "./result?detailData=" + encodeURIComponent(JSON.stringify(detail))
+      });
     },
     input(e) {
       this.search = e;
@@ -77,11 +107,11 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       modelValue: $data.search
     }),
     g: common_vendor.sr("invlist", "76099abc-2"),
-    h: common_vendor.o(($event) => $options.afterSubmit()),
+    h: common_vendor.o($options.afterSubmit),
     i: common_vendor.p({
       editable: true
     })
   };
 }
-var MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "C:/Users/admin/Documents/HBuilderProjects/wimoorApp/pages/erp/warehouse/inventory/shelf/outstock.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "C:/Users/admin/Documents/HBuilderProjects/wimoorApp/pages/erp/warehouse/inventory/shelf/outstock.vue"]]);
 wx.createPage(MiniProgramPage);
