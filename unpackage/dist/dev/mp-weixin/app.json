@@ -31,7 +31,8 @@
     {
       "root": "pages/sys",
       "pages": [
-        "validate/index"
+        "validate/index",
+        "login/index"
       ]
     }
   ],

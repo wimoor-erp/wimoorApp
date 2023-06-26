@@ -45,6 +45,8 @@ const _sfc_main = {
       } catch (error) {
       }
     }
+  },
+  onShow() {
     this.getquotaData();
   },
   methods: {
@@ -61,7 +63,7 @@ const _sfc_main = {
         if (data) {
           this.quotaoderData = data;
           this.shipmentid = data.shipmentid;
-          this.createdate = "\u521B\u5EFA\u4E8E" + data.createdate;
+          this.createdate = "\u521B\u5EFA\u4E8E" + utils_util.util.dateFormat(data.createdate);
           this.auditime = utils_util.util.dateFormat(data.auditime) + "\u5BA1\u6838";
           this.warehouseList[0].title = data.warehouse;
           this.warehouseList[1].title = data.groupname + "-" + data.country + "(" + data.center + ")";

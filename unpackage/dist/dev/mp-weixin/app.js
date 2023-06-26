@@ -21,6 +21,7 @@ if (!Math) {
   "./pages/erp/warehouse/inventory/shelf/skulist.js";
   "./pages/amazon/order/today/list.js";
   "./pages/sys/validate/index.js";
+  "./pages/sys/login/index.js";
 }
 const _sfc_main = {
   onLaunch: function() {

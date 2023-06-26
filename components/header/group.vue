@@ -15,6 +15,7 @@
 
 <script setup>
 	import groupApi from '@/api/amazon/group/groupApi.js'
+	import {onShow} from "@dcloudio/uni-app";
 	import { onMounted, reactive, ref, toRefs,watch,defineProps} from 'vue';
 	const emit = defineEmits(['changeData']);
 	const state = reactive({list:[],namelist:[],index:0 }); 
@@ -35,7 +36,7 @@
 			emit("changeData",state.list[state.index].id);
 		});
 	}
-	onMounted(()=>{
+	onShow(()=>{
 		handlerQuery();
 	})
 </script>

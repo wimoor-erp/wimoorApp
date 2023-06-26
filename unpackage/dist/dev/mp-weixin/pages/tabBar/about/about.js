@@ -48,13 +48,11 @@ const _sfc_main = {
                   duration: 2e3
                 });
                 if (self.curuser.account == account) {
-                  self.tableData = [];
-                  self.getOpenUserlist();
                   store_index.store.commit("setSessionid", null);
                   store_index.store.commit("setCurrentUser", null);
                   store_index.store.commit("setUserList", null);
-                  common_vendor.index.navigateTo({
-                    url: "/pages/sys/validate/index"
+                  common_vendor.index.reLaunch({
+                    url: "/pages/tabBar/main/index"
                   });
                 } else {
                   self.tableData = [];
@@ -67,6 +65,8 @@ const _sfc_main = {
                   duration: 2e3
                 });
               }
+            }).catch((error) => {
+              common_vendor.index.navigateTo({ url: "/pages/sys/validate/index" });
             });
           }
         }

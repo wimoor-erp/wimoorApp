@@ -1,4 +1,13 @@
 <template>
+	<SearchHeader ref="searchheaderRef">
+			 	<template>
+					   <Warehouse  @changeData="warehouseChange"></Warehouse>
+					   <Status @changeData="statusChange"></Status>
+					   <DatePicker title="开始日期" @changeData="startChange" :days="30"></DatePicker>
+					   <DatePicker title="结束日期" @changeData="endChange" :days="0"></DatePicker>
+					   <button class="searchbtn" @click="doHandlerQuery">查询</button>
+				</template>
+	</SearchHeader>
 	<view>
 		<view class="banner" >
 			<view style="margin-bottom: 10rpx;">
@@ -64,9 +73,13 @@
 </template>
 
 <script>
-
+    import SearchHeader from "@/components/searchheader/base.vue";
+	import Warehouse from "@/components/header/warehouse.vue";
+	import Status from "./components/status.vue"
+	import DatePicker from "@/components/header/datepicker.vue"
 	import purchaseApi from '@/api/erp/purchase/purchase.js'
 	export default {
+		components:{Warehouse,SearchHeader,Status,DatePicker},
 		data() {
 			return {
 				search:'',
@@ -78,6 +91,11 @@
 				listData: [],
 				last_id: '',
 				reload: false,
+				auditstatus:"4",
+				warehouse:"",
+				datetype:"createdate",
+				fromDate:"",
+				toDate:"",
 				status: 'more',
 				contentText: {
 					contentdown: '上拉加载更多',
@@ -91,7 +109,7 @@
 				values:["sku", "order", "logistics"],
 			};
 		},
-		onLoad() {
+		onShow() {
 			this.getList();
 		},
 		onPullDownRefresh() {
@@ -113,6 +131,16 @@
 				this.ftype="order";
 				this.getList();
 			},
+			warehouseChange(val){
+				this.warehouse=val;
+			},
+			doHandlerQuery(){
+				this.$refs["searchheaderRef"].closeDrawer();
+				this.searchOrder(this.search);
+			},
+			statusChange(val){
+				this.auditstatus=val;
+			},
 			suppliernameFuc(value){
 				if(value==undefined || value==null || value==''){
 					return '--';
@@ -133,6 +161,12 @@
 				}else{
 					return '--';
 				}
+			},
+			startChange(start){
+				this.fromDate=start;
+			},
+			 endChange(end){
+				this.toDate=end+" 23:59:59";
 			},
 			statusFuc(value){
 				if(value==0 || value=='0'){
@@ -191,15 +225,20 @@
 					//说明已有数据，目前处于上拉加载
 					this.status = 'loading';
 				}
-
+         if(this.auditstatus=="4"){
+			 this.toDate="";
+		 }
 	     purchaseApi.list({ sort:'sku',
 							 order:'desc',
-							 offset: this.offset,
-							 limit: 10,
-							 auditstatus:'4',
+							 currentpage: this.offset,
+							 pagesize: 10,
+							 auditstatus:this.auditstatus,
 							 ftype:this.ftype,
 							 datetype:'createdate',
 							 search:this.search,
+							 toDate:this.toDate,
+							 fromDate:this.fromDate,
+							 warehouse:this.warehouse,
 							 minid:this.last_id
 							 }).then(data => {
 									if(data&&data.records&&data.records.length>0){

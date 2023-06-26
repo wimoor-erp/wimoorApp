@@ -43,6 +43,7 @@
 	import orderListApi from "@/api/amazon/order/orderListApi.js";
 	import inventoryRptApi from "@/api/amazon/inventory/inventoryRptApi.js";
     import { reactive,toRefs,onMounted,ref,getCurrentInstance } from "vue";
+	import {onShow} from "@dcloudio/uni-app";
 	import {formatFloat} from '@/utils/util';
 	import Group from "@/components/header/group.vue";
 	import Market from "@/components/header/market.vue";
@@ -81,7 +82,7 @@
 				}
 		})
 	}
- onMounted(()=>{
+ onShow(()=>{
 	 setTimeout(function(){doHandlerQuery()},1000);
  })
 </script>

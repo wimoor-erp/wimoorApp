@@ -129,6 +129,12 @@
 			{
 				"path": "warehouse/shelf/index",
 				"style": {
+					"navigationBarTitleText": "货架"
+				}
+			},
+			{
+				"path": "warehouse/without_shelf/index",
+				"style": {
 					"navigationBarTitleText": "上架"
 				}
 			},
@@ -136,6 +142,12 @@
 				"path": "warehouse/inventory/shelf/skulist",
 				"style": {
 					"navigationBarTitleText": "下架"
+				}
+			},
+			{
+				"path": "warehouse/inventory/base/index",
+				"style": {
+					"navigationBarTitleText": "库存"
 				}
 			}
 			]
@@ -158,7 +170,12 @@
 					"path": "validate/index",
 					"style": {
 						"navigationBarTitleText": "身份校验"
-				
+					}
+				},
+				{
+					"path": "login/index",
+					"style": {
+						"navigationBarTitleText": "自动登录"
 					}
 				}
 			]

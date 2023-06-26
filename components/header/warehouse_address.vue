@@ -1,40 +1,37 @@
 <template>
-	<view class="uni-list">
-		<view class="uni-list-cell">
-			<view class="uni-list-cell-left">
-				仓库地址
-			</view>
-			<view class="uni-list-cell-db">
-				<picker @change="changeData" :value="index" range-key="name" :range="list">
-					<view class="uni-input" v-if="list.length>0">{{list[index].name}}</view>
-				</picker>
-			</view>
-		</view>
-	</view>
+	<scroll-view class="scroll-view_H" scroll-x="true" >
+	<UniSegmentedControl class="tab-left" :current="current" :values="items" style-type="text"
+		active-color="#ff6700" @clickItem="changeData" />
+	</scroll-view>
 </template>
 
 <script setup>
 	import warehouseAddressApi from '@/api/erp/warehouse/warehouseAddressApi'
+	import UniSegmentedControl from '@/uni_modules/uni-segmented-control/components/uni-segmented-control/uni-segmented-control.vue'
 	import { onMounted, reactive, ref, toRefs,watch} from 'vue';
+	import {onShow} from "@dcloudio/uni-app";
 	const emit = defineEmits(['changeData']);
-	const state = reactive({list:[],index:0 }); 
-	const { list,index} = toRefs(state);
+	const state = reactive({list:[],index:0 ,items:[]}); 
+	const { list,index,items} = toRefs(state);
 	function changeData(event){
-		state.index=event.detail.value;
-		var id=state.list[event.detail.value].id;
-	    emit("changeData",id);
+	    emit("changeData",state.list[event.currentIndex].id);
 	}
 	
 	function handlerQuery(){
+		state.items=[];
 		 warehouseAddressApi.listWarehouseAddress().then((res)=>{
 			state.list=res.records;
+			res.records.forEach((a)=>{
+				state.items.push(a.name)
+			})
 			emit("changeData",state.list[state.index].id);
 		});
 	}
-	 onMounted(()=>{
+	 onShow(()=>{
 		 handlerQuery();
 	 })
 </script>
 
 <style>
+
 </style>

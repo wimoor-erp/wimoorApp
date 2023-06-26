@@ -42,7 +42,8 @@
 </template>
 
 <script setup>
-	import { onMounted, reactive, ref, toRefs,getCurrentInstance } from 'vue';
+	import {  reactive, ref, toRefs,getCurrentInstance } from 'vue';
+	import { onShow } from "@dcloudio/uni-app"
 	import GlobalTable from "@/components/globaltable/index.vue";
 	import SearchHeader from "@/components/searchheader/base.vue";
 	import Group from "@/components/header/group.vue";
@@ -111,7 +112,7 @@
 			"url": '/pages/erp/ship/quota/index?shipmentid=' +row.shipmentid
 		});
 	}
-	onMounted(()=>{
+	onShow(()=>{
 		handlerQuery();
 	})
 	 

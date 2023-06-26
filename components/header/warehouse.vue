@@ -14,7 +14,8 @@
 </template>
 
 <script setup>
-	import warehouseApi from '@/api/erp/warehouse/warehouseApi'
+	import warehouseApi from '@/api/erp/warehouse/warehouseApi';
+	import {onShow} from "@dcloudio/uni-app";
 	import { onMounted, reactive, ref, toRefs,watch} from 'vue';
 	const emit = defineEmits(['changeData']);
 	const state = reactive({list:[],index:0 }); 
@@ -32,7 +33,7 @@
 			emit("changeData",state.list[state.index].id);
 		});
 	}
-	 onMounted(()=>{
+	 onShow(()=>{
 		 handlerQuery();
 	 })
 </script>

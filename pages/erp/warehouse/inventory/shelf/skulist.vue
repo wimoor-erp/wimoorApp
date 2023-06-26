@@ -1,23 +1,17 @@
 <template>
-	<search-header ref="searchheaderRef">
-			 	<template>
-					   <warehouse-address @changeData="addressChange"></warehouse-address>
-				</template>
-	</search-header>
 	<view class="top-header">
-		<uni-row class="demo-uni-row" :width="nvueWidth">
-							<uni-col :span="4">
-								SKU：
-							</uni-col>
-							<uni-col :span="14">
-									<input class="winput" v-model="param.search"   placeholder="请输入SKU" />
-							</uni-col>
-							<uni-col :span="5" :offset="1">
-							 <button size="mini" @click="handlerQuery">查询</button>
-							</uni-col>
-						</uni-row>
-	</view>
-	<view style="padding-top:50px;"></view>
+	             	<view class="uni-flex   uni-row m-8-16" >
+						<view class="flex-item-grow " >
+									<UnEasyunput  @change="handlerQuery"  placeholder="请输入SKU" v-model="param.search" >
+									</UnEasyunput>
+						</view>
+									<view class="flex-item">
+							      <button class="btn-default" @click="handlerQuery">查询</button>
+								  	</view>
+						 </view>
+	</view>  
+	<view style="padding-top:62px;"></view>
+	<warehouse-address @changeData="addressChange"></warehouse-address>
 	<global-table ref="globalTableRef" :tableData="tableData" @loadTable="loadTable">
 		<template v-slot:default="{row}"  > 
 		   <uni-card 
@@ -38,17 +32,18 @@
 </template>
 
 <script setup>
+	import UnEasyunput from '@/uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput.vue'
 	import { onMounted, reactive, ref, toRefs,getCurrentInstance } from 'vue';
 	import GlobalTable from "@/components/globaltable/index.vue";
 	import SearchHeader from "@/components/searchheader/base.vue";
 	import WarehouseAddress from "@/components/header/warehouse_address.vue";
 	import shelfproductApi from '@/api/erp/warehouse/shelfproductApi.js'
-    const searchheaderRef=ref(SearchHeader);
 	const globalTableRef=ref(GlobalTable);
 	const inputDialog=ref();
 	const instance=getCurrentInstance();
-	const state = reactive({tableData:{records:[],total:0},param:{addressid:"",search:""},form:{}});
-	const {tableData,param,form} = toRefs(state);	
+	const state = reactive({tableData:{records:[],total:0},param:{addressid:"",search:""},
+	form:{}});
+	const {tableData,param,form,} = toRefs(state);	
 	function handlerQuery(){
 		setTimeout(function(){
 			instance.proxy.$refs["globalTableRef"].loadTable(state.param);
@@ -72,7 +67,6 @@
 	}
  
 	function doHandlerQuery(){
-		instance.proxy.$refs["searchheaderRef"].closeDrawer();
 		handlerQuery();
 	}
 	function showInputDialog(row){
@@ -112,22 +106,33 @@
 		left:0px;
 		top: 0px;
 		width:100%;
-		padding: 15px;
 		z-index:100;
-		padding:10px;
 		background-color: #fff;
 		border:solid #dedede 1px;
 		box-shadow: 1px 1px 2px #c6c6c6;
 	}
-	.winput{
-		margin-left:10px;
-		margin-right:10px;
-		padding-left:3px;
-		padding-right:10px;
-		border:solid #dedede 1px;
-		color: #999;
-		border-radius: 4px;
+.flex-item-grow{
+	flex:1 ;
+	padding-right: 8px;
+}
+.m-8-16{
+	margin: 8px 16px;
+}
+.btn-default{
+	font-size: 14px;
+}
+	.tab-left .segmented-control__item {
+		justify-content: left!important;
+		padding-left:16px;
+		padding-right: 16px;
+		flex: inherit!important;
 		
-		box-shadow: 0 2px 12px 0  #fff;
+	}
+	.tab-left  .segmented-control__text{
+		font-size: 16px !important;
+		white-space:nowrap;
+	}
+	.tab-left {
+		display: inline-block;
 	}
 </style>

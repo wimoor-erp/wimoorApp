@@ -3,7 +3,12 @@ const common_vendor = require("../../../common/vendor.js");
 const api_erp_purchase_purchase = require("../../../api/erp/purchase/purchase.js");
 require("../../../utils/request.js");
 require("../../../store/index.js");
+const SearchHeader = () => "../../../components/searchheader/base.js";
+const Warehouse = () => "../../../components/header/warehouse.js";
+const Status = () => "./components/status.js";
+const DatePicker = () => "../../../components/header/datepicker.js";
 const _sfc_main = {
+  components: { Warehouse, SearchHeader, Status, DatePicker },
   data() {
     return {
       search: "",
@@ -15,6 +20,11 @@ const _sfc_main = {
       listData: [],
       last_id: "",
       reload: false,
+      auditstatus: "4",
+      warehouse: "",
+      datetype: "createdate",
+      fromDate: "",
+      toDate: "",
       status: "more",
       contentText: {
         contentdown: "\u4E0A\u62C9\u52A0\u8F7D\u66F4\u591A",
@@ -28,7 +38,7 @@ const _sfc_main = {
       values: ["sku", "order", "logistics"]
     };
   },
-  onLoad() {
+  onShow() {
     this.getList();
   },
   onPullDownRefresh() {
@@ -50,6 +60,16 @@ const _sfc_main = {
       this.ftype = "order";
       this.getList();
     },
+    warehouseChange(val) {
+      this.warehouse = val;
+    },
+    doHandlerQuery() {
+      this.$refs["searchheaderRef"].closeDrawer();
+      this.searchOrder(this.search);
+    },
+    statusChange(val) {
+      this.auditstatus = val;
+    },
     suppliernameFuc(value) {
       if (value == void 0 || value == null || value == "") {
         return "--";
@@ -70,6 +90,12 @@ const _sfc_main = {
       } else {
         return "--";
       }
+    },
+    startChange(start) {
+      this.fromDate = start;
+    },
+    endChange(end) {
+      this.toDate = end + " 23:59:59";
     },
     statusFuc(value) {
       if (value == 0 || value == "0") {
@@ -125,15 +151,21 @@ const _sfc_main = {
       if (this.last_id) {
         this.status = "loading";
       }
+      if (this.auditstatus == "4") {
+        this.toDate = "";
+      }
       api_erp_purchase_purchase.purchaseApi.list({
         sort: "sku",
         order: "desc",
-        offset: this.offset,
-        limit: 10,
-        auditstatus: "4",
+        currentpage: this.offset,
+        pagesize: 10,
+        auditstatus: this.auditstatus,
         ftype: this.ftype,
         datetype: "createdate",
         search: this.search,
+        toDate: this.toDate,
+        fromDate: this.fromDate,
+        warehouse: this.warehouse,
         minid: this.last_id
       }).then((data) => {
         if (data && data.records && data.records.length > 0) {
@@ -171,10 +203,14 @@ const _sfc_main = {
   }
 };
 if (!Array) {
+  const _component_Warehouse = common_vendor.resolveComponent("Warehouse");
+  const _component_Status = common_vendor.resolveComponent("Status");
+  const _component_DatePicker = common_vendor.resolveComponent("DatePicker");
+  const _component_SearchHeader = common_vendor.resolveComponent("SearchHeader");
   const _easycom_uni_easyinput2 = common_vendor.resolveComponent("uni-easyinput");
   const _easycom_uni_icons2 = common_vendor.resolveComponent("uni-icons");
   const _easycom_uni_load_more2 = common_vendor.resolveComponent("uni-load-more");
-  (_easycom_uni_easyinput2 + _easycom_uni_icons2 + _easycom_uni_load_more2)();
+  (_component_Warehouse + _component_Status + _component_DatePicker + _component_SearchHeader + _easycom_uni_easyinput2 + _easycom_uni_icons2 + _easycom_uni_load_more2)();
 }
 const _easycom_uni_easyinput = () => "../../../uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput.js";
 const _easycom_uni_icons = () => "../../../uni_modules/uni-icons/components/uni-icons/uni-icons.js";
@@ -184,27 +220,41 @@ if (!Math) {
 }
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return {
-    a: common_vendor.t($data.items[$data.index]),
-    b: common_vendor.o((...args) => $options.onchange && $options.onchange(...args)),
-    c: $data.index,
-    d: $data.items,
-    e: common_vendor.o($options.refreshtab),
-    f: common_vendor.o($options.input),
-    g: common_vendor.o(($event) => $data.search = $event),
-    h: common_vendor.p({
+    a: common_vendor.o($options.warehouseChange),
+    b: common_vendor.o($options.statusChange),
+    c: common_vendor.o($options.startChange),
+    d: common_vendor.p({
+      title: "\u5F00\u59CB\u65E5\u671F",
+      days: 30
+    }),
+    e: common_vendor.o($options.endChange),
+    f: common_vendor.p({
+      title: "\u7ED3\u675F\u65E5\u671F",
+      days: 0
+    }),
+    g: common_vendor.o((...args) => $options.doHandlerQuery && $options.doHandlerQuery(...args)),
+    h: common_vendor.sr("searchheaderRef", "7314a949-0"),
+    i: common_vendor.t($data.items[$data.index]),
+    j: common_vendor.o((...args) => $options.onchange && $options.onchange(...args)),
+    k: $data.index,
+    l: $data.items,
+    m: common_vendor.o($options.refreshtab),
+    n: common_vendor.o($options.input),
+    o: common_vendor.o(($event) => $data.search = $event),
+    p: common_vendor.p({
       styles: $data.styles,
       placeholderStyle: $data.placeholderStyle,
       suffixIcon: "loop",
       placeholder: "\u8BF7\u8F93\u5165\u5185\u5BB9\u81EA\u52A8\u67E5\u8BE2",
       modelValue: $data.search
     }),
-    i: common_vendor.o($options.scanHandler),
-    j: common_vendor.p({
+    q: common_vendor.o($options.scanHandler),
+    r: common_vendor.p({
       color: "#FFA400",
       type: "scan",
       size: "28"
     }),
-    k: common_vendor.f($data.listData, (value, index, i0) => {
+    s: common_vendor.f($data.listData, (value, index, i0) => {
       return common_vendor.e({
         a: common_vendor.o(($event) => $options.goMaterialInfoPage(value.materialid)),
         b: value.image,
@@ -217,7 +267,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         h: common_vendor.t($options.paystatusFuc(value.paystatus)),
         i: common_vendor.t($options.suppliernameFuc(value.suppliername)),
         j: common_vendor.t(value.number),
-        k: "7314a949-2-" + i0,
+        k: "7314a949-7-" + i0,
         l: common_vendor.o(($event) => $options.searchOrder(value.number)),
         m: common_vendor.t(value.creatorname),
         n: common_vendor.t(value.createdate),
@@ -225,12 +275,12 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         p: index
       });
     }),
-    l: common_vendor.p({
+    t: common_vendor.p({
       color: "#787878",
       type: "search",
       size: "12"
     }),
-    m: common_vendor.p({
+    v: common_vendor.p({
       status: $data.status,
       ["icon-size"]: 16,
       ["content-text"]: $data.contentText

@@ -4,6 +4,7 @@ const base=function(options={url:"",method:"GET",data:{},header:{}}){
 	//https://api.wimoor.com
 	//http://192.168.0.252:8099
 	//http://localhost:8099
+ 
 	var sessionid=store.state.sessionid;
 	return new Promise((reslove,reject)=>{
 		uni.request({
@@ -16,7 +17,16 @@ const base=function(options={url:"",method:"GET",data:{},header:{}}){
 			},
 			data:options.data,
 			success:(res)=>{
-				if (res.data && res.data.code=="201") {
+				if(res.data&&res.data.code=="A0200"){
+					  reslove(res.data.data);
+				}else if(res.data && res.data.code=='A0231'){
+					if(options.url!="/auth/verifyWechatApp"){
+						uni.navigateTo({
+							url: '/pages/sys/login/index',
+						})
+					}
+					reject(res);
+				}else if (res.data && res.data.code=="201") {
 				   reslove(res.data.data)
 				}else if(res.data &&res.data.code=="B0001"){
 					uni.showToast({
@@ -24,37 +34,43 @@ const base=function(options={url:"",method:"GET",data:{},header:{}}){
 						duration:2000,
 						icon:'none'
 					})
+					reject(res.data);
 				}else if(res.data && res.data.code=="401"){
 				    uni.clearStorageSync();
 					uni.navigateTo({
-						url: '/pages/sys/validate/index'
+						url: '/pages/sys/login/index',
 					})
+					reject(res);
 				}else if(res.statusCode=="500" && res.data.status=="500"){
 					uni.showToast({
 						title:'系统出错了,请联系管理员！',
 						duration:2000,
 						icon:'none'
-					})
+					});
+					reject(res);
 				}else if(res.status=="500"){
 					uni.showToast({
 						title:'系统无法正常请求,请联系管理员！',
 						duration:2000,
 						icon:'none'
 					})
+					reject(res);
 				}else if(res.statusCode=="400"){
 					uni.showToast({
 						title:'系统出错了,请联系管理员！',
 						duration:2000,
 						icon:'none'
 					})
+					reject(res);
 				}else{
-					if(options.url!="/auth/verifyWechatApp"){
-						uni.navigateTo({
-							url: '/pages/sys/validate/index'
+					if(res.data&&res.data.msg){
+						uni.showToast({
+							title:res.data.msg,
+							duration:2000,
+							icon:'none'
 						})
-						
 					}
-					reslove(res.data)
+					reject(res);
 				}
 			},
 			fail:(parmas)=>{
@@ -62,7 +78,8 @@ const base=function(options={url:"",method:"GET",data:{},header:{}}){
 						title:'系统出错了,请联系管理员！',
 						duration:2000,
 						icon:'none'
-					 })
+					 }); 
+					 reject(res);
 			}
 		 
 		}

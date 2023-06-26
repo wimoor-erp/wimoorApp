@@ -93,7 +93,7 @@
         "versionCode" : 100
     },
     "mp-weixin" : {
-        "appid" : "",
+        "appid" : "wx8f2e1db827838f13",
         "setting" : {
             "urlCheck" : false
         },
@@ -109,7 +109,7 @@
     },
     "mp-baidu" : {
         "usingComponents" : true,
-        "appid" : "",
+        "appid" : "23572918",
         "setting" : {
             "urlCheck" : false
         }
@@ -142,6 +142,6 @@
     },
     "vueVersion" : "3",
     "mp-lark" : {
-        "appid" : ""
+        "appid" : "cli_a2e0b35e2462d00b"
     }
 }

@@ -15,6 +15,7 @@
 
 <script setup>
     import marketApi from '@/api/amazon/market/marketApi'
+	import {onShow} from "@dcloudio/uni-app";
 	import { onMounted, reactive, ref, toRefs,watch,defineProps} from 'vue';
 	const emit = defineEmits(['changeData']);
 	const state = reactive({list:[],namelist:[],index:0 }); 

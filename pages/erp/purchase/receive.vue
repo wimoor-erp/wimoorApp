@@ -51,6 +51,7 @@
 									@close="dialogClose"></uni-popup-dialog>
 					 </uni-popup>		
 				<button  style="float:right" size="mini" class="btn btn-red" @click="dialogToggle" >撤销入库</button>  
+			    <button  style="float:right;margin-right:10px" v-if="entry.inwhstatus==1"  size="mini" class="btn btn-green" @click="continueRec" >继续入库</button>  
 			</view>
 		</template>
 		 <block v-if="reclist!=null && reclist.length>0 && reclist!=undefined" >
@@ -225,6 +226,7 @@
 			}
 			this.loadRecDetail();
 		},
+		onShow(){this.loadRecDetail(); },
 		methods:{
 			formatDate(date, fmt) {
 			    if (/(y+)/.test(fmt)) {
@@ -337,13 +339,11 @@
 			},
 			loadEntryLogist(){
 				purchaseApi.catchLogisticsInfo({
-					        alibabaAuthid:this.data.alibaba_auth,
-					        alibabaOrderid:this.data.alibaba_orderid,
-					        purchaseEntryid:this.data.entryid
+					        purchaseEntryid:this.data.id
 					      }).then(data => {
-					let orderData=JSON.parse(data.orderResult);
-					let LogResult=JSON.parse(data.LogisticsResult);
-					let traceResult=JSON.parse(data.TraceResult);
+					let orderData=data.orderResult;
+					let LogResult=data.LogisticsResult;
+					let traceResult=data.TraceResult;
 					let deliveredTime=0;
 					  if(orderData!=null && orderData!='' && orderData!='undefined' && orderData!='undefined'){
 					            if(orderData.result.nativeLogistics.logisticsItems!=null && orderData.result.nativeLogistics.logisticsItems.length>0){
@@ -366,15 +366,13 @@
 			},bindsubmitTap(){
 				if(this.iptamount>0){
 					var status="0";
-					if(this.needamount<=this.iptamount){
-						status="1";
-					}
 					purchaseApi.rec({status:status,
 									entryid:this.data.id,
 									amount:this.iptamount,
-									warehouse:this.warehouseid,
+									warehouseid:this.warehouseid,
 									ftype:"in",
-									recid:""
+									recid:"",
+									status:"0"
 					}).then(data => {
 							this.ipt=true;
 							uni.showToast({
@@ -395,13 +393,32 @@
 			},
 			clearRec(){
 					var entryid=this.data.id;
-					purchaseApi.clearRec({ 'entryid':entryid}).then(data => {
+					purchaseApi.clearRecAll({'entryid':entryid}).then(data => {
 							uni.showToast({
 								title:'操作成功！',
 								icon:'none',
 								duration:2000
 							})
 							this.ipt=false;
+						    this.loadRecDetail();
+					})
+			},
+			continueRec(){
+				var status="2";
+					purchaseApi.rec({status:status,
+									entryid:this.data.id,
+									amount:this.iptamount,
+									warehouseid:this.warehouseid,
+									ftype:"in",
+									recid:""
+					}).then(data => {
+							this.ipt=true;
+							uni.showToast({
+								title:'操作成功！',
+								icon:'none',
+								duration:2000
+							})
+						   this.ipt=false;
 						   this.loadRecDetail();
 					})
 			},

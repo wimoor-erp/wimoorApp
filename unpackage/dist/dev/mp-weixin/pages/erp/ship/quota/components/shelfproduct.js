@@ -238,7 +238,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     A: common_vendor.p({
       align: "left",
-      width: "190"
+      ["max-width"]: "190"
     }),
     B: common_vendor.p({
       align: "left",

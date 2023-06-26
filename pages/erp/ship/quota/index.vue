@@ -98,9 +98,9 @@
 					//this.data = JSON.parse(payload);
 				}
 			}
-			this.getquotaData();
 			/* this.getShipFromListData(); */
 		},
+		onShow(){this.getquotaData(); },
 		methods: {
 			changeItemShow(item){
 				if(item.asshow){
@@ -115,7 +115,7 @@
 					if (data){
 						this.quotaoderData = data
 						this.shipmentid = data.shipmentid
-						this.createdate = "创建于" + data.createdate
+						this.createdate = "创建于" + util.dateFormat(data.createdate)
 						this.auditime = util.dateFormat(data.auditime) + "审核"
 						this.warehouseList[0].title = data.warehouse
 						this.warehouseList[1].title = data.groupname + "-" + data.country + "(" + data.center + ")"

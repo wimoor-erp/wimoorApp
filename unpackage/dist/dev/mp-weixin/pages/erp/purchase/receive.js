@@ -42,6 +42,9 @@ const _sfc_main = {
     }
     this.loadRecDetail();
   },
+  onShow() {
+    this.loadRecDetail();
+  },
   methods: {
     formatDate(date, fmt) {
       if (/(y+)/.test(fmt)) {
@@ -154,13 +157,11 @@ const _sfc_main = {
     },
     loadEntryLogist() {
       api_erp_purchase_purchase.purchaseApi.catchLogisticsInfo({
-        alibabaAuthid: this.data.alibaba_auth,
-        alibabaOrderid: this.data.alibaba_orderid,
-        purchaseEntryid: this.data.entryid
+        purchaseEntryid: this.data.id
       }).then((data) => {
-        let orderData = JSON.parse(data.orderResult);
-        let LogResult = JSON.parse(data.LogisticsResult);
-        let traceResult = JSON.parse(data.TraceResult);
+        let orderData = data.orderResult;
+        let LogResult = data.LogisticsResult;
+        let traceResult = data.TraceResult;
         let deliveredTime = 0;
         if (orderData != null && orderData != "" && orderData != "undefined" && orderData != "undefined") {
           if (orderData.result.nativeLogistics.logisticsItems != null && orderData.result.nativeLogistics.logisticsItems.length > 0) {
@@ -184,16 +185,14 @@ const _sfc_main = {
     bindsubmitTap() {
       if (this.iptamount > 0) {
         var status = "0";
-        if (this.needamount <= this.iptamount) {
-          status = "1";
-        }
         api_erp_purchase_purchase.purchaseApi.rec({
           status,
           entryid: this.data.id,
           amount: this.iptamount,
-          warehouse: this.warehouseid,
+          warehouseid: this.warehouseid,
           ftype: "in",
-          recid: ""
+          recid: "",
+          status: "0"
         }).then((data) => {
           this.ipt = true;
           common_vendor.index.showToast({
@@ -213,7 +212,27 @@ const _sfc_main = {
     },
     clearRec() {
       var entryid = this.data.id;
-      api_erp_purchase_purchase.purchaseApi.clearRec({ "entryid": entryid }).then((data) => {
+      api_erp_purchase_purchase.purchaseApi.clearRecAll({ "entryid": entryid }).then((data) => {
+        common_vendor.index.showToast({
+          title: "\u64CD\u4F5C\u6210\u529F\uFF01",
+          icon: "none",
+          duration: 2e3
+        });
+        this.ipt = false;
+        this.loadRecDetail();
+      });
+    },
+    continueRec() {
+      var status = "2";
+      api_erp_purchase_purchase.purchaseApi.rec({
+        status,
+        entryid: this.data.id,
+        amount: this.iptamount,
+        warehouseid: this.warehouseid,
+        ftype: "in",
+        recid: ""
+      }).then((data) => {
+        this.ipt = true;
         common_vendor.index.showToast({
           title: "\u64CD\u4F5C\u6210\u529F\uFF01",
           icon: "none",
@@ -306,9 +325,13 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       type: "dialog"
     }),
     z: common_vendor.o((...args) => $options.dialogToggle && $options.dialogToggle(...args)),
-    A: $data.reclist != null && $data.reclist.length > 0 && $data.reclist != void 0
+    A: $data.entry.inwhstatus == 1
+  }, $data.entry.inwhstatus == 1 ? {
+    B: common_vendor.o((...args) => $options.continueRec && $options.continueRec(...args))
+  } : {}, {
+    C: $data.reclist != null && $data.reclist.length > 0 && $data.reclist != void 0
   }, $data.reclist != null && $data.reclist.length > 0 && $data.reclist != void 0 ? {
-    B: common_vendor.f($data.reclist, (value, index, i0) => {
+    D: common_vendor.f($data.reclist, (value, index, i0) => {
       return common_vendor.e({
         a: common_vendor.t(value.operator),
         b: value.ftype == "in"
@@ -374,11 +397,11 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       });
     })
   } : {}, {
-    C: $data.data.alibaba_orderid != "undefined" && $data.data.alibaba_orderid != "" && $data.data.alibaba_orderid != null && $data.data.alibaba_orderid != void 0
+    E: $data.data.alibaba_orderid != "undefined" && $data.data.alibaba_orderid != "" && $data.data.alibaba_orderid != null && $data.data.alibaba_orderid != void 0
   }, $data.data.alibaba_orderid != "undefined" && $data.data.alibaba_orderid != "" && $data.data.alibaba_orderid != null && $data.data.alibaba_orderid != void 0 ? common_vendor.e({
-    D: $data.LogResult != null && $data.LogResult != "" && $data.LogResult != "undefined" && $data.LogResult != "undefined" && $data.LogResult.length > 0
+    F: $data.LogResult != null && $data.LogResult != "" && $data.LogResult != "undefined" && $data.LogResult != "undefined" && $data.LogResult.length > 0
   }, $data.LogResult != null && $data.LogResult != "" && $data.LogResult != "undefined" && $data.LogResult != "undefined" && $data.LogResult.length > 0 ? {
-    E: common_vendor.f($data.LogResult, (value, index, i0) => {
+    G: common_vendor.f($data.LogResult, (value, index, i0) => {
       return common_vendor.e({
         a: common_vendor.t(value.logisticsId),
         b: common_vendor.t(value.logisticsCompanyName),
@@ -424,10 +447,10 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         h: index
       });
     }),
-    F: common_vendor.t($options.dateFuc($data.deliveredTime)),
-    G: $data.traceResult != null && $data.traceResult.length > 0
+    H: common_vendor.t($options.dateFuc($data.deliveredTime)),
+    I: $data.traceResult != null && $data.traceResult.length > 0
   } : {}) : {}, {
-    H: common_vendor.p({
+    J: common_vendor.p({
       title: "\u7269\u6D41\u8BB0\u5F55"
     })
   });

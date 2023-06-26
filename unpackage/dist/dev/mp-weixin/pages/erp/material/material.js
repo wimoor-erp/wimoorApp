@@ -32,6 +32,9 @@ const _sfc_main = {
     }
     this.getlist();
   },
+  onShow() {
+    this.getlist();
+  },
   methods: {
     booleanFuc(value) {
       if (value == true || value == 1 || value == "1") {

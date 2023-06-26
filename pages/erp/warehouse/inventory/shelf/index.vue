@@ -80,8 +80,13 @@
 				}
 					
 			}
+			
+			
+		},
+		onShow() {
+			var self=this;
 			setTimeout(function(){
-		       self.$refs.myhead.getInfo(self.addressnum,self.shelftreepath,self.shelfid);
+			   self.$refs.myhead.getInfo(self.addressnum,self.shelftreepath,self.shelfid);
 			   if(self.opttype=="purchase"||self.opttype=="outstockform"){
 			   	self.openAddUrl();
 			   	return ;
@@ -91,10 +96,8 @@
 			   	return ;
 			   }
 			},300);
-			
 		},
 		methods:{
-			
 			infoLoad(head){
 				this.addressid=head.addressid;
 				this.shelfid=head.id;

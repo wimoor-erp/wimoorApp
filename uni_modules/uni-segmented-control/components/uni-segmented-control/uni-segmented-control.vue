@@ -14,7 +14,7 @@
 				        ? activeColor
 				        : '#fff'
 				      : styleType === 'text'
-				        ? '#000'
+				        ? '#666'
 				        : activeColor}" class="segmented-control__text" :class="styleType === 'text' && index === currentIndex ? 'segmented-control__item--text': ''">{{ item }}</text>
 			</view>
 

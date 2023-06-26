@@ -65,19 +65,37 @@
     const { list ,addressnum,materialid,formid} = toRefs(props);
 
 	 function toShelfInv(item){
-		 let detail = {
-			'shelfid':item.id,
-		 	'addressnum': props.addressnum,
-		 	'shelftreepath':item.treepath,
-			'materialid':props.materialid,
-			'formid':props.formid,
-			'amount':props.amount,
-			"opttype":props.opttype,
-		 };
-		 uni.navigateTo({
-		 	"url": '/pages/erp/warehouse/inventory/shelf/index?detailData=' +
-		 		encodeURIComponent(JSON.stringify(detail))
-		 });
+		 if(props.materialid||props.formid){
+			 let detail = {
+			 	'addressnum':props.addressnum,
+			 	'shelftreepath':item.treepath,
+			 	'ftype':'add',
+			 	'materialid':props.materialid,
+			 	'shelfid':item.id,
+			 	'amount':props.amount,
+			 	'formid':props.formid,
+			 	'opttype':props.opttype,
+			 };
+			 uni.navigateTo({
+			 	//跳转至 上下架页面
+			 	url:'/pages/erp/warehouse/inventory/shelf/addstock?detailData='+ encodeURIComponent(JSON.stringify(detail)),
+			 });
+		 }else{
+			 let detail = {
+			 			'shelfid':item.id,
+						'addressnum': props.addressnum,
+						'shelftreepath':item.treepath,
+			 			'materialid':props.materialid,
+			 			'formid':props.formid,
+			 			'amount':props.amount,
+			 			"opttype":props.opttype,
+			 };
+			 uni.navigateTo({
+			 	"url": '/pages/erp/warehouse/inventory/shelf/index?detailData=' +
+			 		encodeURIComponent(JSON.stringify(detail))
+			 });
+		 }
+		 
 	 }
  
 </script>

@@ -1,22 +1,20 @@
 import request from "@/utils/request";
  
 function list(data){
-	return request({url:"/erp/api/v1/purchase_form/list",method:"GET","data":data})
+	return request.post("/erp/api/v1/purchase_form/list",data)
 }
 function getRecdetail(data){
- 	return request({url:"/erp/api/v1/purchase_form/getRecdetail",method:"GET","data":data})
- }
+ 	return request.get('/erp/api/v1/purchase_form/getRecdetail',{params:data});
+}
+function clearRecAll(data){
+	return request.get('/erp/api/v1/purchase_form/clearRecAll',{params:data});
+}
 function catchLogisticsInfo(data){
-return request({url:"/erp/api/v1/purchase_form/catchLogisticsInfo",method:"GET","data":data})
+return request({url:"/erp/api/v1/purchase/alibaba/entry/alibabainfo/catchLogisticsInfo",method:"GET","data":data})
 }
 function rec(data){
-return request({url:"/erp/api/v1/purchase_form/rec",method:"GET","data":data})
+	return request.post('/erp/api/v1/purchase_form/rec',data);
 }
-function clearRec(data){
-return request({url:"/erp/api/v1/purchase_form/clearRec",method:"GET","data":data})
-}
-
- 
 export default {
-       list,getRecdetail,catchLogisticsInfo,rec,clearRec
+       list,getRecdetail,catchLogisticsInfo,rec,clearRecAll
 	};

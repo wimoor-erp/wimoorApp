@@ -47,7 +47,6 @@
 					this.materialid=data.materialid;
 					this.shelfid=data.shelfid;
 					this.amount=data.amount;
-					this.$refs.myhead.getInfo(this.addressnum,this.shelftreepath);
 				} catch (error) {
 					 let data = payload;
 					 this.addressnum=data.addressnum;
@@ -55,9 +54,11 @@
 					 this.materialid=data.materialid;
 					 this.shelfid=data.shelfid;
 					 this.amount=data.amount;
-					 this.$refs.myhead.getInfo(this.addressnum,this.shelftreepath);
 				}
 			}
+		},
+		onShow() {
+			  this.$refs.myhead.getInfo(this.addressnum,this.shelftreepath);
 		},
 		methods:{
 			infoLoad(head){

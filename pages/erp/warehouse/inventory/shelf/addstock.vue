@@ -66,10 +66,11 @@
 					 this.formid=this.data.formid;
 					 this.opttype=this.data.opttype;
 				}
-				setTimeout(function(){
-				   self.$refs.myhead.getInfo(self.addressnum,self.shelftreepath,self.shelfid);
-				},300);
+				
 			}
+		},
+		onShow() {
+			   this.$refs.myhead.getInfo(this.addressnum,this.shelftreepath,this.shelfid);
 		},
 		methods:{
 			infoLoad(head){

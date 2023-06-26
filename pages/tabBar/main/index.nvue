@@ -8,7 +8,7 @@
 					<uni-icons color="#ffa400" @click="scanCode" type="scan" size="34"></uni-icons><text @click="scanCode"
 						style="font-size: 10px;">扫一扫</text> 
 				</view>
-				<view class="flex-item text-center" style="width: 33.3%;">
+				<view class="flex-item text-center" @click="goDetailPage('/pages/erp/warehouse/inventory/base/index')"   style="width: 33.3%;">
 					<uni-icons color="#00aaff" type="list" size="34"></uni-icons><text
 						style="font-size: 10px;padding-left: 5px;">库存</text>
 				</view>
@@ -28,7 +28,7 @@
 		   <view class="flex-item text-center" style="width: 25%;">
 			   <image @click="goDetailPage('/pages/erp/warehouse/shelf/index')"
 			          src="/static/main/qiangdanchi.png"  style="height:52px;width:52px;margin-left:23px"/>  
-				<text>上架</text>
+				<text>货架</text>
 			</view>
 			<view class="flex-item text-center" style="width: 25%;">
 							<image @click="goDetailPage('/pages/erp/warehouse/inventory/shelf/skulist')"
@@ -46,7 +46,12 @@
 			<view class="flex-item text-center" style="width: 25%;">
 				<image @click="goDetailPage('/pages/amazon/order/today/list')"
 						src="/static/main/zhangshangqiandan.png"  style="height:52px;width:52px;margin-left:23px"/>  
-					<text>今日销量</text>
+				<text>今日销量</text>
+			</view>
+			<view class="flex-item text-center" style="width: 25%;">
+					    <image @click="goDetailPage('/pages/erp/warehouse/without_shelf/index')"
+									src="/static/main/huanzhuangchaxun.png"  style="height:52px;width:52px;margin-left:23px"/>  
+					    <text>上架</text> 
 			</view>
 		</view>
 	</view>
@@ -169,46 +174,12 @@
 			},
 			validateUser() {
 				let that = this;
-				uni.login({
-				 success(res) {
-				      if (res.code) {
-							//发起网络请求
-							loginApi.loginWechat( { 
-									code: res.code,
-									appType:loginApi.getAppType()
-								}).then(res => {
-								var data=res.data?res.data:res;
-								 store.commit('setOpenid',data.openid);
-								if (data && data.status != 'isfail') {
-									let jsid = data.jsessionid;
-									let currentuser = data.currentuser;
-									 store.commit('setSessionid',jsid);
-									 store.commit('setCurrentUser',currentuser);
-									 store.commit('setUserList',data.userlist);
-								} else {
-									if (data.openid) {
-										store.commit('setSessionid',data.jsessionid)
-										uni.navigateTo({
-											url: '../../sys/validate/index'
-								 	    })
-									} else {
-										uni.showToast({
-											title: '账号异常!!!',
-											icon: 'none',
-											duration: 2000
-										})
-									}
-								}
-							});
-				 	} else {
-							uni.showToast({
-								title: '登录失败！' + res.errMsg,
-								icon: 'none',
-								duration: 2000
-							})
-						}
-					}
-				})
+				var sessionid=store.state.sessionid;
+				 if(!sessionid){
+					 uni.navigateTo({
+					 	"url": "/pages/sys/login/index"
+					 })
+				 }
 			},
 			triggerCollapse(e, id) {
 				if (!this.list[e].pages) {

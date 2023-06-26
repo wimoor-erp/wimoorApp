@@ -96,15 +96,15 @@
 										})
 										if(self.curuser.account==account){
 											//解绑当前登录的账号
-											self.tableData=[];
-											self.getOpenUserlist();
+											//self.tableData=[];
+											//self.getOpenUserlist();
 											//uni.removeStorageSync("currentuser")
 											//uni.removeStorageSync("JSessionId");
 											store.commit('setSessionid',null);
 											store.commit('setCurrentUser',null);
 											store.commit('setUserList',null);
-											uni.navigateTo({
-												url: '/pages/sys/validate/index'
+											uni.reLaunch({
+												url: '/pages/tabBar/main/index'
 											})
 										}else{
 											self.tableData=[];
@@ -118,6 +118,8 @@
 									  })
 									}
 									
+								}).catch(error=>{
+										uni.navigateTo({ url: '/pages/sys/validate/index' });
 								});
 							}
 						}

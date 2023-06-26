@@ -30,7 +30,7 @@
 						<!-- 表头行 -->
 						<uni-tr>
 							<uni-th align="left" width="10"></uni-th>
-							<uni-th align="left" width="190">库位</uni-th>
+							<uni-th align="left" max-width="190">库位</uni-th>
 							<uni-th align="left" width="50">库存</uni-th>
 						</uni-tr>
 						<!-- 表格数据行 -->
@@ -298,5 +298,9 @@
 	 .myNumInput{
 	 	border: 1px solid #eee;border-radius: 4px;width: 60px;
 	 	padding-left:3px;
+	 }
+	 .flex-item .name{
+		 width:90%; 
+		 word-break: break-all; 
 	 }
 </style>

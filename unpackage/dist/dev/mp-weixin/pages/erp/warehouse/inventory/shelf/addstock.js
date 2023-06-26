@@ -32,7 +32,6 @@ const _sfc_main = {
     };
   },
   onLoad(event) {
-    var self = this;
     if (event) {
       const payload = event.detailData || event.payload;
       try {
@@ -55,10 +54,10 @@ const _sfc_main = {
         this.formid = this.data.formid;
         this.opttype = this.data.opttype;
       }
-      setTimeout(function() {
-        self.$refs.myhead.getInfo(self.addressnum, self.shelftreepath, self.shelfid);
-      }, 300);
     }
+  },
+  onShow() {
+    this.$refs.myhead.getInfo(this.addressnum, this.shelftreepath, this.shelfid);
   },
   methods: {
     infoLoad(head) {
