@@ -1,7 +1,0 @@
-{
-  "component": true,
-  "usingComponents": {
-    "check-box": "../uni-tr/table-checkbox",
-    "uni-datetime-picker": "../../../uni-datetime-picker/components/uni-datetime-picker/uni-datetime-picker"
-  }
-}

@@ -1,1 +1,0 @@
-"use strict";const e=require("../../../utils/request.js");const t={getQuotainfo:t=>e.base({url:"/erp/api/v1/shipForm/quotainfo/"+t,method:"GET"}),subShelfInventory:function(t){return e.base({url:"/erp/api/v1/warehoue/shelfInventory/sub",method:"POST",data:t})},getShipFromList:function(t){return e.base({url:"/erp/api/v1/shipForm/list",method:"POST",data:t})}};exports.quotaApi=t;

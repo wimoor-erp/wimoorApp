@@ -1,7 +1,0 @@
-{
-  "component": true,
-  "navigationBarTitleText": "产品上下架选择",
-  "usingComponents": {
-    "shelf-head": "./shelf/components/shelfHead"
-  }
-}
