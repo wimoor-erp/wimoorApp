@@ -1,0 +1,26 @@
+<template>
+<view class="uni-container">
+	<MenuFilter v-if="login"/>
+</view>
+</template>
+
+<script setup>
+	import MenuFilter from"@/components/other/menuFilter.vue"
+	import { reactive,onMounted,toRefs } from 'vue'
+	import store from '@/store/index.js';//需要引入store
+	import {onShow} from "@dcloudio/uni-app";
+	const state=reactive({
+		login:false,
+	})
+	const{login}=toRefs(state)
+	onShow(()=>{ 
+		const sessionid = store.state.sessionid
+		if(sessionid!=null){
+			state.login = true
+		}
+	})
+</script>
+
+<style>
+
+</style>
