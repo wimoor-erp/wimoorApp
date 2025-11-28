@@ -1,0 +1,620 @@
+{
+	"pages": [
+		// pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/tabBar/main/index", 
+			"style": {
+				"navigationBarBackgroundColor":"#ff6700",
+				"navigationBarTitleText": "首页",
+				"navigationBarTextStyle":"white",
+				"backgroundColorTop": "#ff6700"
+			}
+		},
+		
+		{ 
+			"path": "pages/tabBar/menu/menu",
+			"style": {
+				"navigationBarTitleText": "工作台",
+				"navigationBarBackgroundColor":"#f5f5f5",
+				"navigationBarTextStyle":"black",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [{
+							"text": "\ue534",
+							"fontSrc": "/static/uni.ttf",
+							"fontSize": "22px",
+							"color": "#FFFFFF"
+						}]
+					}
+				} 
+			}
+		},
+		{
+			"path": "pages/tabBar/about/about",
+			"style":{
+				"navigationBarBackgroundColor":"#f5f5f5",
+				"navigationBarTitleText":"　",
+				"navigationBarTextStyle":"black",
+				"navigationStyle":"custom"
+			}
+		},
+		{
+			"path": "pages/tabBar/charts/charts",
+			"style": {
+				"navigationBarTitleText": "统计",
+				"app-plus": {
+					"titleNView": {
+						"buttons": [{
+							"text": "\ue534",
+							"fontSrc": "/static/uni.ttf",
+							"fontSize": "22px",
+							"color": "#FFFFFF"
+						}]
+					}
+				}
+			}
+		}
+		 
+	],
+	"subPackages": [
+		{
+			"root": "pages/erp",
+			"pages": [{
+				"path": "ship/base/list",
+				"style": {
+					"navigationBarTitleText": "发货页面"
+				}
+			},
+			{
+				"path": "ship/quota/index",
+				"style": {
+					"navigationBarTitleText": "配货单",
+					"navigationBarBackgroundColor":"#fc6b08",
+					"navigationBarTextStyle":"white"
+				}
+			},
+			{
+				"path": "material/tag/index",
+				"style": {
+					"navigationBarTitleText": "标签管理",
+			        "navigationBarBackgroundColor":"#ff6700",
+					"navigationBarTextStyle":"white",
+					"backgroundColorTop": "#ff6700"
+				}
+			},
+			{
+				"path": "material/tag/components/details", 
+				"style": {
+					"navigationBarTitleText": "标签详情",
+					"navigationBarBackgroundColor":"#f5f5f5",
+					"navigationBarTextStyle":"black"
+				}
+			},
+			{
+				"path": "material/brand/index",   
+				"style": {
+					"navigationBarTitleText": "品牌管理",
+					"navigationBarBackgroundColor":"#f5f5f5",
+					"navigationBarTextStyle":"black"
+				}
+			},
+			{
+				"path": "material/category/index",   
+				"style": {
+					"navigationBarTitleText": "品类管理",
+					"navigationBarBackgroundColor":"#f5f5f5",
+					"navigationBarTextStyle":"black"
+				}
+			},
+			{
+				"path": "material/box/index",   
+				"style": {
+					"navigationBarTitleText": "箱子管理",
+					"navigationBarBackgroundColor":"#fff",
+					"navigationBarTextStyle":"black"
+				}
+			},
+			{
+				"path": "material/box/components/details",   
+				"style": {
+					"navigationBarTitleText": "箱子详情",
+					"navigationBarBackgroundColor":"#fff",
+					"navigationBarTextStyle":"black"
+				}
+			},
+			{
+				"path": "material/product/index",
+				"style": {
+					"navigationBarTitleText": "产品管理",
+			        "navigationBarBackgroundColor":"#ff6700",
+					"navigationBarTextStyle":"white",
+					"backgroundColorTop": "#ff6700"
+				}
+			},
+			{
+				"path": "material/product/components/details",
+				"style": {
+					"navigationBarTitleText": "产品详情",
+			        "navigationBarBackgroundColor":"#ff6700",
+					"navigationBarTextStyle":"white"
+				}
+			},
+			{
+				"path": "purchase/purchase",
+				"style": {
+					"navigationBarTitleText": "采购页面"
+				}
+			},
+			{
+				"path": "purchase/process/index", 
+				"style": {
+					"navigationBarTitleText": "加工单",
+					"navigationBarBackgroundColor":"#f5f5f5",
+					"navigationBarTextStyle":"black"
+				}
+			},
+			{
+				"path": "purchase/scan_shelf/index",
+				"style": {
+					"navigationBarTitleText": "扫码上架",
+					"navigationBarBackgroundColor":"#ff6700",
+					"navigationBarTextStyle":"white",
+					"backgroundColorTop": "#ff6700"
+				}
+			},
+			{
+				"path": "purchase/change/index", 
+				"style": {
+					"navigationBarTitleText": "换货单",
+					"navigationBarBackgroundColor":"#f5f5f5",
+					"navigationBarTextStyle":"black"
+				}
+			},
+			{
+				"path": "purchase/change/components/create", 
+				"style": {
+					"navigationBarTitleText": "填写换货单",
+					"navigationBarBackgroundColor":"#fff",
+					"navigationBarTextStyle":"black"
+				}
+			},
+			{
+				"path": "purchase/change/components/details", 
+				"style": {
+					"navigationBarTitleText": "换货单详情",
+					"navigationBarBackgroundColor":"#fff",
+					"navigationBarTextStyle":"black"
+				}
+			},
+			{
+				"path": "purchase/process/components/details", 
+				"style": {
+					"navigationBarTitleText": "加工单详情",
+					"navigationBarBackgroundColor":"#f5f5f5",
+					"navigationBarTextStyle":"black"
+				}
+			},
+			{
+				"path": "purchase/report/receive/index",
+				"style": {
+					"navigationBarTitleText": "采购入库明细",
+					"navigationBarBackgroundColor":"#fff",
+					"navigationBarTextStyle":"black"
+				}
+			},
+			{
+				"path": "purchase/report/payment/index",
+				"style": {
+					"navigationBarTitleText": "采购付款明细",
+					"navigationBarBackgroundColor":"#fff",
+					"navigationBarTextStyle":"black"
+				}
+			},
+			{
+				"path": "purchase/report/details/index",
+				"style": {
+					"navigationBarTitleText": "采购详情",
+					"navigationBarBackgroundColor":"#fff",
+					"navigationBarTextStyle":"black"
+				}
+			},
+			{
+				"path": "material/material",
+				"style": {
+					"navigationBarTitleText": "产品页面"
+
+				}
+			},
+			{
+				"path": "purchase/receive",
+				"style": {
+					"navigationBarTitleText": "货物退收",
+					"navigationBarBackgroundColor":"#f5f5f5",
+					"navigationBarTextStyle":"black"
+					
+				}
+			},
+			{
+				"path": "purchase/components/printWeb",
+				"style": {
+					"navigationBarTitleText": "采购打印",
+					"navigationBarBackgroundColor":"#f5f5f5",
+					"navigationBarTextStyle":"black"
+					
+				}
+			},
+			{
+				"path": "warehouse/inbound/index",
+				"style": {
+					"navigationBarTitleText": "入库单",
+					"navigationBarBackgroundColor":"#fff",
+					"navigationBarTextStyle":"black"
+				}
+			},
+			{
+				"path": "warehouse/inbound/components/details",
+				"style": {
+					"navigationBarTitleText": "入库单详情",
+					"navigationBarBackgroundColor":"#fff",
+					"navigationBarTextStyle":"black"
+				}
+			},
+			{
+				"path": "warehouse/outbound/index",
+				"style": {
+					"navigationBarTitleText": "出库单",
+					"navigationBarBackgroundColor":"#f5f5f5",
+					"navigationBarTextStyle":"black"
+				}
+			},
+			{
+				"path": "warehouse/outbound/components/details",
+				"style": {
+					"navigationBarTitleText": "出库单详情",
+					"navigationBarBackgroundColor":"#fff",
+					"navigationBarTextStyle":"black"
+				}
+			},
+			{
+				"path": "warehouse/transfer/index",
+				"style": {
+					"navigationBarTitleText": "调库单",
+					"navigationBarBackgroundColor":"#f5f5f5",
+					"navigationBarTextStyle":"black"
+				}
+			},
+			{
+				"path": "warehouse/transfer/components/details",
+				"style": {
+					"navigationBarTitleText": "调库单详情",
+					"navigationBarBackgroundColor":"#f5f5f5",
+					"navigationBarTextStyle":"black"
+				}
+			},
+			{
+				"path": "warehouse/stocktake/index",
+				"style": {
+					"navigationBarTitleText": "盘点单",
+					"navigationBarBackgroundColor":"#f5f5f5",
+					"navigationBarTextStyle":"black"
+				}
+			},
+			{
+				"path": "warehouse/stocktake/components/details",
+				"style": {
+					"navigationBarTitleText": "盘点单详情",
+					"navigationBarBackgroundColor":"#f5f5f5",
+					"navigationBarTextStyle":"black"
+				}
+			},
+			{
+				"path": "warehouse/record/index",
+				"style": {
+					"navigationBarTitleText": "出入库明细",
+					"navigationBarBackgroundColor":"#fff",
+					"navigationBarTextStyle":"black"
+				}
+			},
+
+			{
+				"path": "warehouse/exchange/index",
+				"style": {
+					"navigationBarTitleText": "代料单",
+					"navigationBarBackgroundColor":"#fff",
+					"navigationBarTextStyle":"black"
+				}
+			},
+			{
+				"path": "warehouse/exchange/components/details",
+				"style": {
+					"navigationBarTitleText": "代料单详情",
+					"navigationBarBackgroundColor":"#fff",
+					"navigationBarTextStyle":"black"
+				}
+			},
+			{
+				"path": "warehouse/inventory/unsalable/index",
+				"style": {
+					"navigationBarTitleText": "本地滞销",
+					"navigationBarBackgroundColor":"#fff",
+					"navigationBarTextStyle":"black"
+				}
+			},
+			{
+				"path": "warehouse/inventory/turns/index",
+				"style": {
+					"navigationBarTitleText": "库存周转",
+					"navigationBarBackgroundColor":"#fff",
+					"navigationBarTextStyle":"black"
+				}
+			},
+			{
+				"path": "warehouse/inventory/shelf/addstock",
+				"style": {
+					"navigationBarTitleText": "产品上架"
+				}
+			},
+			{
+				"path": "warehouse/shelf/inventory/index",
+				"style": {
+					"navigationBarTitleText": "库位库存"
+				}
+			},
+			{
+				"path": "warehouse/shelf/operator/index", 
+				"style": {
+					"navigationBarTitleText": "上下架明细"
+				}
+			},
+			{
+				"path": "warehouse/inventory/shelf/outstock",
+				"style": {
+					"navigationBarTitleText": "产品下架"
+				}
+			},
+			{
+				"path": "warehouse/inventory/shelf/result",
+				"style": {
+					"navigationBarTitleText": "处理结果"
+				}
+			},
+			{
+				"path": "warehouse/inventory/shelf/index",
+				"style": {
+					"navigationBarTitleText": "货架详情"
+				}
+			},
+			{
+				"path": "warehouse/shelf/index",
+				"style": {
+					"navigationBarTitleText": "货架"
+				}
+			},
+			{
+				"path": "warehouse/without_shelf/index",
+				"style": {
+					"navigationBarTitleText": "上架"
+				}
+			},
+			{
+				"path": "warehouse/inventory/shelf/skulist",
+				"style": {
+					"navigationBarTitleText": "下架"
+				}
+			},
+			{
+				"path": "warehouse/inventory/base/index",
+				"style": {
+					"navigationBarTitleText": "库存"
+				}
+			}
+			]
+
+		},
+	    {
+				"root": "pages/amazon",
+				"pages": [ {
+					"path": "order/today/list",
+					"style": {
+						"navigationBarTitleText": "今日订单",
+						"navigationBarBackgroundColor":"#ff6700",
+						"navigationBarTextStyle":"white",
+						"backgroundColorTop": "#ff6700"
+					}
+				},
+				{
+					"path": "listing/index",
+					"style": {
+						"navigationBarTitleText": "商品分析",
+					    "navigationBarBackgroundColor":"#fff",
+				      	"navigationBarTextStyle":"black"
+					}
+				},
+				{
+					"path": "inventory/fba/index",
+					"style": {
+						"navigationBarTitleText": "FBA库存",
+					    "navigationBarBackgroundColor":"#fff",
+				      	"navigationBarTextStyle":"black"
+					}
+				},
+				{
+					"path": "analysis/index",
+					"style": {
+						"navigationBarTitleText": "趋势分析",
+					    "navigationBarBackgroundColor":"#fff",
+				      	"navigationBarTextStyle":"black"
+					}
+				},
+				{
+					"path": "analysis/components/itemSet",
+					"style": {
+						"navigationBarTitleText": "指标配置",
+					    "navigationBarBackgroundColor":"#fff",
+				      	"navigationBarTextStyle":"black"
+					}
+				},
+				{
+					"path": "priceAdjust/index",
+					"style": {
+						"navigationBarTitleText": "调价队列",
+					    "navigationBarBackgroundColor":"#fff",
+				      	"navigationBarTextStyle":"black"
+					}
+				},
+				{
+					"path": "skuCorrelation/index",
+					"style": {
+						"navigationBarTitleText": "SKU配对",
+					    "navigationBarBackgroundColor":"#fff",
+				      	"navigationBarTextStyle":"black"
+					}
+				},
+				{
+					"path": "payment/record/index",
+					"style": {
+						"navigationBarTitleText": "回款记录",
+					    "navigationBarBackgroundColor":"#fff",
+				      	"navigationBarTextStyle":"black"
+					}
+				},
+				{
+					"path": "profit/calculator/index",
+					"style": {
+						"navigationBarTitleText": "计算器",
+					    "navigationBarBackgroundColor":"#f5f5f5",
+				      	"navigationBarTextStyle":"black"
+					}
+				},
+				{
+					"path": "order/manage/index",
+					"style": {
+						"navigationBarTitleText": "订单列表",
+					    "navigationBarBackgroundColor":"#fff",
+				      	"navigationBarTextStyle":"black"
+					}
+				},
+				{
+					"path": "order/return/index",
+					"style": {
+						"navigationBarTitleText": "退货订单",
+					    "navigationBarBackgroundColor":"#fff",
+				      	"navigationBarTextStyle":"black"
+					}
+				},
+				{
+					"path": "sales/details/index",
+					"style": {
+						"navigationBarTitleText": "销量详情",
+					    "navigationBarBackgroundColor":"#fff",
+				      	"navigationBarTextStyle":"black"
+					}
+				},
+				{
+					"path": "inventory/value/index",
+					"style": {
+						"navigationBarTitleText": "库存货值",
+					    "navigationBarBackgroundColor":"#fff",
+				      	"navigationBarTextStyle":"black"
+					}
+				},
+				{
+					"path": "sales/chart/index",
+					"style": {
+						"navigationBarTitleText": "销量报表",
+					    "navigationBarBackgroundColor":"#fff",
+				      	"navigationBarTextStyle":"black"
+					}
+				}
+				]
+		 },
+	
+		{
+			"root": "pages/sys",
+			"pages":[
+				{
+					"path": "validate/index",
+					"style": {
+						"navigationBarTitleText": "身份校验"
+					}
+				},
+				{
+					"path": "login/index",
+					"style": {
+						"navigationBarTitleText": "自动登录"
+					}
+				},
+				{
+					"path": "scan/scan",
+					"style": {
+						"navigationStyle": "custom"
+					}
+				}
+			]
+		}
+	],
+	"globalStyle": {
+		"pageOrientation": "auto",
+		"navigationBarTitleText": "Hello uniapp",
+		"navigationBarTextStyle": "white",
+		"navigationBarBackgroundColor": "#FF6700",//全局背景颜色
+		"backgroundColor": "#F8F8F8",
+		"backgroundColorTop": "#F4F5F6",
+		"backgroundColorBottom": "#F4F5F6",
+		"mp-360": {
+			"navigationStyle": "custom"
+		},
+		"h5": {
+			"maxWidth": 1190,
+			"navigationBarTextStyle": "black",
+			"navigationBarBackgroundColor": "#fff"
+		}
+
+	},
+	"tabBar": {
+		"color": "#9da2a8",
+		"selectedColor": "#FF6700",
+		"borderStyle": "black",
+		"backgroundColor": "#f8f8f8",
+		"borderStyle":"white",
+		"fontSize":"12px",
+		"iconWidth":"28px",
+		"spacing":"0px",
+		"height":"60px",
+		"list": [{
+				"pagePath": "pages/tabBar/main/index",
+				"iconPath": "static/homes.png",
+				"selectedIconPath": "static/homes-active.png",
+				"text": "首页"
+			},
+			 {
+			 	"pagePath": "pages/tabBar/menu/menu",
+			 	"iconPath": "static/works.png",
+			 	"selectedIconPath": "static/works-active.png",
+			 	"text": "工作台"
+			 },
+			 //{
+			// 	"pagePath": "pages/tabBar/charts/charts",
+			// 	"iconPath": "static/count.png",
+			// 	"selectedIconPath": "static/count-active.png",
+			// 	"text": "统计"
+			// },
+			{
+				"pagePath": "pages/tabBar/about/about",
+				"iconPath": "static/myuser.png",
+				"selectedIconPath": "static/myuser-active.png",
+				"text": "我的"
+			}
+		]
+	},
+	"condition" : { //模式配置，仅开发期间生效
+		"current": 0, //当前激活的模式(list 的索引项)
+		"list": [
+			{
+				"name": "", //模式名称
+				"path": "", //启动页面，必选
+				"query": "" //启动参数，在页面的onLoad函数里面得到
+			}
+		]
+	}
+}

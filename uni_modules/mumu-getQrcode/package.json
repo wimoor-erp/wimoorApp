@@ -1,0 +1,83 @@
+{
+  "id": "mumu-getQrcode",
+  "displayName": "H5调用摄像头识别二维码（原生H5调用，不需要任何sdk，本地扫描识别，不需要后端）",
+  "version": "1.3.0",
+  "description": "在浏览器中调用手机摄像头进行扫码，无须任何sdk，支持市面上绝大部分手机。在安卓系统上可以打开闪光灯",
+  "keywords": [
+    "h5扫码",
+    "原生H5调用摄像头",
+    "二维码",
+    "闪光灯"
+],
+  "repository": "",
+  "engines": {
+    "HBuilderX": "^3.1.0"
+  },
+  "dcloudext": {
+    "category": [
+        "前端组件",
+        "通用组件"
+    ],
+    "sale": {
+      "regular": {
+        "price": "4.55"
+      },
+      "sourcecode": {
+        "price": "30.00"
+      }
+    },
+    "contact": {
+      "qq": "1139027508"
+    },
+    "declaration": {
+      "ads": "无",
+      "data": "无",
+      "permissions": "摄像头"
+    },
+    "npmurl": ""
+  },
+  "uni_modules": {
+    "dependencies": [],
+    "encrypt": [],
+    "platforms": {
+      "cloud": {
+        "tcb": "y",
+        "aliyun": "y"
+      },
+      "client": {
+        "Vue": {
+          "vue2": "y",
+          "vue3": "y"
+        },
+        "App": {
+          "app-vue": "n",
+          "app-nvue": "n"
+        },
+        "H5-mobile": {
+          "Safari": "y",
+          "Android Browser": "y",
+          "微信浏览器(Android)": "y",
+          "QQ浏览器(Android)": "y"
+        },
+        "H5-pc": {
+          "Chrome": "n",
+          "IE": "n",
+          "Edge": "n",
+          "Firefox": "n",
+          "Safari": "n"
+        },
+        "小程序": {
+          "微信": "n",
+          "阿里": "n",
+          "百度": "n",
+          "字节跳动": "n",
+          "QQ": "n"
+        },
+        "快应用": {
+          "华为": "u",
+          "联盟": "u"
+        }
+      }
+    }
+  }
+}

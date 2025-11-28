@@ -1,0 +1,392 @@
+<template>
+	<view  >
+		<view  class=" uni-bg-orange-tran">
+           <view class="uni-header-logo-main">
+			<view class="uni-flex uni-row "	>
+				<view class="flex-item uni-flex uni-column" @click="scanCode">
+					<text class="icon-sao1 iconfont-32"></text>
+					<text class="text-center">扫一扫</text> 
+				</view>
+				<view class="flex-item uni-flex uni-column" @click="goDetailPage('/pages/erp/warehouse/inventory/base/index')">
+					<text class="icon-hanbao iconfont-32"></text>
+					<text class="text-center">库存</text>
+				</view>
+				<view class="flex-item uni-flex uni-column" @click="goDetailPage('/pages/erp/purchase/scan_shelf/index')">
+					<text class="icon-saomiao iconfont-32"></text>
+					<text class="text-center">扫码上架</text>
+				</view>
+			</view>
+			</view>
+			<view class="fun-area-top"></view>
+		</view>
+		
+		<view class="uni-flex uni-row fun-area" >
+			<view class="flex-item text-center uni-flex uni-column" >
+				<view
+				@click="goDetailPage('/pages/erp/purchase/purchase')"  
+				 class="t-icon-shop t-icon ">
+				</view>
+				<text >采购单</text>
+			</view> 
+		   <view class="flex-item text-center uni-flex uni-column" >
+			   <view
+			   @click="goDetailPage('/pages/erp/warehouse/shelf/index')"
+			    class="t-icon-shelf t-icon ">
+			   </view>
+			   <text >货架</text>
+			</view>
+			<view class="flex-item text-center uni-flex uni-column" >
+				<view
+				@click="goDetailPage('/pages/erp/warehouse/inventory/shelf/skulist')"
+				 class="t-icon-down t-icon ">
+				</view>
+				<text >下架</text>
+			</view>
+			<view class="flex-item text-center uni-flex uni-column">
+				<view
+				@click="goDetailPage('/pages/erp/ship/base/list')"
+				 class="t-icon-order t-icon ">
+				</view>
+				<text >货件</text>
+			</view>
+			
+		</view>
+      	<view class="uni-flex uni-row fun-area" >
+			<view class="flex-item uni-flex uni-column" >
+				<view
+				 @click="goDetailPage('/pages/amazon/order/today/list')"
+				 class="t-icon-today t-icon ">
+				</view>
+				<text >今日订单</text>
+			</view>
+			<view class="flex-item uni-flex uni-column">
+				<view
+				@click="goDetailPage('/pages/erp/warehouse/without_shelf/index')"
+				 class="t-icon-up t-icon ">
+				</view>
+				<text >上架</text>
+			</view>
+			<view class="flex-item uni-flex uni-column">
+			<view
+			@click="goDetailPage('/pages/erp/purchase/process/index')"
+			 class="t-icon-set t-icon ">
+			</view>
+			<text >加工单</text>	
+			</view>
+			<view class="flex-item  uni-flex uni-column">
+				<view
+				@click="goDetailPage('/pages/erp/purchase/change/index')"
+				 class="t-icon-changeorder t-icon ">
+				</view>
+				<text >换货单</text>
+			</view>
+		</view>
+		<!-- 首页数据 -->
+		<view class="gird-box-cell ">
+		<uni-row   :gutter="16"  >
+			<uni-col :span="12" v-for="(item,index) in saleData" :key="index">
+				<view class="cell-b-8">
+					<uni-card class="n-shadow " padding="16px"  is-full>
+							<text class="uni-h3">{{item.data}}</text>
+							<view class="uni-flex uni-row-center ">
+								<text class="uni-h6">{{item.label}}</text>
+							</view>
+					</uni-card>
+					</view>
+			</uni-col>
+		</uni-row>
+		</view>
+		<view  v-if="homeAuthority===1">
+		<view class="cell-16  uni-flex uni-row ">
+			<view class="white-bg-select">
+			<Group @changeData="changeData"/>
+			</view>
+			<Datepicker @changedate="changedate" :days="1" :clearIcon="false" :iswidth="true" />
+		</view>
+		<SaleChart  :params="params" :login="login"/>
+		<PieChart :params="params" :login="login"/>
+		<AdChart :params="params" :login="login"/>
+		</view>
+		<ProductRank :params="params" :login="login"/>
+	</view>
+</template>
+<script>
+	import loginApi from '@/api/sys/login.js'
+	import {handleScode} from '@/hooks/erp/scodehandler/handler.js'
+	import SaleChart from"@/uni_modules/lime-echart/components/lime-echart/saleChart.vue"
+	import PieChart from"@/uni_modules/lime-echart/components/lime-echart/pieChart.vue"
+	import AdChart from"@/uni_modules/lime-echart/components/lime-echart/adChart.vue"
+	import ProductRank from"./components/productRank.vue"
+	import store from '@/store/index.js';//需要引入store
+	import {onShow} from "@dcloudio/uni-app";
+	import summaryDataApi from '@/api/amazon/summary/summaryDataApi'
+	import Group from "@/components/header/group.vue";
+	import Datepicker from "@/components/header/datepicker.vue";
+	import userApi from '@/api/sys/userApi';
+	// TODO 修复Android v3 加载过慢问题
+	export default {
+				components:{
+				   SaleChart,
+				   PieChart,
+				   AdChart,
+				   ProductRank,
+				   Group,
+				   Datepicker,
+			},
+		props: {
+			hasLeftWin: {
+				type: Boolean
+			},
+			leftWinActive: {
+				type: String
+			}
+		},
+		data() {
+			return {
+				accountid:'',
+				homeAuthority:2,
+				params:{},
+				login:false,
+				saleData:[{
+						  label:'产品数量',
+						  data:'0',
+						  icon:'icon-icon',
+						  color:'h-i-c-p'
+				},
+				{
+						  label:'月销量',
+						  data:'0',
+						  icon:'icon-a-ziyuan690',
+						  color:'h-i-c-s'
+				},
+				{
+						  label:'月订单量',
+						  data:'0',
+						 icon:'icon-dingdan',
+						 color:'h-i-c-o'
+				},
+				{
+						  label:'月退货量',
+						  data:'0',
+						icon:'icon-tuihuo' ,
+						color:'h-i-c-r'
+				},],
+				list: [{
+						id: 'inventory',
+						name: '库存管理',
+						open: false,
+						pages: [{
+							name: '仓库管理',
+							url: '/pages/erp/warehouse/warehouse'
+						}]
+					}, {
+						pages: [{
+							name: '商品补货',
+							url: '/pages/erp/ship/ship'
+						}, {
+							name: '商品采购',
+							url: '/pages/erp/purchase/purchase'
+						}, {
+							name: '产品管理',
+							url: '/pages/erp/material/material'
+						}]
+					},
+
+				]
+			}
+		},
+		onShareAppMessage() {
+			return {
+				title: '欢迎体验wimoor移动端',
+				path: '/pages/tabBar/main/index'
+			}
+		},
+		onLoad() {
+			this.validateUser();
+		},
+	 async onShow(){
+		    this.accountid = this.$store.state.currentUser?.account;
+			if(this.validateUser()){
+				this.login = true;
+				this.getSummaryData()
+			await userApi.limitData("home").then(res=>{
+				 if( res==='true'){
+					 this.homeAuthority=2;
+				 }else{
+					 this.homeAuthority=1;
+				 }
+			 })
+			 }
+		},
+		
+		onNavigationBarButtonTap(e) {
+			uni.navigateTo({
+				url: '/pages/about/about'
+			});
+		},
+		// #ifdef H5
+		watch: {
+			$route: {
+				immediate: true,
+				handler(newRoute) {
+					if (newRoute.matched.length) {
+						let path = newRoute.path.split('/')[3]
+						for (const item of this.list) {
+							if (Array.isArray(item.pages)) {
+								for (const page of item.pages) {
+									if (page === path || page.url && page.url === newRoute.path) {
+										item.open = true
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+	
+		},
+		// #endif
+		watch: {
+			//监控帐号改变，更新数据
+			accountid(){
+			  if(Object.keys(this.params).length>0){
+				 const timer= setTimeout(()=>{
+					  this.getSummaryData();
+					  this.params.updata = !this.params.updata;
+					  clearTimeout(timer)
+				  },100)
+			  }
+			},
+		},
+		methods: {
+			getSummaryData(){
+				summaryDataApi.getSummaryData().then((data)=>{
+							  if(data&&data.length>0){
+								data.forEach((item)=>{ 
+										if(item.ftype=="main-2-pro"){
+											  this.saleData[0].data=item.value ;
+										}else if(item.ftype=="main-2-sales"){
+											this.saleData[1].data=item.value ;
+										}else if(item.ftype=="main-2-orders"){
+											this.saleData[2].data=item.value ;
+										}else if(item.ftype=="main-2-return"){
+											 this.saleData[3].data=item.value ;
+										} 
+								});
+							  }else{
+							   this.saleData[0].data="0" ;
+							   this.saleData[1].data="0" ;
+							   this.saleData[2].data="0" ;
+							   this.saleData[3].data="0" ;
+							  }
+				})
+			},
+			scanCode() {
+				var self=this;
+				// #ifdef MP-WEIXIN
+				 uni.scanCode({
+				 	success: function(res) {
+				 		self.handlerScodeResult(res);
+				 	}
+				 });
+				// #endif
+				// #ifdef H5 
+                  uni.navigateTo({
+                  	"url": "/pages/sys/scan/scan"
+                  });
+				 // #endif
+			},
+			handlerScodeResult(res){
+				if (res.result) {
+					handleScode(res.result);
+				}
+			},
+			validateUser() {
+				let that = this;
+				var sessionid=store.state.sessionid;
+				 if(!sessionid){
+					 uni.navigateTo({
+					 	"url": "/pages/sys/login/index"
+					 });
+					 return false;
+				 }else{
+					 return true;
+				 }
+			},
+			triggerCollapse(e, id) {
+				if (!this.list[e].pages) {
+					this.goDetailPage('', this.list[e].url);
+					return;
+				}
+				for (var i = 0; i < this.list.length; ++i) {
+					if (e === i) {
+						this.list[i].open = !this.list[i].open;
+					} else {
+						this.list[i].open = false;
+					}
+				}
+			},
+			goDetailPage(url) {
+				uni.navigateTo({
+					"url": url
+				})
+			},
+			changeData(groupid){
+				 this.params.groupid=groupid;
+			},
+			 changedate(dates){
+				 this.params.start=dates[0];
+				 this.params.begin=dates[0];
+				 this.params.end=dates[1]+' '+'23:59:59';
+				 this.params.beginDate=dates[0];
+				 this.params.endDate=dates[1]+' '+'23:59:59';
+			},
+		},
+		mounted(){
+	
+		},
+	}
+</script>
+
+<style>
+	.gird-box-cell .uni-row{
+		display: block;
+	}
+
+    .fun-area-top{
+		background: linear-gradient(to top, rgba(245, 245, 245, 1), rgba(245, 245, 245, 0.9));
+		height:32px;
+		border-top-left-radius:12px;
+		border-top-right-radius:12px;
+	}
+	.uni-header-logo-main {
+	   padding-top: 16px;
+		margin-bottom:24px;
+	}
+	.uni-header-logo-main .flex-item,.uni-header-logo-main text{
+		text-align: center;
+		flex-grow: 1;
+		color:#fff!important;
+	}
+	.text-center{
+		text-align: center;
+	}
+	.fun-area .flex-item{
+		font-size: 14px;
+		flex: 1;
+		align-items: center;
+		margin-bottom:24px;
+	}
+	
+	.fun-area .flex-item .t-icon{
+		margin-bottom:8px;
+	}
+	.m-t-8{
+		margin-top:8px;
+	}
+
+	.cell-16{
+		margin:8px 12px 8px 12px;
+		
+	}
+</style>

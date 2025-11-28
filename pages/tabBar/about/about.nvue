@@ -1,0 +1,405 @@
+<template>
+	<view class="user-center-wrap">
+		<view class="auth-wrap uni-flex uni-row-center uni-between">
+			<view >
+			<view class="uni-h3">{{curuser.userinfo?.name}}</view>
+			<view class="uni-h6 cell-t-8">
+			<text v-if="curuser.usertype==='admin'">超级管理员</text>
+			<text v-else-if="curuser.usertype==='manager'">管理员</text>
+			<text v-else>普通用户</text>
+			</view>
+			</view>
+			<view class="header-wrap">
+			<image class="auth-header" :src="curuser.userinfo?.image"></image>
+			</view>
+		</view>
+		<view class="vip-card uni-flex  uni-row-center">
+			<uni-icons type="vip" size="36" color="#feddb8"></uni-icons>
+			<view class="cell-l-8">
+			<view class="viptitle">超级会员</view>
+			<view class="viptitme">有效期至{{extraData.losingeffect}}</view>
+			</view>
+		</view>
+	</view>
+	<view class="user-center-body">
+		<view class="my-card uni-flex uni-between uni-row-center">
+			<view class="uni-flex uni-row-center">
+			<image style="width:36px;height:36px;margin-right:8px;" src="/static/user.png"></image>
+		<view>
+			<view class="font-bold cell-b-8 font-medium uni-flex uni-row-center">{{curuser.account}}
+			<text class="my-tag">当前登录</text>
+			</view>
+			<view class="uni-h6">{{extraData.company}}</view>
+		</view>
+		</view>
+		<view class="uni-h6  uni-flex uni-row-center" @click="switchAccount">
+			<text>切换帐号</text>
+			<uni-icons type="right" size="14" color="#999"></uni-icons>
+		</view>
+		</view>
+		<view class="user-set-wrap">
+			<view class="set-item uni-flex uni-row-center uni-between "  @click="goValidatePage()">
+				<view class=" uni-flex uni-row-center ">
+				<uni-icons custom-prefix="iconfont" type="icon-personadd" size="24"></uni-icons>
+				<text class="cell-l-8">登录其他帐号</text>
+				</view>
+				<uni-icons type="right" size="16" color="#999"></uni-icons>
+			</view>
+			<view
+			@click="viewEmail"
+			 class="set-item uni-flex uni-row-center uni-between">
+				<view class=" uni-flex uni-row-center ">
+				<uni-icons custom-prefix="iconfont" type="icon-email" size="24"></uni-icons>
+				<text class="cell-l-8">我的邮箱</text>
+				</view>
+				<view class="uni-flex uni-row-center">
+					<text class="uni-h6">{{curuser.userinfo?.email}}</text>
+				<uni-icons type="right" size="16" color="#999"></uni-icons>
+				</view>
+			</view>
+			<view 
+			@click="unBindPopup()"
+			class="set-item uni-flex uni-row-center uni-between">
+				<view class=" uni-flex uni-row-center ">
+				<uni-icons custom-prefix="iconfont" type="icon-unlink" size="24"></uni-icons>
+				<text class="cell-l-8">解绑帐号</text>
+				</view>
+				<uni-icons type="right" size="16" color="#999"></uni-icons>
+			</view>
+			<view
+			@click="goLogout()"
+			class="set-item uni-flex uni-row-center uni-between">
+				<view class=" uni-flex uni-row-center ">
+				<uni-icons custom-prefix="iconfont" type="icon-logout1" size="24"></uni-icons>
+				<text class="cell-l-8">登出帐号</text>
+				</view>
+				<uni-icons type="right" size="16" color="#999"></uni-icons>
+			</view>
+		</view>
+	</view>
+
+
+	<uni-popup ref="popup"  >
+		<view class="popup-content" >
+			<view class="uni-h5 font-bold ">
+				<text v-if="popupType==='s'">选择要登录的帐号</text>
+				<text v-else>选择要解绑的帐号</text>
+				</view>
+			<view
+			v-for="(item, index) in tableData" :key="index"
+			@click="changeAccount(item)"
+			 class="my-card-pop uni-flex uni-between uni-row-center">
+				<view class="uni-flex uni-row-center">
+				<image 
+				v-if="item.userinfo?.image"
+				style="width:40px;height:40px;margin-right:8px;border-radius:50%" :src="item.userinfo?.image"></image>
+				<image
+				 v-else
+				 style="width:40px;height:40px;margin-right:8px;border-radius:50%" src="/static/user-no.png"></image>
+			<view>
+				<view class="font-bold cell-b-8 font-medium">{{item.userinfo?.name}}
+				</view>
+				<view class="uni-h6">{{item.account}}</view>
+			</view>
+			</view>
+			 <view 
+			 @click="unbindAccount(item)" 
+			 v-if="popupType==='u'" class="text-blue">解绑</view>
+			 <view v-else>
+				<uni-icons
+				 v-if="item.account===curuser.account"
+				 type="checkmarkempty" size="18" color="#ff7315"></uni-icons>
+				<uni-icons
+			    v-else
+				 type="closeempty" size="18" color="#999"></uni-icons>
+				 </view>
+			</view>
+		</view>
+	</uni-popup> 
+ 
+</template>
+
+<script>
+	import loginApi from '@/api/sys/login.js'
+	import store from '@/store/index.js';//需要引入store
+	import userApi from '@/api/sys/admin/userApi.js';
+	import request from "@/utils/request";
+	import util from '@/utils/util.js';
+	export default {
+			data() {
+				return {
+					placeholderStyle: "color:#757575;font-size:14px",
+					styles: {
+							color: '#000',
+							borderColor: '#747474'
+					},
+					type:'center',
+					tableData: [],
+					curuser:{account:''},
+					extraData:{},
+					popupType:'s',
+				}
+			},
+			onShow() { 
+					var apptype=uni.getStorageSync("appType")!=null?uni.getStorageSync('appType'):loginApi.getAppType();
+					if(!apptype){
+						apptype="h5";
+						uni.setStorageSync('appType',"h5");
+					}
+					if(apptype=="h5"){
+						this.getUserList();
+					}else{
+					   this.getOpenUserlist();
+					}
+					this.getuserComponents();
+			},
+			methods: {
+				unBindPopup(){
+					this.popupType = 'u';
+					this.$refs.popup.open('center');
+				},
+				switchAccount(){
+					this.popupType = 's';
+					this.$refs.popup.open('center')
+				},
+				getuserComponents(){
+					userApi.getInfo().then(res=>{
+						if(res.company){
+							this.extraData.company = res.company
+						}else{
+							this.extraData.company ='-'
+						}
+					})
+				},
+				getOpenUserlist(){
+					var self=this;
+					var openid=store.state.openid!=null?store.state.openid:uni.getStorageSync('openid');
+					var apptype=uni.getStorageSync("appType")!=null?uni.getStorageSync('appType'):loginApi.getAppType();
+					loginApi.getOpenUserlist({'openid':openid,appType:apptype}).then(data => { 
+						  self.tableData=data; 
+						  data.forEach(item=>{
+							  if(item.account==store.state.currentUser.account){
+								  self.curuser=item;
+							  }
+						  })
+						  if(self.curuser.losingeffect){
+						     self.extraData.losingeffect = util.dateFormat(self.curuser.losingeffect)
+						  }
+					});
+				},
+				getUserList(){
+					var self=this;
+					if(!store.state.currentUser?.account){
+						 store.commit('setCurrentUser',uni.getStorageSync("currentuser"));
+					}
+					var account=store.state.currentUser.account;
+					loginApi.findbindlist().then(data=>{
+						self.tableData=data;
+						data.forEach(item=>{
+							  if(item.account==account){
+								  self.curuser=item;
+							  } 
+						})
+						self.extraData.losingeffect = util.dateFormat(self.curuser.losingeffect)
+					})
+				},
+				unbindAccount(item){
+					let self=this;
+					var apptype=uni.getStorageSync("appType")!=null?uni.getStorageSync('appType'):loginApi.getAppType();
+					var openid=this.$store.state.openid!=null?this.$store.state.openid:uni.getStorageSync('openid');//uni.getStorage('openid'); 
+					uni.showModal({
+						title:'提示',
+						content:'解绑后需重新绑定,确认解除吗？',
+						success:function(ress){
+							if(ress.confirm){
+								 loginApi.unbindWechat({'appType':item.lastloginip,
+								                        'account':item.account,
+														'openid':item.lastloginsession}).then(data => { 
+									// 获得数据
+									if(data.isOk==true){
+										uni.showToast({
+											title:data.msg,
+											icon:'none',
+											duration:2000
+										})
+										if(self.curuser.account==account){
+											//解绑当前登录的账号
+											//self.tableData=[];
+											//self.getOpenUserlist();
+											uni.removeStorageSync("currentuser")
+											uni.removeStorageSync("JSessionId");
+											store.commit('setSessionid',null);
+											store.commit('setCurrentUser',null);
+											store.commit('setUserList',null);
+											uni.reLaunch({
+												url: '/pages/tabBar/main/index'
+											})
+										}else{
+											self.tableData=[];
+											self.getOpenUserlist();
+										}
+									}else{
+									  uni.showToast({
+									    title: data.msg,
+									    icon: 'none',
+									    duration: 2000//持续的时间
+									  })
+									}
+									
+								}).catch(error=>{
+										uni.navigateTo({ url: '/pages/sys/validate/index' });
+								});
+							}
+						}
+					})
+				},
+				changeAccount(item){
+					if(item.account===this.curuser.account||this.popupType==='u'){
+						return
+					}
+					let self=this;
+					var openid=this.$store.state.openid!=null?this.$store.state.openid:uni.getStorageSync('openid');//uni.getStorage('openid');
+					var sessionid=this.$store.state.sessionid!=null?this.$store.state.sessionid:uni.getStorageSync('JSessionId');//uni.getStorage('JSessionId');
+					var apptype=uni.getStorageSync("appType")!=null?uni.getStorageSync('appType'):loginApi.getAppType();
+					loginApi.changeLoginWechatApp({'openid':item.lastloginsession,
+					                               'account':item.account,
+												   'jsessionid':sessionid,
+												   'appType':item.lastloginip}).then(data => { 
+							if(data){
+								uni.showToast({
+									icon:'none',
+									duration:2000,
+									title:'切换账号成功！'
+								})
+								store.commit('setSessionid',sessionid);
+								uni.setStorage("JSessionId", sessionid);
+								//跳转至 成功页面
+							    store.commit('setCurrentUser',data.currentuser);
+								uni.setStorageSync("currentuser",data.currentuser);
+								self.curuser=data.currentuser;
+								
+								var apptype=uni.getStorageSync("appType")!=null?uni.getStorageSync('appType'):loginApi.getAppType();
+								if(!apptype){
+									apptype="h5";
+									uni.setStorageSync('appType',"h5");
+								}
+								if(apptype=="h5"){
+									this.getUserList();
+								}else{
+								   this.getOpenUserlist();
+								}
+								this.getuserComponents();
+								this.$refs.popup.close();
+								
+							}
+					})
+				},
+				goValidatePage(){
+					var openid=this.$store.state.openid!=null?this.$store.state.openid:uni.getStorageSync('openid');//uni.getStorage('openid');
+					var datas=uni.getStorageSync("appType")!=null?uni.getStorageSync('appType'):"app";
+					uni.navigateTo({
+						url: '/pages/sys/validate/index?appType='+datas+"&openid="+openid
+					})
+				},
+				goLogout(){
+					var datas="web";
+					request.get("/admin/api/v1/auth/apilogout").then(res => {
+					  uni.clearStorageSync();
+					  uni.navigateTo({
+					  		url: '/pages/sys/validate/index?appType='+datas
+					  	})
+					  }
+					);
+			}
+			}
+	}
+</script>
+
+<style scoped>
+	.popup-content .uni-h5{
+		margin-bottom:16px;
+	}
+	.popup-content{
+		width: calc(100vw - 32px);
+		padding:16px;
+		
+		border-radius: 8px;
+		background-color: #f1f1f1;
+	}
+	.my-tag{
+		    line-height: 14px;
+		    font-size: 20rpx;
+		    font-weight: 400;
+		    padding: 3px 5px;
+		    color: #41ba5a;
+		    border-radius: 3px;
+			margin-left:4px;
+		    background-color: #e8f7f2;
+	}
+	.font-medium{
+		font-size:30rpx;
+	}
+	.user-center-wrap{
+		padding-top:128rpx;
+		background: linear-gradient(36deg, #eceef2, #f7f2ec, #ebfffe);
+	}
+ .auth-wrap{
+	 padding:0px 16px ;
+	 margin-bottom:56rpx;
+ }
+ .auth-header{
+	 width:136rpx;
+	 height: 136rpx;
+	 border-radius: 50%;
+	 border:2px solid #fff;
+ }
+ .vip-card{
+	 color:#fee9c3;
+	background: linear-gradient(15deg, #fb590c, #ffb204);
+	margin:0px 16px;
+	padding:12px 20px;
+	border-top-left-radius: 8px;
+	border-top-right-radius: 8px;
+	
+ }
+ .viptitle{
+	 font-size: 32rpx;
+	 font-weight: 700;
+	 margin-bottom:4px;
+	
+ }
+ .viptitme{
+	 font-size:24rpx;
+	 font-weight: 200;
+	 opacity: 0.8;
+	 color: #fee7c1;
+ }
+ .user-center-body{
+	 background-color: #fff;
+	 box-shadow: 1px 0px 10px rgba(0, 0, 0, 0.1);
+	 padding-top: 24px;
+	 padding-right: 16px;
+	 padding-left:16px;
+	 min-height: calc(100vh - 242px);
+ }
+ .my-card{
+	 background-color: #fff;
+	  border-radius:8px;
+	  padding:12px 16px;
+	  box-shadow: 0px 0px 16px rgba(0, 0, 0, 0.1);
+	  }
+ .my-card-pop{
+	  background-color: #fff;
+	  margin-top:8px;
+	  border-radius:4px;
+	  padding:12px 16px;
+	}
+	  .set-item{
+		  padding-top:16px;
+		  padding-bottom:16px;
+		  color:#666;
+	  }
+	  .user-set-wrap{
+		  margin-top:36rpx;
+	  }
+</style>

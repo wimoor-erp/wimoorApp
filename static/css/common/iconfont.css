@@ -1,0 +1,238 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 4456984 */
+  /* Color fonts */
+  src: 
+       url('/static/css/common/iconfont.ttf') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.iconfont-32 {
+  font-family: "iconfont" !important;
+  font-size: 32px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.icon-print:before {
+  content: "\e639";
+}
+.icon-logout1:before {
+  content: "\e63a";
+}
+.icon-success-fill:before {
+  content: "\e70d";
+}
+.icon-saomiao:before {
+  content: "\e637";
+}
+
+.icon-shelfdetails:before {
+  content: "\e634";
+}
+
+.icon-filter:before {
+  content: "\e633";
+}
+
+.icon-email:before {
+  content: "\e632";
+}
+
+.icon-unlink:before {
+  content: "\e630";
+}
+
+.icon-personadd:before {
+  content: "\e631";
+}
+
+.icon-my-b:before {
+  content: "\e62d";
+}
+
+.icon-my:before {
+  content: "\e62f";
+}
+
+.icon-my-line:before {
+  content: "\e629";
+}
+
+.icon-menu-line:before {
+  content: "\e62a";
+}
+
+.icon-home-line:before {
+  content: "\e62b";
+}
+
+.icon-menu:before {
+  content: "\e62c";
+}
+
+.icon-home:before {
+  content: "\e62e";
+}
+
+.icon-hanbao:before {
+  content: "\e626";
+}
+
+.icon-ruku:before {
+  content: "\e628";
+}
+
+.icon-sao1:before {
+  content: "\e627";
+}
+
+.icon-inbound:before {
+  content: "\e620";
+}
+
+.icon-calculitaor:before {
+  content: "\e621";
+}
+
+.icon-huikuan:before {
+  content: "\e622";
+}
+
+.icon-finice:before {
+  content: "\e623";
+}
+
+.icon-box:before {
+  content: "\e624";
+}
+
+.icon-anay:before {
+  content: "\e625";
+}
+
+.icon-mingxi:before {
+  content: "\e61a";
+}
+
+.icon-order:before {
+  content: "\e61b";
+}
+
+.icon-orderma:before {
+  content: "\e61c";
+}
+
+.icon-link:before {
+  content: "\e607";
+}
+
+.icon-listing:before {
+  content: "\e61d";
+}
+
+.icon-mark:before {
+  content: "\e61e";
+}
+
+.icon-brand:before {
+  content: "\e606";
+}
+
+.icon-in:before {
+  content: "\e61f";
+}
+
+.icon-shelflist:before {
+  content: "\e610";
+}
+
+.icon-stock:before {
+  content: "\e611";
+}
+
+.icon-return:before {
+  content: "\e612";
+}
+
+.icon-purdetails:before {
+  content: "\e609";
+}
+
+.icon-sale:before {
+  content: "\e613";
+}
+
+.icon-pay:before {
+  content: "\e614";
+}
+
+.icon-product:before {
+  content: "\e615";
+}
+
+.icon-price:before {
+  content: "\e616";
+}
+
+.icon-out:before {
+  content: "\e617";
+}
+
+.icon-pandian:before {
+  content: "\e618";
+}
+
+.icon-marteial:before {
+  content: "\e619";
+}
+
+.icon-zhouzhuan:before {
+  content: "\e60c";
+}
+
+.icon-type:before {
+  content: "\e60d";
+}
+
+.icon-zhixiao:before {
+  content: "\e60e";
+}
+
+.icon-today:before {
+  content: "\e60b";
+}
+
+.icon-shop:before {
+  content: "\e60a";
+}
+
+.icon-switch:before {
+  content: "\e60f";
+}
+
+.icon-xiala:before {
+  content: "\e638";
+}
+
+.icon-down:before {
+  content: "\e608";
+}
+
+.icon-shelf:before {
+  content: "\e603";
+}
+
+.icon-set:before {
+  content: "\e604";
+}
+
+.icon-up:before {
+  content: "\e605";
+}
+
